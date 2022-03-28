@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+
+        <record id="cash_flow_new_report_wizard_form" model="ir.ui.view">
+            <field name="name">cash.flow.new.wizard.form</field>
+            <field name="model">cash.flow.new.wizard</field>
+            <field name="arch" type="xml">
+                <form string="Cash Flow Wizard">
+                   <group>
+                        <group>
+                            <field name="from_date"/>
+                            <field name="to_date"/>
+                        </group>
+                        
+                        <group>
+                            <field name="account_id"/>
+                        </group>                        
+                   </group>
+                    <footer>
+                        <!-- <button string="Generate" name="generate_cashflow" type="object" class="btn-primary"/> -->
+                    </footer>
+               </form>
+            </field>
+        </record>
+
+        <record id="action_wizard_new_property_cashflownew" model="ir.actions.act_window">
+            <field name="name">Cash Flow</field>
+            <field name="res_model">cash.flow.new.wizard</field>
+<!--            <field name="view_type">form</field>-->
+            <field name="view_mode">tree,form</field>
+            <field name="view_id" ref="cash_flow_new_report_wizard_form"/>
+            <field name="target">new</field>
+        </record>
+
+        <menuitem id="action_wizard_new_property_cashflownewid" name="Cash Flow Report" parent="account.menu_action_account_invoice_report_all" sequence="6" action="action_wizard_new_property_cashflownew"/>
+       
+    </data>
+</odoo>
+

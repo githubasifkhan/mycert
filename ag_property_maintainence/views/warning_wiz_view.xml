@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <record id="view_immediate_transfer" model="ir.ui.view">
+        <field name="name">warning.wiz.view.form</field>
+        <field name="model">warning.wiz</field>
+        <field name="arch" type="xml">
+            <form string="Warning">
+                <group>
+                    <p>
+                        Payment Lines Already Generated Do you want to reset?
+                    </p>
+                    <field name="contract" invisible="1"/>
+                </group>
+                <footer>
+                    <button name="ok_button" string="_Yes" type="object" class="btn-primary"/>
+                    <button string="No" class="btn-default" special="cancel" />
+                </footer>
+            </form>
+        </field>
+    </record>
+    <record id="od_warning_wiz_action" model="ir.actions.act_window">
+        <field name="name">Warning</field>
+        <field name="res_model">warning.wiz</field>
+        <field name="context">{'contract'}</field>
+        <field name="view_mode">form</field>
+        <field name="target">new</field>
+    </record>
+
+
+    
+</odoo>
+
+

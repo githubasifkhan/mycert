@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+
+        <record id="cash_flow_report_wizard_form" model="ir.ui.view">
+            <field name="name">property.cash.flow.report.form</field>
+            <field name="model">property.cash.flow.report</field>
+            <field name="arch" type="xml">
+                <form string="Cash Flow Wizard">
+                   <group>
+                        <group>
+                            <field name="main_property_id"/>
+                            <field name="property_id" />
+                            <!-- domain="[('main_property_id','=',main_property_id)]" -->
+                        </group>
+                   </group>
+                    <footer>
+                        <button string="Generate" name="generate_cashflow" type="object" class="btn-primary"/>
+                    </footer>
+               </form>
+            </field>
+        </record>
+
+        <record id="action_wizard_property_cashflownew" model="ir.actions.act_window">
+            <field name="name">Cash Flow</field>
+            <field name="res_model">property.cash.flow.report</field>
+<!--            <field name="view_type">form</field>-->
+            <field name="view_mode">tree,form</field>
+            <field name="view_id" ref="cash_flow_report_wizard_form"/>
+            <field name="target">new</field>
+        </record>
+
+        <menuitem id="action_wizard_property_cashflow" name="Cash Flow Analysis" parent="property_report_menu" sequence="6" action="action_wizard_property_cashflownew"/>
+       
+    </data>
+</odoo>
+

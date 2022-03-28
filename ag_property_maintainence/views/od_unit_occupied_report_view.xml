@@ -1,0 +1,253 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <data>
+
+
+        <record model="ir.ui.view" id="od_unit_occupied_report_tree">
+            <field name="name">od.unit.occupied.report.tree</field>
+            <field name="model">od.unit.occupied.report</field>
+            <field name="arch" type="xml">
+                    <tree editable="top" edit="false">
+                        <field name="property_id" /> 
+                        <field name="unit_id" />
+                        <field name="partner_id" />
+                        <field name="annual_rent" />
+                        <field name="expiry_date"/>
+                        <field name="last_year_rent"/>                           
+                                
+                    </tree>
+            </field>
+        </record>
+        
+        
+        <record model="ir.ui.view" id="od_unit_occupied_report_pivot">
+            <field name="name">od.unit.occupied.report</field>
+            <field name="model">od.unit.occupied.report</field>
+            <field name="arch" type="xml">
+                <pivot string="Occupied Unit" >
+                    <field name="unit_id"/>
+                </pivot>
+            </field>
+        </record>
+
+
+        <!--Facility Building menu action-->
+        <record id="od_unit_occupied_report_action" model="ir.actions.act_window">
+            <field name="name">Occupied Unit Report</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">od.unit.occupied.report</field>
+<!--            <field name="view_type">form</field>-->
+            <field name="view_mode">tree,form,pivot</field>
+            <field name="help" type="html">
+                <p class="oe_view_nocontent_create">
+                    Click to add new Occupied Unit.
+                </p>
+            </field>
+        </record>
+        
+        
+        
+    <!-- Available report -->
+        <record model="ir.ui.view" id="od_unit_available_report_tree">
+            <field name="name">od.unit.available.report.tree</field>
+            <field name="model">od.unit.available.report</field>
+            <field name="arch" type="xml">
+                    <tree editable="top" edit="false">
+                        <field name="property_id" /> 
+                        <field name="unit_id" />
+                        <field name="unit_rent" />
+                        <field name="vacant_date" />
+                        <field name="previous_rent"/>
+                        <field name="vacant_days"/> 
+                        <field name="vacant_days_rent"/>     
+                        <field name="status" invisible="1"/>                    
+                                                   
+                                
+                    </tree>
+            </field>
+        </record>
+        <record model="ir.ui.view" id="od_unit_available_report_form">
+            <field name="name">od.unit.available.report.form</field>
+            <field name="model">od.unit.available.report</field>
+            <field name="arch" type="xml">
+                <form>
+                    <sheet>
+                        <group>
+                                <field name="property_id" /> 
+                                <field name="unit_id" />
+                                <field name="unit_rent" />
+                                <field name="vacant_date" />
+                                <field name="previous_rent"/>
+                                <field name="vacant_days"/> 
+                                <field name="vacant_days_rent"/>     
+                                <field name="status" invisible="1"/>                    
+                        </group>                          
+                                
+                    </sheet>
+                </form>
+            </field>
+        </record>
+        
+        
+        <record model="ir.ui.view" id="od_unit_available_report_pivot">
+            <field name="name">od.unit.available.report</field>
+            <field name="model">od.unit.available.report</field>
+            <field name="arch" type="xml">
+                <pivot string="Available Unit" >
+                    <field name="unit_id"/>
+                </pivot>
+            </field>
+        </record>
+        
+
+        <!--Available report Facility Building menu action-->
+        <record id="od_unit_available_report_action" model="ir.actions.act_window">
+            <field name="name">Available Unit Report</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">od.unit.available.report</field>
+<!--            <field name="view_type">form</field>-->
+            <field name="view_mode">tree,form,pivot</field>
+            <field name="help" type="html">
+                <p class="oe_view_nocontent_create">
+                    Click to add new Available Unit.
+                </p>
+            </field>
+        </record>       
+        
+        
+        
+        
+        <!-- Vaccant report -->
+         <record model="ir.ui.view" id="od_unit_vaccant_report_tree">
+            <field name="name">od.unit.vaccant.report.tree</field>
+            <field name="model">od.unit.vaccant.report</field>
+            <field name="arch" type="xml">
+                    <tree editable="top" edit="false">
+                        <field name="property_id" /> 
+                        <field name="unit_id" />
+                        <field name="unit_rent" />
+                        <field name="vacant_date" />
+                        <field name="previous_rent"/>
+                        <field name="vacant_days"/> 
+                        <field name="vacant_days_rent"/>          
+                    </tree>
+            </field>
+        </record>
+        <record model="ir.ui.view" id="od_unit_vaccant_report_form">
+            <field name="name">od.unit.vaccant.report.form</field>
+            <field name="model">od.unit.vaccant.report</field>
+            <field name="arch" type="xml">
+                <form>
+                    <sheet>
+                        <group>
+                                <field name="property_id" /> 
+                                <field name="unit_id" />
+                                <field name="unit_rent" />
+                                <field name="vacant_date" />
+                                <field name="previous_rent"/>
+                                <field name="vacant_days"/> 
+                                <field name="vacant_days_rent"/>     
+                                <field name="status" invisible="1"/>
+                                <field name="partner_id" invisible="1"/>                    
+                        </group>                          
+                                
+                    </sheet>
+                </form>
+            </field>
+        </record>
+        
+        
+        <record model="ir.ui.view" id="od_unit_vaccant_report_pivot">
+            <field name="name">od.unit.vaccant.report</field>
+            <field name="model">od.unit.vaccant.report</field>
+            <field name="arch" type="xml">
+                <pivot string="Vaccant Unit" >
+                    <field name="unit_id"/>
+                </pivot>
+            </field>
+        </record>
+        
+       <!-- Vaccant report Facility building menu action  -->
+       <record id="od_unit_vaccant_report_action" model="ir.actions.act_window">
+            <field name="name">Vaccant Unit Report</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">od.unit.vaccant.report</field>
+<!--            <field name="view_type">form</field>-->
+            <field name="view_mode">tree,form,pivot</field>
+            <field name="help" type="html">
+                <p class="oe_view_nocontent_create">
+                    Click to add new Vaccant Unit.
+                </p>
+            </field>
+        </record>       
+        
+        
+        <!-- Overstay report -->
+         <record model="ir.ui.view" id="od_unit_overstay_report_tree">
+            <field name="name">od.unit.overstay.report.tree</field>
+            <field name="model">od.unit.overstay.report</field>
+            <field name="arch" type="xml">
+                    <tree editable="top" edit="false">
+                        <field name="property_id" /> 
+                        <field name="unit_id" />
+                        <field name="unit_rent" />
+                        <field name="vacant_date" />
+                        <field name="previous_rent"/>
+                        <field name="vacant_days"/> 
+                        <field name="vacant_days_rent"/>          
+                    </tree>
+            </field>
+        </record>
+        <record model="ir.ui.view" id="od_unit_overstay_report_form">
+            <field name="name">od.unit.overstay.report.form</field>
+            <field name="model">od.unit.overstay.report</field>
+            <field name="arch" type="xml">
+                <form>
+                    <sheet>
+                        <group>
+                                <field name="property_id" /> 
+                                <field name="unit_id" />
+                                <field name="unit_rent" />
+                                <field name="vacant_date" />
+                                <field name="previous_rent"/>
+                                <field name="vacant_days"/> 
+                                <field name="vacant_days_rent"/>     
+                                <field name="status" invisible="1"/>
+                                <field name="partner_id" invisible="1"/>                    
+                        </group>                          
+                                
+                    </sheet>
+                </form>
+            </field>
+        </record>
+        
+        
+        <record model="ir.ui.view" id="od_unit_overstay_report_pivot">
+            <field name="name">od.unit.overstay.report</field>
+            <field name="model">od.unit.overstay.report</field>
+            <field name="arch" type="xml">
+                <pivot string="Overstay Unit" >
+                    <field name="unit_id"/>
+                </pivot>
+            </field>
+        </record>
+       <!-- Overstay report Facility building menu action  -->
+       <record id="od_unit_overstay_report_action" model="ir.actions.act_window">
+            <field name="name">Overstay Unit Report</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">od.unit.overstay.report</field>
+<!--            <field name="view_type">form</field>-->
+            <field name="view_mode">tree,form,pivot</field>
+            <field name="help" type="html">
+                <p class="oe_view_nocontent_create">
+                    Click to add new Overstay Unit.
+                </p>
+            </field>
+        </record>        
+        
+        
+        
+        
+<!--<menuitem id="od_unit_occupied_report_actionmenu" name="Occupied Unit Report" parent="property_transaction_menu" sequence="15" action="od_unit_occupied_report_action"/>-->
+    </data>
+</odoo>

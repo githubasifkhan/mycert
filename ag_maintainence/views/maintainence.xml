@@ -1,0 +1,1331 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    
+
+    <!-- <template id="class_edit_backend" name="class edits" inherit_id="web.assets_backend">
+        <xpath expr="." position="inside">
+            <link rel="stylesheet" href="/ag_maintainence/static/src/css/class.css"/>
+        </xpath>
+    </template> -->
+    <data>
+
+        <record id="view_maintainence_service_calendar" model="ir.ui.view">
+            <field name="name">maintainence.service.calendar</field>
+            <field name="model">maintainence.service</field>
+            <field name="priority" eval="2"/>
+            <field name="arch" type="xml">
+                <calendar string="Maintainence services" mode="month" date_start="deadline_date" hide_time="false" event_limit="5">
+                    <field name="requestor_name" />
+                    <field name="estimate_tot_cost" widget="monetary" />
+                    <field name="tot_cost" widget="monetary" />
+                </calendar>
+            </field>
+        </record>
+
+        <record id="view_maintainence_service_line_calendar" model="ir.ui.view">
+            <field name="name">maintainence.service.line.calendar</field>
+            <field name="model">maintainence.service.line</field>
+            <field name="priority" eval="2"/>
+            <field name="arch" type="xml">
+                <calendar string="Operations" mode="month" date_start="schedule_start_date" date_stop="schedule_end_date" 
+                    event_open_popup="true"
+                    event_limit="5">
+                    <field name="total_job_estimate" widget="monetary"/>
+                    <field name="total_cost" widget="monetary"/>
+                </calendar>
+            </field>
+        </record>
+
+        <record id="maintain_requisition_form_view" model="ir.ui.view">
+            <field name="name">maintain.requisition.form.view</field>
+            <field name="model">maintainence.service</field>
+            <field name="arch" type="xml">
+                <form string="Maintainence">
+                <header>
+                    <button name="confirm_requisition" string="Confirm" type="object" class="btn-primary" attrs="{'invisible': [('state', 'in', ['confirm','wo_created','wo_closed','cancel'])]}" groups="base.group_user"/>
+                    <button name="set_to_draft" string="Set to Draft" type="object" class="btn-primary" attrs="{'invisible': [('state', 'in', ['new'])]}" />
+                    <button name="create_invoice" string="Create Invoice" type="object" class="btn-primary" attrs="{'invisible': ['|',('state', 'not in', ['wo_closed']),('invoice_created','=',1)]}" />
+                    <button name="approve_requisition" string="Create Work Order" type="object" class="btn-primary" attrs="{'invisible': [('state', 'in', ['new','wo_created','wo_closed','cancel'])]}" groups="ag_maintainence.group_mat_maintain_manager"/>
+                    <button name="close_requisition" string="Close Work Order" type="object" class="btn-primary" attrs="{'invisible': [('state', 'in', ['new','confirm','wo_closed','cancel'])]}" groups="ag_maintainence.group_mat_maintain_manager"/>
+                    <button name="cancel_requisition" string="Cancel Work Order" type="object" class="btn-primary" attrs="{'invisible': [('state', 'in', ['new','confirm','cancel'])]}" groups="ag_maintainence.group_mat_maintain_manager"/>
+                    <button name="action_close" string="Close" type="object" class="btn-primary" attrs="{'invisible': [('state', 'not in', ['confirm'])]}" groups="ag_maintainence.group_mat_maintain_manager"/>
+                    <button name="action_cancel"  string="Cancel" type="object" class="btn-primary" attrs="{'invisible': [('state', 'not in', ['confirm'])]}" groups="ag_maintainence.group_mat_maintain_manager"/>
+                    <button name="action_reject" string="Reject" type="object" class="btn-primary" attrs="{'invisible': [('state', 'not in', ['confirm'])]}" groups="ag_maintainence.group_mat_maintain_manager" />
+                    <!-- <button name="create_inventory_movement" string="Create DO" type="object" class="btn-primary" attrs="{'invisible': [('state', 'not in', ['wo_created'])]}" /> -->
+                    <field name="state" widget="statusbar" statusbar_visible="new,confirm,wo_created,wo_closed,cancel"/>
+                </header>
+                <sheet>
+                    <div class="oe_button_box" name="button_box">
+                        <button type="object" name="show_analytic_lines" class="oe_stat_button" icon="fa-money" attrs="{'invisible': [('analytic_count', '=', 0)]}">
+                            <field name="analytic_count" widget="statinfo" string="Analytic Accounts" />
+                        </button>
+                        <button type="object" name="show_picking_lines" class="oe_stat_button" icon="fa-pencil-square-o" attrs="{'invisible': [('picking_count', '=', 0)]}">
+                            <field name="picking_count" widget="statinfo" string="Picking" />
+                        </button>
+                        <button type="object" name="show_invoices" class="oe_stat_button" icon="fa-money" attrs="{'invisible': [('invoice_count', '=', 0)]}">
+                            <field name="invoice_count" widget="statinfo" string="Invoice" />
+                        </button>
+                    </div>
+
+
+                     <div class="oe_title">
+                        <span class="o_form_label" attrs="{'invisible': [('state','not in',('new','confirm'))]}">Request orders </span>
+                        <span class="o_form_label" attrs="{'invisible': [('state','in',('new','confirm'))]}">Work Order </span>
+                        <h1>
+                            <field name="sequence" readonly="1"/>
+                        </h1>
+                    </div>
+                    <group>
+                        <group>
+<!--                            <field name="sequence" />-->
+                            <field name="requestor_name" attrs="{'readonly': [('state','in',('wo_closed','cancel'))]}"/>
+                            <field name="requested_date" attrs="{'readonly': [('state','in',('wo_closed','cancel'))]}"/>
+                            <field name="requestor_contact" attrs="{'readonly': [('state','in',('wo_closed','cancel'))]}"/>
+                            <field name="req_email" attrs="{'readonly': [('state','in',('wo_closed','cancel'))]}"/>
+                            <field name="type" attrs="{'readonly':[('state','in',('wo_closed','cancel'))]}"/>
+                        </group>
+                        <group>
+                            <field name="acc_bldng_id" attrs="{'readonly': [('state','in',('wo_closed','cancel'))]}"/>
+                            <field name="acc_floor_id" attrs="{'readonly': [('state','in',('wo_closed','cancel'))]}"/>
+                            <field name="acc_unit_id" attrs="{'readonly': [('state','in',('wo_closed','cancel'))]}"/>
+                            <field name="assigned_dept" attrs="{'readonly': [('state','in',('wo_closed','cancel'))]}"/>
+                            <field name="priority" widget="priority" attrs="{'readonly': [('state','in',('wo_closed','cancel'))]}"/>
+                            <field name="tag_ids" widget="many2many_tags" options="{'color_field': 'color', 'no_create_edit': True}"/>
+                            
+                            <field name="invoice_created" invisible="1"/>
+                        </group>
+                            
+                    </group>
+                    <label for="description"/><br/>
+                    <field name="description" attrs="{'readonly': [('state','in',('wo_closed','cancel'))]}"/><br/>
+
+                    <group>
+                        <group>
+                            
+                            <field name="deadline_date" attrs="{'invisible': [('state','in',('new','confirm'))],'readonly': [('state','in',('wo_closed','cancel'))]}"/>
+                        </group>
+                        <group>
+                            <field name="shutdown_type" widget="radio" options="{'horizontal': true}" attrs="{'invisible': [('state','in',('new','confirm'))],'readonly': [('state','in',('wo_closed','cancel'))]}"/>
+                        </group>
+                       
+                        
+                    </group>
+                    <label for="add_desc" attrs="{'invisible': [('state','in',('new','confirm'))]}"/><br/>
+                    <field name="add_desc" attrs="{'invisible': [('state','in',('new','confirm'))],'readonly': [('state','in',('wo_closed','cancel'))]}"/>
+                    <br/>
+                     
+                    <notebook>
+                        <page string="Operation Details" attrs="{'invisible': [('state','in',('new','confirm'))]}">
+                            <field name="work_order_line" widget="one2many_list" mode="tree,form" attrs="{'readonly': [('state','in',('wo_closed','cancel'))]}">
+
+                                <form string="Operations">
+                                    <header>
+                                        <button name="mark_as_done" string="Mark as Done" type="object" class="btn-primary" attrs="{'invisible': [('is_done', '=',True)]}"/>
+                                
+                                        <field name="stage_id" widget="statusbar" domain="[('active', '=', True)]"
+                                            options="{'clickable': '1', 'fold_field': 'fold'}"/>
+                                    </header>
+                                <sheet>
+            
+                                    <div class="oe_title">
+                                        <span class="o_form_label">Operation Description </span>
+                                        <h1>
+                                            <field name="name" attrs="{'readonly': [('is_done', '=',True)]}"/>
+                                        </h1>
+                                    </div>
+                                    <group>
+            
+                                        <group>
+                                            <field name="operation_id" invisible="1" string="Maintenance Order" domain="[('state', '=', 'wo_created')]"/>
+                                            <field name="sequence" invisible="1"/>
+                                            <field name="sequence_ref" attrs="{'readonly': [('is_done', '=',True)]}"/>
+                                            <field name="department" attrs="{'readonly': [('is_done', '=',True)]}"/>
+                                            <field name="is_done" invisible="1" />
+                                            <!-- <field name="account_id" attrs="{'invisible': [('operation_type','=','equip')],'required': [('operation_type','=','emp')]}"/> -->
+                                            <!-- <field name="subtotal" /> -->
+                                        </group>
+                                        <group>
+                                            <!-- <field name="operation_type"/> -->
+                                            <!-- <field name="resource" attrs="{'invisible': [('operation_type','=','equip')]}"/> -->
+                                            <!-- <field name="resource_cost" attrs="{'invisible': [('operation_type','=','equip')]}"/> -->
+                                            <!-- <field name="required_qty"/> -->
+                                            <!-- <field name="start_date" />
+                                            <field name="end_date" /> -->
+                                            <!-- <field name="deadline_date" attrs="{'readonly': [('is_done', '=',True)]}"/> -->
+                                            <field name="schedule_start_date" attrs="{'readonly': [('is_done', '=',True)]}"/>
+                                            <field name="schedule_end_date" attrs="{'readonly': [('is_done', '=',True)]}"/>
+                                            <!-- <field name="estimated_start_date" />
+                                            <field name="estimated_end_date" /> -->
+                                        </group>
+            
+                                        <group>
+                                            <!-- <field name="start_date" />
+                                            <field name="end_date" />
+                                            <field name="req_date" />
+                                            <field name="estimated_start_date" />
+                                            <field name="estimated_end_date" /> -->
+                                        </group>
+            
+                                        <group>
+            
+                                            <!-- <field name="product_id" attrs="{'invisible': [('operation_type','=','emp')]}" /> -->
+                                            <!-- <field name="description" attrs="{'invisible': [('operation_type','=','emp')]}" /> -->
+                                            <!-- <field name="uom_id" required="1"/> -->
+                                            <!-- <field name="item_code" attrs="{'invisible': [('operation_type','=','emp')]}"/> -->
+                                            <!-- <field name="price_unit" attrs="{'invisible': [('operation_type','=','emp')]}"/> -->
+                                        </group>
+                                    </group>
+                                    <notebook>
+                                        <page string="Material Estimation">
+                                            <field name="material_estimation_ids" widget="one2many_list" attrs="{'readonly': [('is_done', '=',True)]}">
+                                                <tree string="Material Estimation" editable="bottom">
+                                                    <field name="type" invisible="1"/>
+                                                    <field name="product_id" />
+                                                    <field name="description" />
+                                                    <field name="quantity" sum="quantity"/>
+                                                    <field name="uom_id" />
+                                                    <field name="unit_price" sum="unit_price"/>
+                                                    <!-- <field name="discount" /> -->
+                                                    <field name="subtotal"  widget="monetary" sum="subtotal"/>
+                                                </tree>
+                                            </field>
+                                            <div style="float:right;width:50%;" name="project_hours">
+                                                <!--class="table table-sm border-black"-->
+                                                  <table style="width:100%;">
+                                                      <tr style="border: 1px solid transparent !important;">
+                                                          <td style="border: 1px solid transparent !important;"/>
+                                                          <td style="border: 1px solid transparent !important;"><b>Estimated</b></td>
+                                                          <td style="border: 1px solid transparent !important;"><b>Actual</b></td>
+                                                          <td style="border: 1px solid transparent !important;"><b>Deviation</b></td>
+                                                      </tr>
+                                                      <tr style="border: 1px solid transparent !important;">
+                                                          <td style="border: 1px solid transparent !important;"><span><b>Material</b></span></td>
+                                                          <td style="border: 1px solid transparent !important;"><field name="total_material_estimate" widget="monetary"/></td>
+                                                          <td style="border: 1px solid transparent !important;"><field name="total_material_cost" widget="monetary"/></td>
+                                                          <td style="border: 1px solid transparent !important;"><field name="material_diff" widget="monetary"/></td>
+                                                      </tr>
+                                                      <tr style="border: 1px solid transparent !important;">
+                                                          <td style="border: 1px solid transparent !important;"><span><b>Labour</b></span></td>
+                                                          <td style="border: 1px solid transparent !important;"><field name="total_labour_estimate" widget="monetary"/></td>
+                                                          <td style="border: 1px solid transparent !important;"><field name="total_labour_cost" widget="monetary"/></td>
+                                                          <td style="border: 1px solid transparent !important;"><field name="labour_diff" widget="monetary"/></td>
+                                                      </tr>
+                                                      <tr style="border: 1px solid transparent !important;">
+                                                          <td style="border: 1px solid transparent !important;"><span><b>Total</b></span></td>
+                                                          <td style="border: 1px solid transparent !important;"><field name="total_job_estimate" widget="monetary"/></td>
+                                                          <td style="border: 1px solid transparent !important;"><field name="total_cost" widget="monetary"/></td>
+                                                          <td style="border: 1px solid transparent !important;"><field name="total_diff" widget="monetary"/></td>
+                                                      </tr>
+                                                  </table>
+                                                  <!-- <field name="effective_hours"  string="Total Hours" widget="float_time" /> -->
+                                                  <!-- <field name="total_material_cost" widget="monetary" />
+                                                  <field name="total_labour_cost" widget="monetary" /> -->
+                                                  <!-- <field name="total_overhead_cost" widget="monetary" /> -->
+                                                  <!-- <field name="total_cost" widget="monetary" /> -->
+                                              </div>
+                                        </page>
+                                        <page string="Actual Material">
+                                                <!-- <group>
+                                                    <button name="actual_material" string="Update" type="object" class="btn-primary"/>
+                                                </group> -->
+                                                <field name="material_actual_line_ids" widget="one2many_list" attrs="{'readonly': [('is_done', '=',True)]}" context="{'default_job_type':'material'}">
+                                                    <tree string="Material" editable="bottom">
+                                                        <field name="date" invisible="1"/>
+                                                        <!-- <field name="job_type_id" domain="[('job_type', '=', 'material')]" options="{'no_create': True}"/> -->
+                                                        <field name="product_id" />
+                                                        <field name="description" />
+                                                        <field name="reference"/>
+                                                        <field name="quantity" sum="quantity"/>
+                                                        <field name="uom_id" />
+                                                        <field name="unit_price" sum="price"/>
+                                                        <field name="task_id" invisible="1"/>
+                                                       <!--  <field name="actual_purchase_qty" sum="actual_purchase_qty"/>
+                                                        <field name="actual_invoice_qty" sum="actual_invoice_qty"/> -->
+                                                        <field name="subtotal" widget="monetary" sum="subtotal"/>
+                                                        <field name="currency_id" invisible="1" />
+                                                        <field name="job_type" invisible="1"/>
+                                                    </tree>
+                                                </field>
+                                                <div style="float:right;width:50%;" name="project_hours">
+                                                    <!--class="table table-sm border-black"-->
+                                                      <table style="width:100%;">
+                                                          <tr style="border: 1px solid transparent !important;">
+                                                              <td style="border: 1px solid transparent !important;"/>
+                                                              <td style="border: 1px solid transparent !important;"><b>Estimated</b></td>
+                                                              <td style="border: 1px solid transparent !important;"><b>Actual</b></td>
+                                                              <td style="border: 1px solid transparent !important;"><b>Deviation</b></td>
+                                                          </tr>
+                                                          <tr style="border: 1px solid transparent !important;">
+                                                              <td style="border: 1px solid transparent !important;"><span><b>Material</b></span></td>
+                                                              <td style="border: 1px solid transparent !important;"><field name="total_material_estimate" widget="monetary"/></td>
+                                                              <td style="border: 1px solid transparent !important;"><field name="total_material_cost" widget="monetary"/></td>
+                                                              <td style="border: 1px solid transparent !important;"><field name="material_diff" widget="monetary"/></td>
+                                                          </tr>
+                                                          <tr style="border: 1px solid transparent !important;">
+                                                              <td style="border: 1px solid transparent !important;"><span><b>Labour</b></span></td>
+                                                              <td style="border: 1px solid transparent !important;"><field name="total_labour_estimate" widget="monetary"/></td>
+                                                              <td style="border: 1px solid transparent !important;"><field name="total_labour_cost" widget="monetary"/></td>
+                                                              <td style="border: 1px solid transparent !important;"><field name="labour_diff" widget="monetary"/></td>
+                                                          </tr>
+                                                          <tr style="border: 1px solid transparent !important;">
+                                                              <td style="border: 1px solid transparent !important;"><span><b>Total</b></span></td>
+                                                              <td style="border: 1px solid transparent !important;"><field name="total_job_estimate" widget="monetary"/></td>
+                                                              <td style="border: 1px solid transparent !important;"><field name="total_cost" widget="monetary"/></td>
+                                                              <td style="border: 1px solid transparent !important;"><field name="total_diff" widget="monetary"/></td>
+                                                          </tr>
+                                                      </table>
+                                                      <!-- <field name="effective_hours"  string="Total Hours" widget="float_time" /> -->
+                                                      <!-- <field name="total_material_cost" widget="monetary" />
+                                                      <field name="total_labour_cost" widget="monetary" /> -->
+                                                      <!-- <field name="total_overhead_cost" widget="monetary" /> -->
+                                                      <!-- <field name="total_cost" widget="monetary" /> -->
+                                                  </div>
+                                                <!-- <separator string="Job Cost Description" />
+                                                <field name="job_cost_description" class="oe_inline" /> -->
+                                            </page>
+                                        <page string="Labour Estimation">
+                                            <field name="labour_estimation_ids" attrs="{'readonly': [('is_done', '=',True)]}" widget="one2many_list">
+                                                <tree string="Labour Estimation" editable="bottom">
+                                                    <field name="type" invisible="1"/>
+                                                    <field name="product_id" domain="[('type', '=', 'service')]"/>
+                                                    <field name="description" />
+                                                    <!-- <field name="quantity" /> -->
+                                                    <field name="uom_id" />
+                                                    <field name="hours"  string="Qty" sum="qty"/>
+                                                    <field name="unit_price" sum="price"/>
+                                                    
+                                                    <!-- <field name="discount" /> -->
+                                                    <field name="subtotal" widget="monetary" sum="subtotal"/>
+                                                </tree>
+                                            </field>
+                                            <div style="float:right;width:50%;" name="project_hours">
+                                                <!--class="table table-sm border-black"-->
+                                                  <table style="width:100%;">
+                                                      <tr style="border: 1px solid transparent !important;">
+                                                          <td style="border: 1px solid transparent !important;"/>
+                                                          <td style="border: 1px solid transparent !important;"><b>Estimated</b></td>
+                                                          <td style="border: 1px solid transparent !important;"><b>Actual</b></td>
+                                                          <td style="border: 1px solid transparent !important;"><b>Deviation</b></td>
+                                                      </tr>
+                                                      <tr style="border: 1px solid transparent !important;">
+                                                          <td style="border: 1px solid transparent !important;"><span><b>Material</b></span></td>
+                                                          <td style="border: 1px solid transparent !important;"><field name="total_material_estimate" widget="monetary"/></td>
+                                                          <td style="border: 1px solid transparent !important;"><field name="total_material_cost" widget="monetary"/></td>
+                                                          <td style="border: 1px solid transparent !important;"><field name="material_diff" widget="monetary"/></td>
+                                                      </tr>
+                                                      <tr style="border: 1px solid transparent !important;">
+                                                          <td style="border: 1px solid transparent !important;"><span><b>Labour</b></span></td>
+                                                          <td style="border: 1px solid transparent !important;"><field name="total_labour_estimate" widget="monetary"/></td>
+                                                          <td style="border: 1px solid transparent !important;"><field name="total_labour_cost" widget="monetary"/></td>
+                                                          <td style="border: 1px solid transparent !important;"><field name="labour_diff" widget="monetary"/></td>
+                                                      </tr>
+                                                      <tr style="border: 1px solid transparent !important;">
+                                                          <td style="border: 1px solid transparent !important;"><span><b>Total</b></span></td>
+                                                          <td style="border: 1px solid transparent !important;"><field name="total_job_estimate" widget="monetary"/></td>
+                                                          <td style="border: 1px solid transparent !important;"><field name="total_cost" widget="monetary"/></td>
+                                                          <td style="border: 1px solid transparent !important;"><field name="total_diff" widget="monetary"/></td>
+                                                      </tr>
+                                                  </table>
+                                                  <!-- <field name="effective_hours"  string="Total Hours" widget="float_time" /> -->
+                                                  <!-- <field name="total_material_cost" widget="monetary" />
+                                                  <field name="total_labour_cost" widget="monetary" /> -->
+                                                  <!-- <field name="total_overhead_cost" widget="monetary" /> -->
+                                                  <!-- <field name="total_cost" widget="monetary" /> -->
+                                              </div>
+                                        </page>
+                                        <page string="Actual Labour">
+                                            <field name="actual_timesheet_ids" attrs="{'readonly': [('is_done', '=',True)]}" widget="one2many_list">
+                                                <tree string="Actual Labour" editable="bottom">
+                                                    <field name="type" invisible="1"/>
+                                                    <field name="employee_id" />
+                                                    <field name="description" invisible="1"/>
+                                                    <!-- <field name="quantity" /> -->
+                                                    <field name="uom_id" />
+                                                    <field name="hours" string="Qty" sum="qty"/>
+                                                    <field name="unit_price" sum="price"/>
+                                                    
+                                                    <!-- <field name="discount" /> -->
+                                                    <field name="subtotal" widget="monetary" sum="subtotal"/>
+                                                </tree>
+                                            </field>
+                                            <div style="float:right;width:50%;" name="project_hours">
+                                                <!--class="table table-sm border-black"-->
+                                                  <table style="width:100%;">
+                                                      <tr style="border: 1px solid transparent !important;">
+                                                          <td style="border: 1px solid transparent !important;"/>
+                                                          <td style="border: 1px solid transparent !important;"><b>Estimated</b></td>
+                                                          <td style="border: 1px solid transparent !important;"><b>Actual</b></td>
+                                                          <td style="border: 1px solid transparent !important;"><b>Deviation</b></td>
+                                                      </tr>
+                                                      <tr style="border: 1px solid transparent !important;">
+                                                          <td style="border: 1px solid transparent !important;"><span><b>Material</b></span></td>
+                                                          <td style="border: 1px solid transparent !important;"><field name="total_material_estimate" widget="monetary"/></td>
+                                                          <td style="border: 1px solid transparent !important;"><field name="total_material_cost" widget="monetary"/></td>
+                                                          <td style="border: 1px solid transparent !important;"><field name="material_diff" widget="monetary"/></td>
+                                                      </tr>
+                                                      <tr style="border: 1px solid transparent !important;">
+                                                          <td style="border: 1px solid transparent !important;"><span><b>Labour</b></span></td>
+                                                          <td style="border: 1px solid transparent !important;"><field name="total_labour_estimate" widget="monetary"/></td>
+                                                          <td style="border: 1px solid transparent !important;"><field name="total_labour_cost" widget="monetary"/></td>
+                                                          <td style="border: 1px solid transparent !important;"><field name="labour_diff" widget="monetary"/></td>
+                                                      </tr>
+                                                      <tr style="border: 1px solid transparent !important;">
+                                                          <td style="border: 1px solid transparent !important;"><span><b>Total</b></span></td>
+                                                          <td style="border: 1px solid transparent !important;"><field name="total_job_estimate" widget="monetary"/></td>
+                                                          <td style="border: 1px solid transparent !important;"><field name="total_cost" widget="monetary"/></td>
+                                                          <td style="border: 1px solid transparent !important;"><field name="total_diff" widget="monetary"/></td>
+                                                      </tr>
+                                                  </table>
+                                                  <!-- <field name="effective_hours"  string="Total Hours" widget="float_time" /> -->
+                                                  <!-- <field name="total_material_cost" widget="monetary" />
+                                                  <field name="total_labour_cost" widget="monetary" /> -->
+                                                  <!-- <field name="total_overhead_cost" widget="monetary" /> -->
+                                                  <!-- <field name="total_cost" widget="monetary" /> -->
+                                              </div>
+                                        </page>
+                                        <page string="Failure Details" >
+                                            <group>
+                                                <group>
+                                                    <field name="failure_resolution" attrs="{'readonly': [('is_done', '=',True)]}"/>
+                        
+                                                </group>
+                                                <group>
+                                                    <field name="failure_cause" attrs="{'readonly': [('is_done', '=',True)]}"/>
+                                                </group>
+                                            </group>
+                                            <label for="failure_desc" /><br/>
+                                            <field name="failure_desc" attrs="{'readonly': [('is_done', '=',True)]}"/>
+                                            <br/>
+                
+                                        </page>
+                                    </notebook>
+            
+                                </sheet>
+                                </form>
+                                <tree string="Operations">
+                                    <field name="sequence" widget="handle" />
+                                    <field name="sequence_ref"/>
+                                    <field name="name" />
+                                    <field name="department" />
+                                    <!-- <field name="operation_type"/> -->
+                                    <!-- <field name="start_date" />
+                                    <field name="end_date" />
+                                    <field name="req_date" /> -->
+                                    <field name="total_job_estimate" />
+                                    <field name="total_cost" />
+                                    <!-- <field name="subtotal" /> -->
+                                    <field name="stage_id" />
+                                </tree>
+
+                            </field>
+                            <group name="note_group" col="6">
+                                <group colspan="4">
+                                    <!-- <field name="note" nolabel="1" placeholder="Terms and conditions..."/> -->
+                                </group>
+                                <group class="oe_subtotal_footer oe_right" colspan="2" name="sale_total">
+                                    <field name="estimate_tot_cost" widget="monetary" readonly="1"/>
+                                    <field name="tot_cost" widget="monetary" readonly="1"/>
+                                    
+                                    <!-- <field name="amount_tax" widget="monetary" options="{'currency_field': 'currency_id'}"/>
+                                    <div class="oe_subtotal_footer_separator oe_inline o_td_label">
+                                        <label for="amount_total"/>
+                                    </div>
+                                    <field name="tot_cost" nolabel="1" class="oe_subtotal_footer_separator" widget="monetary" options="{'currency_field': 'currency_id'}"/> -->
+                                </group>
+                                <div class="oe_clear"/>
+                            </group>
+
+                        </page>
+                    </notebook>
+
+
+                </sheet>
+
+                 <div class="oe_chatter">
+                     <field name="message_follower_ids" widget="mail_followers"/>
+                     <field name="message_ids" widget="mail_thread"/>
+                </div>
+                </form>
+            </field>
+        </record>
+
+        <record id="action_maintain_requisition" model="ir.actions.act_window">
+            <field name="name">Maintainence Requisition</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">maintainence.service</field>
+            <!-- <field name="view_type">form</field> -->
+            <field name="view_mode">tree,form,calendar</field>
+        </record>
+
+        <record id="maintain_requisition_tree_view" model="ir.ui.view">
+            <field name="name">maintain.requisition.tree.view</field>
+            <field name="model">maintainence.service</field>
+            <field name="arch" type="xml">
+                <tree string="Maintainence Requisition">
+
+                    <field name="sequence"/>
+                    <field name="acc_bldng_id"/>
+                    <field name="acc_floor_id"/>
+                    <field name="acc_unit_id"/>
+                    <field name="assigned_dept"/>
+                    <field name="type"/>
+                    <field name="requested_date"/>
+                    <field name="requestor_name"/>
+                    <field name="requestor_contact"/>
+                    <field name="req_email"/>
+                    <field name="priority"/>
+                    <field name="state"/>
+
+
+
+                </tree>
+            </field>
+        </record>
+
+
+        <record id="task_master_form_view" model="ir.ui.view">
+            <field name="name">task.master.form.view</field>
+            <field name="model">task.master</field>
+            <field name="arch" type="xml">
+                <form string="Departments">
+
+                <sheet>
+
+
+                    <!--<div class="oe_title oe_left">
+                        <h1>
+                            <field name="sequence"/>
+                        </h1>
+                    </div>-->
+                    <group>
+                        <group>
+                            <field name="name"/>
+
+                        </group>
+                        <group>
+                            <field name="active"/>
+
+                        </group>
+                    </group>
+
+                </sheet>
+                </form>
+            </field>
+        </record>
+
+        <record id="action_task_master" model="ir.actions.act_window">
+            <field name="name">Departments</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">task.master</field>
+            <!-- <field name="view_type">form</field> -->
+            <field name="view_mode">tree,form</field>
+        </record>
+
+        <record id="task_master_tree_view" model="ir.ui.view">
+            <field name="name">task.master.tree.view</field>
+            <field name="model">task.master</field>
+            <field name="arch" type="xml">
+                <tree string="Departments">
+
+                    <field name="name"/>
+                    <field name="active"/>
+
+                </tree>
+            </field>
+        </record>
+
+    <!-- Work Orders-->
+        <record id="view_work_order_tree" model="ir.ui.view">
+            <field name="name">maintainence.service.tree</field>
+            <field name="model">maintainence.service</field>
+            <field name="priority">4</field>
+            <field name="arch" type="xml">
+                <tree string="Work Order" >
+                    <field name="sequence"/>
+                    <field name="acc_bldng_id"/>
+                    <field name="acc_floor_id"/>
+                    <field name="acc_unit_id"/>
+                    <field name="assigned_dept"/>
+                    <field name="type"/>
+                    <field name="requested_date"/>
+                    <field name="requestor_name"/>
+                    <field name="requestor_contact"/>
+                    <field name="req_email"/>
+                    <field name="priority"/>
+                    <field name="estimate_tot_cost"/>
+                    <field name="tot_cost"/>
+                    <field name="state"/>
+                </tree>
+            </field>
+        </record>
+
+        <record id="action_work_orders" model="ir.actions.act_window">
+            <field name="name">Work Orders</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">maintainence.service</field>
+            <field name="view_mode">tree,form</field>
+<!--            <field name="search_view_id" ref="sale_order_view_search_inherit_sale"/>-->
+            <field name="context">{}</field>
+            <field name="domain">[('state', 'not in', ('new', 'confirm', 'cancel'))]</field>
+
+        </record>
+
+         <record id="work_order_action_view_order_tree" model="ir.actions.act_window.view">
+            <field name="sequence" eval="1"/>
+            <field name="view_mode">tree</field>
+            <field name="view_id" ref="ag_maintainence.view_work_order_tree"/>
+            <field name="act_window_id" ref="action_work_orders"/>
+        </record>
+
+         <record id="work_order_action_view_order_form" model="ir.actions.act_window.view">
+            <field name="sequence" eval="3"/>
+            <field name="view_mode">form</field>
+            <field name="view_id" ref="ag_maintainence.maintain_requisition_form_view"/>
+            <field name="act_window_id" ref="action_work_orders"/>
+        </record>
+
+        <record id="view_account_move_form_inherit" model="ir.ui.view">
+            <field name="name">view.account.move.form.inherit</field>
+            <field name="model">account.move</field>
+            <field name="inherit_id" ref="account.view_move_form"/>
+            <field name="arch" type="xml">
+                <xpath expr="//field[@name='move_type']" position="after">
+                    <field name="maintenance_id" invisible="1"/>
+                    
+                </xpath>
+            </field>
+        </record>
+        <!-- Analytic account view edit part -->
+        <record id="view_analytic_account_form_inherit" model="ir.ui.view">
+            <field name="name">view.analytic.account.form.inherit</field>
+            <field name="model">account.analytic.line</field>
+            <field name="inherit_id" ref="analytic.view_account_analytic_line_form"/>
+            <field name="arch" type="xml">
+                <xpath expr="//field[@name='account_id']" position="after">
+                    <field name="employee_assigned" invisible="1"/>
+                    <field name="maintenance_id" invisible="1"/>
+                    
+                </xpath>
+            </field>
+        </record>
+        <record id="view_analytic_account_tree2_inherit" model="ir.ui.view">
+            <field name="name">view.analytic.account.tree2.inherit</field>
+            <field name="model">account.analytic.line</field>
+            <field name="inherit_id" ref="analytic.view_account_analytic_line_tree"/>
+            <field name="arch" type="xml">
+                <xpath expr="//field[@name='account_id']" position="after">
+                    <field name="employee_assigned" optional="hide"/>
+                    <field name="maintenance_id" optional="hide"/>
+                    
+                </xpath>
+            </field>
+        </record>
+        <!-- Analytic account view edit part -->
+
+
+        <!-- Picking view edit part -->
+        <record id="view_stock_picking_form_inherit" model="ir.ui.view">
+            <field name="name">view.stock.picking.form.inherit</field>
+            <field name="model">stock.picking</field>
+            <field name="inherit_id" ref="stock.view_picking_form"/>
+            <field name="arch" type="xml">
+                <xpath expr="//field[@name='origin']" position="after">
+                    <field name="maintenance_id" invisible="1"/>
+                    
+                </xpath>
+            </field>
+        </record>
+        <!-- Picking view edit part -->
+
+
+        <!-- Maintenance Type -->
+        <record id="maintainence_type_form_view" model="ir.ui.view">
+            <field name="name">maintainence.type.form.view</field>
+            <field name="model">maintainence.type</field>
+            <field name="arch" type="xml">
+                <form string="Types">
+
+                <sheet>
+
+
+                    <!--<div class="oe_title oe_left">
+                        <h1>
+                            <field name="sequence"/>
+                        </h1>
+                    </div>-->
+                    <group>
+                        <group>
+                            <field name="name"/>
+
+                        </group>
+                        <group>
+                            <field name="active"/>
+
+                        </group>
+                    </group>
+
+                </sheet>
+                </form>
+            </field>
+        </record>
+
+        <record id="action_maintainence_type_form" model="ir.actions.act_window">
+            <field name="name">Types</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">maintainence.type</field>
+            <!-- <field name="view_type">form</field> -->
+            <field name="view_mode">tree,form</field>
+        </record>
+
+        <record id="maintainence_type_tree_view" model="ir.ui.view">
+            <field name="name">maintainence.type.tree.view</field>
+            <field name="model">maintainence.type</field>
+            <field name="arch" type="xml">
+                <tree string="Types">
+
+                    <field name="name"/>
+                    <field name="active"/>
+
+                </tree>
+            </field>
+        </record>
+        <!-- Maintenance Type -->
+
+
+
+        <!-- Maintenance Line (JOB ORDER) -->
+            <record id="maintainence_service_line_form_view" model="ir.ui.view">
+                <field name="name">maintainence.service.line.form.view</field>
+                <field name="model">maintainence.service.line</field>
+                <field name="arch" type="xml">
+                    <form string="Operations">
+                        <header>
+                            <button name="mark_as_done" string="Mark as Done" type="object" class="btn-primary" attrs="{'invisible': [('is_done', '=',True)]}"/>
+                    
+                            <field name="stage_id" widget="statusbar" domain="[('active', '=', True)]"
+                                options="{'clickable': '1', 'fold_field': 'fold'}"/>
+                        </header>
+                    <sheet>
+
+                        <div class="oe_title">
+                            <span class="o_form_label">Operation Description </span>
+                            <h1>
+                                <field name="name" attrs="{'readonly': [('is_done', '=',True)]}"/>
+                            </h1>
+                        </div>
+                        <group>
+
+                            <group>
+                                <field name="operation_id" attrs="{'readonly': [('is_done', '=',True)]}" string="Maintenance Order" domain="[('state', '=', 'wo_created')]"/>
+                                <field name="sequence" invisible="1"/>
+                                <field name="sequence_ref" attrs="{'readonly': [('is_done', '=',True)]}"/>
+                                <field name="department" attrs="{'readonly': [('is_done', '=',True)]}"/>
+                                <field name="is_done" invisible="1" />
+                                <!-- <field name="account_id" attrs="{'invisible': [('operation_type','=','equip')],'required': [('operation_type','=','emp')]}"/> -->
+                                <!-- <field name="subtotal" /> -->
+                            </group>
+                            <group>
+                                <!-- <field name="operation_type"/> -->
+                                <!-- <field name="resource" attrs="{'invisible': [('operation_type','=','equip')]}"/> -->
+                                <!-- <field name="resource_cost" attrs="{'invisible': [('operation_type','=','equip')]}"/> -->
+                                <!-- <field name="required_qty"/> -->
+                                <!-- <field name="start_date" />
+                                <field name="end_date" /> -->
+                                <!-- <field name="deadline_date" attrs="{'readonly': [('is_done', '=',True)]}"/> -->
+                                <field name="schedule_start_date" attrs="{'readonly': [('is_done', '=',True)]}"/>
+                                <field name="schedule_end_date" attrs="{'readonly': [('is_done', '=',True)]}"/>
+                                <!-- <field name="estimated_start_date" />
+                                <field name="estimated_end_date" /> -->
+                            </group>
+
+                            <group>
+                                <!-- <field name="start_date" />
+                                <field name="end_date" />
+                                <field name="req_date" />
+                                <field name="estimated_start_date" />
+                                <field name="estimated_end_date" /> -->
+                            </group>
+
+                            <group>
+
+                                <!-- <field name="product_id" attrs="{'invisible': [('operation_type','=','emp')]}" /> -->
+                                <!-- <field name="description" attrs="{'invisible': [('operation_type','=','emp')]}" /> -->
+                                <!-- <field name="uom_id" required="1"/> -->
+                                <!-- <field name="item_code" attrs="{'invisible': [('operation_type','=','emp')]}"/> -->
+                                <!-- <field name="price_unit" attrs="{'invisible': [('operation_type','=','emp')]}"/> -->
+                            </group>
+                        </group>
+                        <notebook>
+                            <page string="Material Estimation">
+                                <field name="material_estimation_ids" attrs="{'readonly': [('is_done', '=',True)]}" widget="one2many_list">
+                                    <tree string="Material Estimation" editable="bottom">
+                                        <field name="type"  invisible="1"/>
+                                        <field name="product_id" />
+                                        <field name="description" />
+                                        <field name="quantity" sum="quantity"/>
+                                        <field name="uom_id" />
+                                        <field name="unit_price" sum="price"/>
+                                        <!-- <field name="discount" /> -->
+                                        <field name="subtotal"  widget="monetary" sum="subtotal"/>
+                                    </tree>
+                                </field>
+                                <div style="float:right;width:50%;" name="project_hours">
+                                    <!--class="table table-sm border-black"-->
+                                      <table style="width:100%;">
+                                          <tr style="border: 1px solid transparent !important;">
+                                              <td style="border: 1px solid transparent !important;"/>
+                                              <td style="border: 1px solid transparent !important;"><b>Estimated</b></td>
+                                              <td style="border: 1px solid transparent !important;"><b>Actual</b></td>
+                                              <td style="border: 1px solid transparent !important;"><b>Deviation</b></td>
+                                          </tr>
+                                          <tr style="border: 1px solid transparent !important;">
+                                              <td style="border: 1px solid transparent !important;"><span><b>Material</b></span></td>
+                                              <td style="border: 1px solid transparent !important;"><field name="total_material_estimate" widget="monetary"/></td>
+                                              <td style="border: 1px solid transparent !important;"><field name="total_material_cost" widget="monetary"/></td>
+                                              <td style="border: 1px solid transparent !important;"><field name="material_diff" widget="monetary"/></td>
+                                          </tr>
+                                          <tr style="border: 1px solid transparent !important;">
+                                              <td style="border: 1px solid transparent !important;"><span><b>Labour</b></span></td>
+                                              <td style="border: 1px solid transparent !important;"><field name="total_labour_estimate" widget="monetary"/></td>
+                                              <td style="border: 1px solid transparent !important;"><field name="total_labour_cost" widget="monetary"/></td>
+                                              <td style="border: 1px solid transparent !important;"><field name="labour_diff" widget="monetary"/></td>
+                                          </tr>
+                                          <tr style="border: 1px solid transparent !important;">
+                                              <td style="border: 1px solid transparent !important;"><span><b>Total</b></span></td>
+                                              <td style="border: 1px solid transparent !important;"><field name="total_job_estimate" widget="monetary"/></td>
+                                              <td style="border: 1px solid transparent !important;"><field name="total_cost" widget="monetary"/></td>
+                                              <td style="border: 1px solid transparent !important;"><field name="total_diff" widget="monetary"/></td>
+                                          </tr>
+                                      </table>
+                                      <!-- <field name="effective_hours"  string="Total Hours" widget="float_time" /> -->
+                                      <!-- <field name="total_material_cost" widget="monetary" />
+                                      <field name="total_labour_cost" widget="monetary" /> -->
+                                      <!-- <field name="total_overhead_cost" widget="monetary" /> -->
+                                      <!-- <field name="total_cost" widget="monetary" /> -->
+                                  </div>
+                            </page>
+                            <page string="Actual Material">
+                                    <!-- <group>
+                                        <button name="actual_material" string="Update" type="object" class="btn-primary"/>
+                                    </group> -->
+                                    <field name="material_actual_line_ids" attrs="{'readonly': [('is_done', '=',True)]}" widget="one2many_list" context="{'default_job_type':'material'}">
+                                        <tree string="Material" editable="bottom">
+                                            <field name="date" invisible="1"/>
+                                            <!-- <field name="job_type_id" domain="[('job_type', '=', 'material')]" options="{'no_create': True}"/> -->
+                                            <field name="product_id" />
+                                            <field name="description" />
+                                            <field name="reference"/>
+                                            <field name="quantity" sum="quantity"/>
+                                            <field name="uom_id" />
+                                            <field name="unit_price" sum="price"/>
+                                            <field name="task_id" invisible="1"/>
+                                           <!--  <field name="actual_purchase_qty" sum="actual_purchase_qty"/>
+                                            <field name="actual_invoice_qty" sum="actual_invoice_qty"/> -->
+                                            <field name="subtotal" widget="monetary" sum="subtotal"/>
+                                            <field name="currency_id" invisible="1" />
+                                            <field name="job_type" invisible="1"/>
+                                        </tree>
+                                    </field>
+                                    <div style="float:right;width:50%;" name="project_hours">
+                                        <!--class="table table-sm border-black"-->
+                                          <table style="width:100%;">
+                                              <tr style="border: 1px solid transparent !important;">
+                                                  <td style="border: 1px solid transparent !important;"/>
+                                                  <td style="border: 1px solid transparent !important;"><b>Estimated</b></td>
+                                                  <td style="border: 1px solid transparent !important;"><b>Actual</b></td>
+                                                  <td style="border: 1px solid transparent !important;"><b>Deviation</b></td>
+                                              </tr>
+                                              <tr style="border: 1px solid transparent !important;">
+                                                  <td style="border: 1px solid transparent !important;"><span><b>Material</b></span></td>
+                                                  <td style="border: 1px solid transparent !important;"><field name="total_material_estimate" widget="monetary"/></td>
+                                                  <td style="border: 1px solid transparent !important;"><field name="total_material_cost" widget="monetary"/></td>
+                                                  <td style="border: 1px solid transparent !important;"><field name="material_diff" widget="monetary"/></td>
+                                              </tr>
+                                              <tr style="border: 1px solid transparent !important;">
+                                                  <td style="border: 1px solid transparent !important;"><span><b>Labour</b></span></td>
+                                                  <td style="border: 1px solid transparent !important;"><field name="total_labour_estimate" widget="monetary"/></td>
+                                                  <td style="border: 1px solid transparent !important;"><field name="total_labour_cost" widget="monetary"/></td>
+                                                  <td style="border: 1px solid transparent !important;"><field name="labour_diff" widget="monetary"/></td>
+                                              </tr>
+                                              <tr style="border: 1px solid transparent !important;">
+                                                  <td style="border: 1px solid transparent !important;"><span><b>Total</b></span></td>
+                                                  <td style="border: 1px solid transparent !important;"><field name="total_job_estimate" widget="monetary"/></td>
+                                                  <td style="border: 1px solid transparent !important;"><field name="total_cost" widget="monetary"/></td>
+                                                  <td style="border: 1px solid transparent !important;"><field name="total_diff" widget="monetary"/></td>
+                                              </tr>
+                                          </table>
+                                          <!-- <field name="effective_hours"  string="Total Hours" widget="float_time" /> -->
+                                          <!-- <field name="total_material_cost" widget="monetary" />
+                                          <field name="total_labour_cost" widget="monetary" /> -->
+                                          <!-- <field name="total_overhead_cost" widget="monetary" /> -->
+                                          <!-- <field name="total_cost" widget="monetary" /> -->
+                                      </div>
+                                    <!-- <separator string="Job Cost Description" />
+                                    <field name="job_cost_description" class="oe_inline" /> -->
+                                </page>
+                            <page string="Labour Estimation">
+                                <field name="labour_estimation_ids" widget="one2many_list" attrs="{'readonly': [('is_done', '=',True)]}">
+                                    <tree string="Labour Estimation" editable="bottom">
+                                        <field name="type" invisible="1"/>
+                                        <field name="product_id" domain="[('type', '=', 'service')]"/>
+                                        <field name="description" />
+                                        <!-- <field name="quantity" /> -->
+                                        <field name="uom_id" />
+                                        <field name="hours" string="Qty" sum="qty" />
+                                        <field name="unit_price" sum="price"/>
+                                        
+                                        <!-- <field name="discount" /> -->
+                                        <field name="subtotal" widget="monetary" sum="subtotal"/>
+                                    </tree>
+                                </field>
+                                <div style="float:right;width:50%;" name="project_hours">
+                                    <!--class="table table-sm border-black"-->
+                                      <table style="width:100%;">
+                                          <tr style="border: 1px solid transparent !important;">
+                                              <td style="border: 1px solid transparent !important;"/>
+                                              <td style="border: 1px solid transparent !important;"><b>Estimated</b></td>
+                                              <td style="border: 1px solid transparent !important;"><b>Actual</b></td>
+                                              <td style="border: 1px solid transparent !important;"><b>Deviation</b></td>
+                                          </tr>
+                                          <tr style="border: 1px solid transparent !important;">
+                                              <td style="border: 1px solid transparent !important;"><span><b>Material</b></span></td>
+                                              <td style="border: 1px solid transparent !important;"><field name="total_material_estimate" widget="monetary"/></td>
+                                              <td style="border: 1px solid transparent !important;"><field name="total_material_cost" widget="monetary"/></td>
+                                              <td style="border: 1px solid transparent !important;"><field name="material_diff" widget="monetary"/></td>
+                                          </tr>
+                                          <tr style="border: 1px solid transparent !important;">
+                                              <td style="border: 1px solid transparent !important;"><span><b>Labour</b></span></td>
+                                              <td style="border: 1px solid transparent !important;"><field name="total_labour_estimate" widget="monetary"/></td>
+                                              <td style="border: 1px solid transparent !important;"><field name="total_labour_cost" widget="monetary"/></td>
+                                              <td style="border: 1px solid transparent !important;"><field name="labour_diff" widget="monetary"/></td>
+                                          </tr>
+                                          <tr style="border: 1px solid transparent !important;">
+                                              <td style="border: 1px solid transparent !important;"><span><b>Total</b></span></td>
+                                              <td style="border: 1px solid transparent !important;"><field name="total_job_estimate" widget="monetary"/></td>
+                                              <td style="border: 1px solid transparent !important;"><field name="total_cost" widget="monetary"/></td>
+                                              <td style="border: 1px solid transparent !important;"><field name="total_diff" widget="monetary"/></td>
+                                          </tr>
+                                      </table>
+                                      <!-- <field name="effective_hours"  string="Total Hours" widget="float_time" /> -->
+                                      <!-- <field name="total_material_cost" widget="monetary" />
+                                      <field name="total_labour_cost" widget="monetary" /> -->
+                                      <!-- <field name="total_overhead_cost" widget="monetary" /> -->
+                                      <!-- <field name="total_cost" widget="monetary" /> -->
+                                  </div>
+                            </page>
+                            <page string="Actual Labour">
+                                <field name="actual_timesheet_ids" widget="one2many_list" attrs="{'readonly': [('is_done', '=',True)]}">
+                                    <tree string="Actual Labour" editable="bottom">
+                                        <field name="type" invisible="1"/>
+                                        <field name="employee_id" />
+                                        <field name="description" invisible="1"/>
+                                        <!-- <field name="quantity" /> -->
+                                        <field name="uom_id" />
+                                        <field name="hours" string="Qty" sum="qty"/>
+                                        <field name="unit_price" sum="price"/>
+                                        
+                                        <!-- <field name="discount" /> -->
+                                        <field name="subtotal" widget="monetary" sum="subtotal"/>
+                                    </tree>
+                                </field>
+                                <!-- <group > -->
+                                    <div style="float:right;width:50%;" name="project_hours">
+                                        <!--class="table table-sm border-black"-->
+                                          <table style="width:100%;">
+                                              <tr style="border: 1px solid transparent !important;">
+                                                  <td style="border: 1px solid transparent !important;"/>
+                                                  <td style="border: 1px solid transparent !important;"><b>Estimated</b></td>
+                                                  <td style="border: 1px solid transparent !important;"><b>Actual</b></td>
+                                                  <td style="border: 1px solid transparent !important;"><b>Deviation</b></td>
+                                              </tr>
+                                              <tr style="border: 1px solid transparent !important;">
+                                                  <td style="border: 1px solid transparent !important;"><span><b>Material</b></span></td>
+                                                  <td style="border: 1px solid transparent !important;"><field name="total_material_estimate" widget="monetary"/></td>
+                                                  <td style="border: 1px solid transparent !important;"><field name="total_material_cost" widget="monetary"/></td>
+                                                  <td style="border: 1px solid transparent !important;"><field name="material_diff" widget="monetary"/></td>
+                                              </tr>
+                                              <tr style="border: 1px solid transparent !important;">
+                                                  <td style="border: 1px solid transparent !important;"><span><b>Labour</b></span></td>
+                                                  <td style="border: 1px solid transparent !important;"><field name="total_labour_estimate" widget="monetary"/></td>
+                                                  <td style="border: 1px solid transparent !important;"><field name="total_labour_cost" widget="monetary"/></td>
+                                                  <td style="border: 1px solid transparent !important;"><field name="labour_diff" widget="monetary"/></td>
+                                              </tr>
+                                              <tr style="border: 1px solid transparent !important;">
+                                                  <td style="border: 1px solid transparent !important;"><span><b>Total</b></span></td>
+                                                  <td style="border: 1px solid transparent !important;"><field name="total_job_estimate" widget="monetary"/></td>
+                                                  <td style="border: 1px solid transparent !important;"><field name="total_cost" widget="monetary"/></td>
+                                                  <td style="border: 1px solid transparent !important;"><field name="total_diff" widget="monetary"/></td>
+                                              </tr>
+                                          </table>
+                                          <!-- <field name="effective_hours"  string="Total Hours" widget="float_time" /> -->
+                                          <!-- <field name="total_material_cost" widget="monetary" />
+                                          <field name="total_labour_cost" widget="monetary" /> -->
+                                          <!-- <field name="total_overhead_cost" widget="monetary" /> -->
+                                          <!-- <field name="total_cost" widget="monetary" /> -->
+                                      </div>
+                                <!-- </group> -->
+                            </page>
+                            <page string="Failure Details" >
+                                <group>
+                                    <group>
+                                        <field name="failure_resolution" attrs="{'readonly': [('is_done', '=',True)]}"/>
+            
+                                    </group>
+                                    <group>
+                                        <field name="failure_cause" attrs="{'readonly': [('is_done', '=',True)]}"/>
+                                    </group>
+                                </group>
+                                <label for="failure_desc" /><br/>
+                                <field name="failure_desc" attrs="{'readonly': [('is_done', '=',True)]}"/>
+                                <br/>
+    
+                            </page>
+                        </notebook>
+
+                    </sheet>
+                    </form>
+                </field>
+            </record>
+
+            <record id="maintainence_service_line_tree_view" model="ir.ui.view">
+                <field name="name">maintainence.service.line.tree.view</field>
+                <field name="model">maintainence.service.line</field>
+                <field name="arch" type="xml">
+                    <tree string="Operations">
+                        <field name="sequence" widget="handle" />
+                        <field name="sequence_ref"/>
+                        <field name="name" />
+                        <field name="department" />
+                        <!-- <field name="operation_type"/> -->
+                        <!-- <field name="start_date" />
+                        <field name="end_date" /> -->
+                        <!-- <field name="deadline_date" /> -->
+                        <field name="schedule_start_date" />
+                        <field name="schedule_end_date" />
+                        <!-- <field name="estimated_start_date" />
+                        <field name="estimated_end_date" /> -->
+                        <field name="total_job_estimate" />
+                        <field name="total_cost" />
+                        <field name="stage_id" />
+                    </tree>
+                </field>
+            </record>
+
+            <record id="maintainence_service_line_kanban_view" model="ir.ui.view">
+                <field name="name">maintainence.service.line.kanban.view</field>
+                <field name="model">maintainence.service.line</field>
+                <field name="arch" type="xml">
+                    <!-- on_create="quick_create" quick_create_view="crm.quick_create_opportunity_form" -->
+                    <kanban default_group_by="stage_id" class="o_kanban_small_column o_opportunity_kanban" on_create="quick_create" quick_create_view="ag_maintainence.quick_create_opportunity_form_job_order"  archivable="false">
+                        <field name="stage_id" options="{&quot;group_by_tooltip&quot;: {&quot;requirements&quot;: &quot;Description&quot;}}"/>
+                        <field name="sequence_ref"/>
+                        <field name="color"/>
+                        <field name="operation_id" />
+                        <field name="name" />
+                        <field name="department" />
+                        <!-- <field name="operation_type"/> -->
+                        <!-- <field name="start_date" />
+                        <field name="end_date" /> -->
+                        <!-- <field name="deadline_date" /> -->
+                        <field name="schedule_start_date" />
+                            <field name="schedule_end_date" />
+                        <!-- <field name="subtotal" /> -->
+                        <!-- <progressbar field="activity_state" colors="{&quot;planned&quot;: &quot;success&quot;, &quot;today&quot;: &quot;warning&quot;, &quot;overdue&quot;: &quot;danger&quot;}" sum_field="planned_revenue" help="This bar allows to filter the opportunities based on scheduled activities."/> -->
+                        <templates>
+                            <t t-name="kanban-box">
+                                <div t-attf-class="#{!selection_mode ? kanban_color(record.color.raw_value) : ''} oe_kanban_global_click">
+                                    <div class="o_dropdown_kanban dropdown">
+    
+                                        <a class="dropdown-toggle o-no-caret btn" role="button" data-toggle="dropdown" data-display="static" href="#" aria-label="Dropdown menu" title="Dropdown menu">
+                                            <span class="fa fa-ellipsis-v"/>
+                                        </a>
+                                        <div class="dropdown-menu" role="menu">
+                                            <t t-if="widget.editable"><a role="menuitem" type="edit" class="dropdown-item">Edit</a></t>
+                                            <t t-if="widget.deletable"><a role="menuitem" type="delete" class="dropdown-item">Delete</a></t>
+                                            <ul class="oe_kanban_colorpicker" data-field="color"/>
+                                        </div>
+                                    </div>
+                                    <div class="oe_kanban_content">
+                                        <div>
+                                            <strong class="o_kanban_record_title"><field name="name"/></strong>
+                                        </div>
+                                        <div>
+                                            <strong class="o_kanban_record_subtitle"><field name="operation_id" /></strong>
+                                        </div>
+                                        <!-- <div>
+                                            <field name="tag_ids" widget="many2many_tags" options="{'color_field': 'color'}"/>
+                                        </div> -->
+                                        <div class="text-muted o_kanban_record_subtitle">
+                                            Estimation Total:<field name="total_job_estimate" widget="monetary" options="{'currency_field': 'company_currency'}"/>
+                                            <br/>Actual Total:<field name="total_cost" widget="monetary" options="{'currency_field': 'company_currency'}"/>
+                                        </div>
+    
+                                        <div class="o_kanban_record_bottom">
+                                            <div class="oe_kanban_bottom_left">
+                                                <field name="department" />
+                                                <!-- <field name="operation_type"/> -->
+                                                <!-- <field name="priority" widget="priority" groups="base.group_user"/> -->
+                                                <!-- <t t-if="record.message_needaction_counter.raw_value">
+                                                    <span role="alert" class="oe_kanban_mail_new" title="Unread Messages"><i class="fa fa-comments" aria-label="Unread messages" role="img"/><t t-raw="record.message_needaction_counter.raw_value"/></span>
+                                                </t> -->
+                                                <!-- <field name="activity_ids" widget="kanban_activity"/> -->
+                                            </div>
+                                            <div class="oe_kanban_bottom_right">
+                                                <!-- <img t-att-src="kanban_image('res.users', 'image_128', record.user_id.raw_value)" t-att-title="record.user_id.value" t-att-alt="record.user_id.value" class="oe_kanban_avatar"/> -->
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="oe_clear"/>
+                                </div>
+                            </t>
+                        </templates>
+                    </kanban>
+                </field>
+            </record>
+
+            <record id="quick_create_opportunity_form_job_order" model="ir.ui.view">
+                <field name="name">maintainence.service.line.form.quick_create</field>
+                <field name="model">maintainence.service.line</field>
+                <field name="priority">1000</field>
+                <field name="arch" type="xml">
+                    <form>
+                        <group>
+
+                            <group>
+                                <field name="operation_id" string="Work Order" domain="[('state', '=', 'wo_created')]"/>
+                                <field name="sequence" invisible="1"/>
+                                <field name="sequence_ref"/>
+                                <field name="name" />
+                                <field name="department" />
+                                <!-- <field name="account_id" attrs="{'invisible': [('operation_type','=','equip')],'required': [('operation_type','=','emp')]}"/> -->
+                                <!-- <field name="subtotal" /> -->
+                            </group>
+                            <group>
+                                <!-- <field name="start_date" />
+                                <field name="end_date" /> -->
+                                <!-- <field name="deadline_date" /> -->
+                                <field name="schedule_start_date" />
+                            <field name="schedule_end_date" />
+                                <!-- <field name="operation_type"/> -->
+                                <!-- <field name="resource" attrs="{'invisible': [('operation_type','=','equip')]}"/> -->
+                                <!-- <field name="resource_cost" attrs="{'invisible': [('operation_type','=','equip')]}"/> -->
+                                <!-- <field name="required_qty"/> -->
+                            </group>
+
+                            <group>
+
+                                <!-- <field name="product_id" attrs="{'invisible': [('operation_type','=','emp')]}" />
+                                <field name="description" attrs="{'invisible': [('operation_type','=','emp')]}" />
+                                <field name="uom_id" required="0"/>
+                                <field name="item_code" attrs="{'invisible': [('operation_type','=','emp')]}"/>
+                                <field name="price_unit" attrs="{'invisible': [('operation_type','=','emp')]}"/> -->
+                            </group>
+                        </group>
+                    </form>
+                </field>
+            </record>
+
+            <record id="action_maintainence_service_line" model="ir.actions.act_window">
+                <field name="name">Operations</field>
+                <field name="type">ir.actions.act_window</field>
+                <field name="res_model">maintainence.service.line</field>
+                <!-- <field name="view_type">form</field> -->
+                <field name="view_mode">kanban,tree,form,calendar</field>
+            </record>
+
+            
+
+        <!-- Maintenance Line (JOB ORDER) -->
+
+        <!-- Job order stages -->
+            <record id="job_order_stage_search" model="ir.ui.view">
+                <field name="name">Stage - Search</field>
+                <field name="model">job.order.stage</field>
+                <field name="arch" type="xml">
+                    <search string="Stage Search">
+                        <field name="name"/>
+                        <field name="sequence"/>
+                    </search>
+                </field>
+            </record>
+        
+            <record id="job_order_stage_tree" model="ir.ui.view">
+                <field name="name">job.order.stage.tree</field>
+                <field name="model">job.order.stage</field>
+                <field name="arch" type="xml">
+                    <tree string="Stages">
+                        <field name="sequence" widget="handle"/>
+                        <field name="name"/>
+                        <field name="active" />
+                        <field name="is_first" />
+                        <field name="is_done" />
+                    </tree>
+                </field>
+            </record>
+        
+            <record id="job_order_stage_form" model="ir.ui.view">
+                <field name="name">job.order.stage.form</field>
+                <field name="model">job.order.stage</field>
+                <field name="priority" eval="1"/>
+                <field name="arch" type="xml">
+                    <form string="Stage">
+                        <sheet>
+                            <div class="oe_title">
+                                <div class="oe_edit_only">
+                                    <label for="name"/>
+                                </div>
+                                <h1>
+                                    <field name="name"/>
+                                </h1>
+                            </div>
+                            <group>
+                                <group>
+                                    <field name="fold"/>
+                                    <field name="active" />
+                                    <field name="is_first" />
+                                    <field name="is_done" />
+                                </group>
+                            </group>
+                            <label for="requirements" /><br />
+                            <field name="requirements" />
+                        </sheet>
+                    </form>
+                </field>
+            </record>
+        
+            <record id="job_order_stage_action" model="ir.actions.act_window">
+                <field name="name">Stages</field>
+                <field name="res_model">job.order.stage</field>
+                <field name="view_id" ref="ag_maintainence.job_order_stage_tree"/>
+                <field name="help" type="html">
+                <p class="o_view_nocontent_smiling_face">
+                    Set a new stage in your Job order pipeline
+                </p>
+                </field>
+            </record>
+
+        <!-- Job order stages -->
+
+
+        <!-- settings configuration part -->
+
+        <record id="res_config_settings_view_form" model="ir.ui.view">
+            <field name="name">res.config.settings.view.form.inherit.maintenance.request</field>
+            <field name="model">res.config.settings</field>
+            <field name="priority" eval="40"/>
+            <field name="inherit_id" ref="base.res_config_settings_view_form"/>
+            <field name="arch" type="xml">
+                <xpath expr="//div[hasclass('settings')]" position="inside">
+                    <div class="app_settings_block" data-string="Maintenance Services" string="Maintenance Services" data-key="ag_maintainence" groups="ag_maintainence.group_mat_maintain_user">
+                        
+                        <h2>Property Maintenance Settings</h2>
+                        <group>
+                            <group string="Picking Operation Details">
+                                <!-- <label for="picking_type_id_property_main" /><br/> -->
+                                <field name="picking_type_id_property_main" /><br/>
+                                <!-- <label for="location_id_property_main" /><br/> -->
+                                <field name="location_id_property_main" /><br/>
+                                <!-- <label for="location_dest_id_property_main" /><br/> -->
+                                <field name="location_dest_id_property_main" /><br/>
+                            </group>
+                            <group string="Maintenance Product and journal">
+                                <!-- <label for="maintainence_services_product" /><br/> -->
+                                <field name="maintainence_services_product" /><br/>
+                                <!-- <label for="main_journal_id" /><br/> -->
+                                <field name="main_journal_id" /><br/>
+                            </group>
+                        </group>
+                        
+                        
+                    </div>
+                </xpath>
+            </field>
+        </record>
+
+        <record id="action_maintenance_config" model="ir.actions.act_window">
+            <field name="name">Settings</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">res.config.settings</field>
+            <field name="view_mode">form</field>
+            <field name="target">inline</field>
+            <field name="context">{'module' : 'ag_maintainence', 'bin_size': False}</field>
+        </record>
+
+        
+
+        
+
+
+        <!-- settings configuration part -->
+
+
+        <!-- Maintenance Tags configuration part -->
+
+            <record id="maintenance_tag_form" model="ir.ui.view">
+                <field name="name">maintenance.tag.form</field>
+                <field name="model">maintenance.tag</field>
+                <field name="arch" type="xml">
+                    <form string="Maintenance Tags">
+                        <sheet>
+                            <div class="oe_title">
+                                <div class="oe_edit_only">
+                                    <label for="name"/>
+                                </div>
+                                <h1>
+                                    <field name="name"/>
+                                </h1>
+                            </div>
+                            <group>
+                                <group>
+                                    <field name="color" required="True"/>
+                                </group>
+                            </group>
+                        </sheet>
+                    </form>
+                </field>
+            </record>
+
+            <record id="maintenance_tag_tree" model="ir.ui.view">
+                <field name="name">maintenance.tag.tree</field>
+                <field name="model">maintenance.tag</field>
+                <field name="arch" type="xml">
+                    <tree string="Lead Tags" editable="bottom">
+                        <field name="name"/>
+                        <field name="color" groups="base.group_no_one"/>
+                    </tree>
+                </field>
+            </record>
+
+            <record id="action_maintainence_tags" model="ir.actions.act_window">
+                <field name="name">Maintenance Tags</field>
+                <field name="type">ir.actions.act_window</field>
+                <field name="res_model">maintenance.tag</field>
+                <!-- <field name="view_type">form</field> -->
+                <field name="view_mode">tree,form</field>
+            </record>
+
+        <!-- Maintenance Tags configuration part -->
+
+
+        <!-- Maintenance services search view -->
+
+            <record id="view_maintainence_service_search_filter" model="ir.ui.view">
+                <field name="name">maintainence.service.search.view</field>
+                <field name="model">maintainence.service</field>
+                <field name="arch" type="xml">
+                    <search string="Search Leads">
+                        <group expand="0" string="Group By">
+                            <filter string="Building" name="acc_bldng_id" context="{'group_by':'acc_bldng_id'}"/>
+                            <filter string="Status" name="state" context="{'group_by':'state'}"/>
+                            <filter name="Priority" string="priority" context="{'group_by': 'priority'}"/>
+                        </group>
+                    </search>
+                </field>
+            </record>
+
+        <!-- Maintenance services search view -->
+
+
+
+    </data>
+</odoo>

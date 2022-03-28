@@ -1,0 +1,79 @@
+<?xml version="1.0"?>
+<odoo>
+  <!-- Maintain App Menu -->
+        <menuitem id="main_menu_maintain"
+            name="Property Maintenance"
+            web_icon="ag_maintainence,static/description/icon.png"
+            groups="group_mat_maintain_user" />
+
+        <menuitem id="menu_maintain_requisition_new"
+          name="Maintainence Service"
+          parent="main_menu_maintain"
+          sequence="9"  groups="base.group_no_one,group_mat_maintain_user"/>
+
+        <menuitem id="menu_job_order_new"
+          name="Operations"
+          parent="main_menu_maintain"
+          action="action_maintainence_service_line"
+          sequence="10"  groups="base.group_no_one,group_mat_maintain_user"/>
+
+        <menuitem id="menu_maintain_config"
+          name="Configuration"
+          parent="main_menu_maintain"
+          sequence="11"  groups="base.group_no_one,group_mat_maintain_user"/>
+
+        <menuitem id="menu_sub_maintain_requisition_new"
+          name="Maintenance Service"
+          parent="menu_maintain_requisition_new"
+          action="action_maintain_requisition"
+          sequence="1"  groups="base.group_no_one,group_mat_maintain_user"/>
+
+        <menuitem id="menu_work_order"
+          name="Maintenance Orders"
+          parent="menu_maintain_requisition_new"
+          action="action_work_orders"
+          sequence="2"  groups="base.group_no_one,group_mat_maintain_user"/>
+
+       <!-- <menuitem id="menu_unit_master"
+          name="Unit"
+          parent="menu_maintain_config"
+          action="action_unit_master"
+          sequence="1"  groups="base.group_no_one,group_mat_maintain_user"/>
+
+        <menuitem id="menu_building_master"
+          name="Building"
+          parent="menu_maintain_config"
+          action="action_building_master"
+          sequence="1"  groups="base.group_no_one,group_mat_maintain_user"/>
+
+        <menuitem id="menu_floor_master"
+          name="Floor"
+          parent="menu_maintain_config"
+          action="action_floor_master"
+          sequence="1"  groups="base.group_no_one,group_mat_maintain_user"/>-->
+
+        <menuitem id="menu_task_master"
+          name="Departments"
+          parent="menu_maintain_config"
+          action="action_task_master"
+          sequence="1"  groups="base.group_no_one,group_mat_maintain_user"/>
+        <menuitem id="menu_action_maintainence_type_form"
+          name="Types"
+          parent="menu_maintain_config"
+          action="action_maintainence_type_form"
+          sequence="2"  groups="base.group_no_one,group_mat_maintain_user"/>
+        <menuitem id="menu_job_order_stage_action"
+          name="Operations Stages"
+          parent="menu_maintain_config"
+          action="job_order_stage_action"
+          sequence="3"  groups="base.group_no_one,group_mat_maintain_user"/>
+        <menuitem id="menu_action_maintainence_tags"
+          name="Maintenance Tags"
+          parent="menu_maintain_config"
+          action="action_maintainence_tags"
+          sequence="4"  groups="base.group_no_one,group_mat_maintain_user"/>
+        <menuitem id="menu_action_maintenance_config" name="Settings" parent="menu_maintain_config"
+          sequence="5" action="action_maintenance_config" groups="base.group_system"/>
+
+
+</odoo>

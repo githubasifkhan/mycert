@@ -1,0 +1,183 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <data>
+        <record model="ir.ui.view" id="property_cheque_form">
+            <field name="name">property.cont.payment.form</field>
+            <field name="model">property.cont.payment</field>
+            <field name="arch" type="xml">
+                <form string="Property Cheque" >
+                    <header>
+                        <button name="%(action_wizard_property_cont_payment)d" string="Payment Release" type="action" class="oe_highlight" />
+                    </header>
+                    <sheet>
+                        <group>
+                            <group>
+                                <field name="name" readonly="1"/>
+                                <field name="date" readonly="1"/>
+                                <field name="cont_id" readonly="1"/>
+                                <field name="partner_id" readonly="1"/>
+                                <field name="journal_id" readonly="0"/>
+                                <field name="deposit" readonly="1"/>
+                                <field name="amount" readonly="1"/>
+                                <field name="submit" readonly="1"/>
+                                <field name="move_id" readonly="1"/>
+                                <field name="ret_date" readonly="1"/>
+                                <field name="ret_charge" readonly="1"/>
+                                <field name="rev_move_id" readonly="1"/>
+                                <field name="sub_date" readonly="1"/>
+                                <field name="sub_move_id" readonly="1"/>
+                                <field name="state" invisible="1"/>
+                            </group>
+                        </group>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+        <record model="ir.ui.view" id="property_cheque_tree">
+            <field name="name">property.cont.payment.tree</field>
+            <field name="model">property.cont.payment</field>
+            <field name="arch" type="xml">
+                    <tree editable='top'>
+                    <field name="property_id" invisible="1"/>
+                        <field name="name" />
+                        <field name="date" />
+                        <field name="clearing_date"/>
+                        <field name="journal_id"/>
+                        <field name="deposit" invisible="1"/>
+                                                
+                        
+                        <field name="amount" />
+                        <field name="cont_id" invisible="0"/>
+                        <field name="partner_id" readonly="1"/>
+                        <field name="submit"/>
+                        <field name="type"/>
+                        <button type="object" name="payment_move" string="Post" class="oe_highlight" />
+                        <field name="move_id" readonly="1"/>
+                        <field name="ret_date"/>
+                        <field name="ret_charge"/>
+                        <button type="object" name="reverse_payment_move" string="Ret" class="oe_highlight" />
+                        <field name="rev_move_id" readonly="1"/>
+                        <field name="sub_date" />
+                        <button type="object" name="submit_payment_move" string="Sub" class="oe_highlight" />
+                        <field name="sub_move_id" readonly="1"/>
+                        <field name="od_state" invisible="0" readonly="1"/>
+                        <button name="replace_cheque_entry" string="Replace Entry" type="object" attrs="{'invisible':[('od_state','!=','replaced')]}"/>
+                        
+                        <field name="replaced_move_id" invisible="0" readonly="1"/>                       
+                        
+                        
+                    </tree>
+            </field>
+        </record>
+
+        <record id="property_cheque_calendar" model="ir.ui.view">
+            <field name="name">property.cont.payment.calendar</field>
+            <field name="model">property.cont.payment</field>
+            <field name="arch" type="xml">
+                <calendar string="Cheque" color="amount" date_start="date">
+                    <field name="name"/>
+                    <field name="amount"/>
+                    <field name="deposit"/>
+                    <field name="partner_id"/>
+                </calendar>
+            </field>
+        </record>
+
+        <record model="ir.ui.view" id="property_cheque_pivot">
+            <field name="name">property.cont.payment.pivot</field>
+            <field name="model">property.cont.payment</field>
+            <field name="arch" type="xml">
+                <pivot string="Cheque" >
+                    <field name="partner_id"/>
+                </pivot>
+            </field>
+        </record>
+
+        <record model="ir.ui.view" id="property_cheque_graph">
+            <field name="name">property.cont.payment.graph</field>
+            <field name="model">property.cont.payment</field>
+            <field name="arch" type="xml">
+                <graph string="Cheque">
+                    <field name="partner_id"/>
+                </graph>
+            </field>
+        </record>
+
+        <!--<record id="view_property_cheque_search" model="ir.ui.view">
+            <field name="name">property.cont.payment.search</field>
+            <field name="model">property.cont.payment</field>
+            <field name="arch" type="xml">
+                <search string="Search Cheque">
+                    <field name="cont_id" string="Contract"/>
+                    
+                    <field name="name" string="Name"/>
+                       <field name="partner_id" string="Customer"/>
+                    <separator/>
+                    <filter name="bank" string="Released" domain="[('submit','=','bank')]"/>
+                    <filter name="hand" string="In Hand" domain="[('submit','=','hand')]"/>
+                    <filter name="bounce" string="Bounce" domain="[('rev_move_id','!=',None)]"/>
+                    <separator/>
+                    <filter name="today" string="Today" domain="[('date','&lt;=', time.strftime('%%Y-%%m-%%d 23:59:59')),('date','&gt;=',time.strftime('%%Y-%%m-%%d 00:00:00'))]" help="Cheque Due Today"/>
+                    <filter string="Current Month" domain="[('date','&gt;=', time.strftime('%Y-%m-1')), ('date','&lt;', ((context_today() + relativedelta(months=1)).strftime('%Y-%m-1')) )]" />
+                    <filter string="This Year" name="thisyear" domain="['|', ('date', '=', False), '&amp;',('date','&lt;=', time.strftime('%%Y-12-31')),('date','&gt;=',time.strftime('%%Y-01-01'))]" help="Cheques with date in current year"/>
+                    <separator/>
+                    <group expand="0" string="Group By">
+                        <filter name="group_by_cont_id" string="Contract" context="{'group_by':'cont_id'}"/>
+                        <filter name="group_by_partner_id" string="Customer" context="{'group_by':'partner_id'}"/>
+                        <filter name="groub_by_submit" string="Status" context="{'group_by':'submit'}"/>
+                        
+                               <filter name="groub_by_property" string="Property" context="{'group_by':'property_id'}"/>
+                        <separator/>
+                        <filter string="Date" context="{'group_by':'date'}"/>
+                        <filter string="Month" context="{'group_by':'date:month'}"/>
+                        
+                    </group>
+               </search>
+            </field>
+        </record>
+-->
+        <!--Facility Building menu action-->
+        <record id="property_cheque_action" model="ir.actions.act_window">
+            <field name="name">Property Cheque</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">property.cont.payment</field>
+<!--            <field name="view_type">form</field>-->
+            <field name="view_mode">tree,calendar,pivot,graph</field>
+<!--            <field name="search_view_id" ref="view_property_cheque_search"/>-->
+            <field name="domain">[('state', '!=','cancel')]</field>
+            <field name="help" type="html">
+                <p class="oe_view_nocontent_create">
+                    No Record to show.
+                </p>
+            </field>
+        </record>
+
+        <record id="action_cont_payment_post" model="ir.actions.server">
+          <field name="name">Post</field>
+          <field name="model_id" ref="model_property_cont_payment"/>
+          <field name="state">code</field>
+          <field name="code">record.payment_move()</field>
+      </record>
+        
+        
+             <record model="ir.actions.server" id="action_replace_cheque">
+        <field name="name">Replace Check</field>
+        <field name="model_id" ref="model_property_cont_payment"/>
+        <field name="code">
+          action = model.od_replace_cheque()
+        </field>
+    </record>
+    
+<!--                <record model="ir.actions.server" id="action_generate_revenue_only">-->
+<!--        <field name="name">Recompute Revenue Only</field>-->
+<!--        <field name="model_id" ref="model_property_contract"/>-->
+<!--        <field name="code">-->
+<!--          action = model.generate_revenue_only()-->
+<!--        </field>-->
+<!--    </record>-->
+    
+
+        <menuitem id="property_cheque_menu" name="Collection Register" parent="property_transaction_menu" sequence="1" action="property_cheque_action"/>
+    </data>
+</odoo>

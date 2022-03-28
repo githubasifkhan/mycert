@@ -1,0 +1,232 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <data>
+        <record model="ir.ui.view" id="property_unit_type_form">
+            <field name="name">property.unit.type.form</field>
+            <field name="model">property.unit.type</field>
+            <field name="arch" type="xml">
+                <form string="Property Unit Type" >
+                    <sheet>
+                        <group>
+                            <group>
+                                <!-- <field name="code"/> -->
+                                <field name="name"/>
+                            </group>
+                        </group>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+        <record model="ir.ui.view" id="property_unit_type_tree">
+            <field name="name">property.unit.type.tree</field>
+            <field name="model">property.unit.type</field>
+            <field name="arch" type="xml">
+                    <tree>
+                        <!-- <field name="code"/> -->
+                        <field name="name"/>
+                    </tree>
+            </field>
+        </record>
+
+        <!--Facility Building menu action-->
+        <record id="property_unit_type_action" model="ir.actions.act_window">
+            <field name="name">Property Unit Type</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">property.unit.type</field>
+<!--            <field name="view_type">form</field>-->
+            <field name="view_mode">tree,form</field>
+            <field name="help" type="html">
+                <p class="oe_view_nocontent_create">
+                    Click to add new Property Unit Type.
+                </p>
+            </field>
+        </record>
+        <menuitem id="property_unit_type_menu" name="Type" parent="property_config_menu" sequence="2" action="property_unit_type_action"/>
+        <!-- ######################################################################################### -->
+        <!-- facility  -->
+
+        <record model="ir.ui.view" id="property_facility_line_form">
+            <field name="name">property.facility.line.form</field>
+            <field name="model">property.facility.line</field>
+            <field name="arch" type="xml">
+                <form string="Property Facility Type" >
+                    <sheet>
+                        <group>
+                            <group>
+                                <field name="name"/>
+                                <field name="remarks"/>
+                            </group>
+                        </group>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+        <record model="ir.ui.view" id="property_facility_line_tree">
+            <field name="name">property.facility.line.tree</field>
+            <field name="model">property.facility.line</field>
+            <field name="arch" type="xml">
+                    <tree>
+                        <field name="name"/>
+                        <field name="remarks"/>
+                    </tree>
+            </field>
+        </record>
+
+        <!--Facility Building menu action-->
+        <record id="property_facility_line_action" model="ir.actions.act_window">
+            <field name="name">Property Facility Type</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">property.facility.line</field>
+<!--            <field name="view_type">form</field>-->
+            <field name="view_mode">tree,form</field>
+            <field name="help" type="html">
+                <p class="oe_view_nocontent_create">
+                    Click to add new Property Unit Type.
+                </p>
+            </field>
+        </record>
+        <menuitem id="property_facility_line_action_menu" name="Property facilities" parent="property_config_menu" action="property_facility_line_action"/>
+    
+
+        <!-- ######################################################################################### -->
+        <!-- Unit facility  -->
+
+        <record model="ir.ui.view" id="unit_facility_line_form">
+            <field name="name">unit.facility.line.form</field>
+            <field name="model">unit.facility.line</field>
+            <field name="arch" type="xml">
+                <form string="Unit Facility Type" >
+                    <sheet>
+                        <group>
+                            <group>
+                                <field name="name"/>
+                                <field name="remarks"/>
+                            </group>
+                        </group>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+        <record model="ir.ui.view" id="unit_facility_line_tree">
+            <field name="name">unit.facility.line.tree</field>
+            <field name="model">unit.facility.line</field>
+            <field name="arch" type="xml">
+                    <tree>
+                        <field name="name"/>
+                        <field name="remarks"/>
+                    </tree>
+            </field>
+        </record>
+
+        <!--Facility Building menu action-->
+        <record id="unit_facility_line_action" model="ir.actions.act_window">
+            <field name="name">Unit Facility Type</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">unit.facility.line</field>
+<!--            <field name="view_type">form</field>-->
+            <field name="view_mode">tree,form</field>
+            <field name="help" type="html">
+                <p class="oe_view_nocontent_create">
+                    Click to add new Property Unit Type.
+                </p>
+            </field>
+        </record>
+        <menuitem id="unit_facility_line_action_menu" name="Unit facilities" parent="property_config_menu" action="unit_facility_line_action"/>
+    
+        <!-- ######################################################################################### -->
+        <!-- Unit facility  -->
+
+        <record model="ir.ui.view" id="unit_facility_line_form">
+            <field name="name">unit.facility.line.form</field>
+            <field name="model">unit.facility.line</field>
+            <field name="arch" type="xml">
+                <form string="Unit Facility Type" >
+                    <sheet>
+                        <group>
+                            <group>
+                                <field name="name"/>
+                                <field name="remarks"/>
+                            </group>
+                        </group>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+        <record model="ir.ui.view" id="unit_facility_line_tree">
+            <field name="name">unit.facility.line.tree</field>
+            <field name="model">unit.facility.line</field>
+            <field name="arch" type="xml">
+                    <tree>
+                        <field name="name"/>
+                        <field name="remarks"/>
+                    </tree>
+            </field>
+        </record>
+
+        <!--Facility Building menu action-->
+        <record id="unit_facility_line_action" model="ir.actions.act_window">
+            <field name="name">Unit Facility Type</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">unit.facility.line</field>
+<!--            <field name="view_type">form</field>-->
+            <field name="view_mode">tree,form</field>
+            <field name="help" type="html">
+                <p class="oe_view_nocontent_create">
+                    Click to add new Property Unit Type.
+                </p>
+            </field>
+        </record>
+        <menuitem id="unit_facility_line_action_menu" name="Unit facilities" parent="property_config_menu" action="unit_facility_line_action"/>
+    
+        <!-- ######################################################################################### -->
+        <!-- floor facility  -->
+
+        <record model="ir.ui.view" id="property_floor_facility_line_form">
+            <field name="name">property.floor.facility.line.form</field>
+            <field name="model">property.floor.facility.line</field>
+            <field name="arch" type="xml">
+                <form string="Property Floor Facility Type" >
+                    <sheet>
+                        <group>
+                            <group>
+                                <field name="name"/>
+                                <field name="remarks"/>
+                            </group>
+                        </group>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+        <record model="ir.ui.view" id="property_floor_facility_line_tree">
+            <field name="name">property.floor.facility.line.tree</field>
+            <field name="model">property.floor.facility.line</field>
+            <field name="arch" type="xml">
+                    <tree>
+                        <field name="name"/>
+                        <field name="remarks"/>
+                    </tree>
+            </field>
+        </record>
+
+        <!--Facility Building menu action-->
+        <record id="property_floor_facility_line_action" model="ir.actions.act_window">
+            <field name="name">Property Floor Facility Type</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">property.floor.facility.line</field>
+<!--            <field name="view_type">form</field>-->
+            <field name="view_mode">tree,form</field>
+            <field name="help" type="html">
+                <p class="oe_view_nocontent_create">
+                    Click to add new Property Unit Type.
+                </p>
+            </field>
+        </record>
+        <menuitem id="property_floor_facility_line_action_menu" name="Floor facilities" parent="property_config_menu" action="property_floor_facility_line_action"/>
+    
+    </data>
+</odoo>

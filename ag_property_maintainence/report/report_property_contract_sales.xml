@@ -1,0 +1,486 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <template id="report_property_contract_sales">
+        <t t-call="web.html_container">
+            <t t-foreach="docs" t-as="o">
+                
+                <t t-call="web.external_layout">
+                    <div class="page" dir="rtl" style="font-family:tajawal;">
+                        <table class="table table-bordered">
+                            <tr style="background-color:transparent;">
+
+                                <td class="col-xs-6" style="direction:rtl;border:1px solid black;background-color:transparent;">
+                                    <center>
+                                        <h3>
+                                            <u>
+                                                <b>إتفاقية خدمات</b>
+                                            </u>
+                                        </h3>
+                                    </center>
+                                    <br/>
+                                    <p style="direction:rtl;">
+                                        <u>
+                                            <b>رقم الإتفاقية#</b>
+                                            <b t-field="o.name"/>
+                                        </u>
+                                    </p>
+                                    <p style="direction:rtl;">
+                                        إنه في يوم الموافق
+                                        <u>
+                                            <b t-field="o.con_date"/>
+                                        </u>
+                                        تم الإتفاق بين كلا من :
+                                    </p>
+                                    <br/>
+                                    <ol style="margin-right:15px; list-style: arabic-indic;direction:rtl;">
+                                        <li>
+                                            شركة فاتريكس لتنظيم السجلات المحاسبية ذ.م.م مقرها دبي
+                                            (ويشار إليها فيما بعد بالطرف الأول ) .
+                                        </li>
+                                        <br/>
+                                        <li>شركة
+                                            <b>
+                                                <span t-field="o.customer_id.name"/>
+                                            </b>
+                                            عنوانها
+                                            <b>
+                                                <span t-field="o.customer_id.city"/>
+                                            </b>
+                                            <br/>
+                                            ( ويشار إليها فيما بعد بالطرف الثاني )
+                                        </li>
+                                    </ol>
+                                    <p style="direction:rtl;">
+                                        <h3>
+                                            <u>تمهيد :</u>
+                                        </h3>
+                                        <br/>
+                                        حيث أن الطرف الثاني يحتاج الي خدمات متنوعة تشمل على سبيل المثال لا الحصر نطاق
+                                        العمل والخدمات الواردة في الملحق رقم (١) وبناءا على الأسعار المبينة أمام كل خدمة
+                                        فقد اتفق الطرفان علي أن الوثائق المذكورة فيما يلي تعتبر جزءاً لا يتجزأ من هذه
+                                        الإتفاقية .
+                                    </p>
+                                    <center>
+                                        <br/>
+                                        <h4>
+                                            <b>الملحق(<span t-field="o.name"/>) نطاق العمل والخدمات والأسعار</b>
+                                            <br/>
+                                            <br/>
+                                        </h4>
+                                    </center>
+                                    <p style="direction:rtl;">
+                                        <u>
+                                            <b>المادة الأولى :</b>
+                                        </u>
+                                        <br/>
+                                        يعتبر التمهيد جزء لا يتجزء من الإتفاقية ويقراء معها.
+                                    </p>
+                                    <p style="direction:rtl;">
+                                        <u>
+                                            <b>المادة الثانية : الإلتزامات.</b>
+                                        </u>
+                                        <br/>
+                                        <u>إلتزامات الطرف الأول.</u>
+                                    </p>
+                                    <ol style="margin-right:15px; list-style: arabic-indic;direction:rtl;">
+                                        <li>وافق الطرف الأول على تقديم الخدمات المشار اليها في الملحق رقم (١) بناًء على
+                                            أحكام وشروط هذه الإتفاقية وبمراعاة التشريعات القانونية المنظمة في دولة
+                                            الإمارات العربية المتحدة.
+                                        </li>
+                                        <!--<br/>-->
+                                        <li>يتعهد الطرف الأول بتقديم الخدمات المهنية المطلوبة طبقاً للبنود والشروط
+                                            والمواد والملاحق الواردة في هذه الإتفاقية
+                                        </li>
+                                        <!--<br/>-->
+                                        <li>
+                                            يلتزم الطرف الأول التزاما تاما بالمحافظة على سرية المعلومات والمستندات
+                                            والوثائق المتعلقة بأعمال الطرف الثاني والتي سيتم الإطلاع عليها لتنفيذ أعمال
+                                            هذا العقد ، ويتعهد الطرف الأول باستخدامها في أغراض تنفيذ أعمال العقد بما
+                                            يحفظ حقوق الطرف الثاني وأن لا يقوم بمشاركة هذه المعلومات مع شركة منافسة
+                                            للطرف الثاني ولكن يحق للطرف الأول إستخدام هذه المعلومات أمام الجهات الحكومية
+                                            المعنية وتقديمها إلى أية جهة حكومية حسب الضرورة وإستعمالها ضمن تخصصات الطرف
+                                            الأول.
+                                        </li>
+                                        <li>
+                                            يعفى الطرف الأول من تنفيذ إلتزاماته في حال حدوث قوة قاهرة وفق المعنى
+                                            القانونى لها حالت دون تنفيذ الطرف الأول لهذه الإلتزامات.
+                                        </li>
+                                    </ol>
+                                    <!--<br/>-->
+                                    <!--<br/>-->
+                                    <p style="direction:rtl;">
+                                        <u>
+                                            <b>إلتزامات الطرف الثاني</b>
+                                        </u>
+                                    </p>
+                                    <ol style="margin-right:15px; list-style: arabic-indic;direction:rtl;">
+                                        <li>يتعهد الطرف الثاني بتزويد الطرف الأول بكافة المعلومات والبيانات التى يطلبها
+                                            الطرف الأول لإنجاز الخدمة المكلف بها.
+                                            <li>
+                                            </li>
+                                            يتعهد الطرف الثاني بتزويد الطرف الأول بالأرصدة الإفتتاحية للدفاتر المحاسبية
+                                            قبل البدء في تنفيذ العقد.
+                                        </li>
+                                        <li>يقر الطرف الثاني بصحة البيانات والمستندات التي سيقدمها إلى الطرف الأول وفي
+                                            حال وجود أى تضليل أو خطأ فيتحمل الطرف الثاني وحده الآثار القانونية المترتبة
+                                            على ذلك.
+                                        </li>
+                                        <li>في حال رغبة الطرف الثاني بإلغاء التعاقد مع الطرف الأول بعد أن يتم التوقيع
+                                            على العقد من قبل الطرفين , يلتزم الطرف الثاني بإشعار الطرف الأول رسميا بفترة
+                                            انذار( ثلاثة أشهر) تبدأ من تاريخ استلام الاشعارالرسمي من قبل الطرف الأول , و
+                                            في حال عدم التزام الطرف الثاني بما سبق , سيلتزم الطرف الثاني بسداد اجمالي
+                                            قيمة العقد كاملة .
+                                        </li>
+                                        <li>إذا تأخر الطرف الثاني عن سداد أي من الدفعات في مواعيدها المنصوص عليها في
+                                            الملحق رقم (١) لمدة أقصاها خمسة أيام عمل من تاريخ استحقاقها ، فإن للطرف
+                                            الأول الحق في التوقف عن مباشرة العمل المتفق عليه مع الطرف الثاني ، ويتحمل
+                                            الطرف الثاني كافة النتائج التي قد تلحق به من جراء هذا التوقف مع
+                                            <b>إلتزامه</b>
+                                            بسداد باقي الأتعاب المتفق عليها بين الطرفين
+                                        </li>
+                                        <li>تسدد الأتعاب بشكل مقدم عن طريق شيكات بمواعيد الدفعات المستحقة والواردة
+                                            بالملحق (أ)
+                                        </li>
+                                    </ol>
+                                    <p style="direction:rtl;">
+                                        <u>
+                                            <b>المادة الثالثة: سريان العقد</b>
+                                        </u>
+                                        <br/>
+                                        يبدء هذا العقد من تاريخ
+                                        <b t-field="o.con_date"/>
+                                        وتجدد لمدد أخرى مماثلة –(للمدة التى تم
+                                        إختيارها
+                                        بالملحق)- ما لم يخطر أحد الطرفين الطرف الأخر برغبته في عدم التجديد قبل شهر من
+                                        تاريخ نهاية العقد
+                                    </p>
+                                    <br/>
+                                    <p style="direction:rtl;">
+                                        <u>
+                                            <b>المادة الرابعة : الإشعارات</b>
+                                        </u>
+                                        <br/>
+                                        يتم تبادل كافة الخطابات والإشعارات والمستندات المتعلقة بتنفيذ أعمال هذا العقد عن
+                                        طريق البريد السريع أو البريد المسجل على العناوين المذكورة لكل طرف بصدر هذا العقد
+                                        كما يتم العمل على تبادل الخطابات والمعلومات عن طريق البريد الإلكتروني الوارد في
+                                        هذا العقد.
+                                    </p>
+                                    <p style="direction:rtl;">
+                                        <u>
+                                            <b>المادة الخامسة: أحكام عامة.</b>
+                                        </u>
+                                    </p>
+                                    <ol style="margin-right:15px; list-style: arabic-indic;direction:rtl;">
+                                        <li>
+                                            يحتفظ الطرف الأول بحق التعاقد من الباطن أو التعاقد مع أي طرف ثالث لمساعدته
+                                            في الوفاء بالتزاماته الواردة في هذا العقد وملاحقه، ويكون الطرف الأول ملزما
+                                            بدفع المستحقات المالية لمن تم التعاقد معهم لانجاز المهام الموكل بها، ولا
+                                            يتحمل الطرف الثاني أية مسؤولية مالية تجاه من تم التعاقد معهم من خلال الطرف
+                                            الأول ويكون الطرف الأول ملزما أمام الطرف الثاني بتقديم الخدمات موضوع العقد
+                                            بناء على ما ورد من أحكام في فيه.
+                                        </li>
+                                        <li>لا يحق للطرف الثاني إستقطاب أيا من موظفي الطرف الأول للعمل لدية لمدة سنتين
+                                            بعد إنتهاء التعاقد بين الطرفين ويحق للطرف الأول مطالبة الطرف الثاني بالتعويض
+                                            في حال إخلال الطرف الأول بذلك البند.
+                                        </li>
+                                        <li>يحق للطرف الأول –وطبقا للبنود والشروط الواردة في هذا العقد- توفير نفس
+                                            الخدمات المقدمة لأي عملاء أو شركات أخرى.
+                                        </li>
+                                        <li>يفوض الطرف الثاني الطرف الأول لدى الهيئة الاتحادية للضرائب في جميع
+                                            المعاملات والتسجيل وتقديم الإقرارات الضريبية والميزانيات والقوائم المالية
+                                            المطلوبة.
+                                        </li>
+                                        <li>أي تعديلات ربما تطرأ على هذا العقد يجب أن تتم الموافقة عليها كتابيا وتكون
+                                            موقعة من قبل طرفي العقد.
+                                        </li>
+                                        <li>لا يحق للطرف الثانى نقل هذا العقد أو أيا من إلتزاماته وبنوده وخدماته إلى أى
+                                            طرف آخر.
+                                        </li>
+                                        <li>خدمات الطرف الأول هى خدمات إستشارية ولا يتحمل الطرف الأول أيه تبعات نتيجة
+                                            إستغلال الطرف الثاني لهذه النتائج والمعلومات بشكل أو بآخر.
+                                        </li>
+                                    </ol>
+                                    <br/>
+                                    <!--<br/>-->
+                                    <!--<br/>-->
+                                    <!--<br/>-->
+                                    <!--<br/>-->
+                                    <!--<br/>-->
+                                    <p style="direction:rtl;">
+                                        <u>
+                                            <b>المادة السادسة: النزاعات</b>
+                                        </u>
+                                        <br/>
+                                        تكون محاكم دولة الإمارات العربية المتحدة هي المختصة في الفصل في أى نزاع ينشأ بين
+                                        الطرفين وذلك وفقا للقانون المحلي المعمول به في الدولة.
+                                    </p>
+                                    <p style="direction:rtl;">
+                                        يعتبر النص العربي هو النص الملزم في حال وجود خلاف مع النص الإنجليزي
+
+                                    </p>
+                                    <p style="direction:rtl;">
+                                        <u>
+                                            <b>الطرف الأول</b>
+                                        </u>
+                                        <br/>
+                                        <b>التوقيع: ________________________________________</b>
+                                        <br/>
+                                        <b>الإسم:_______________________________________</b>
+                                        <br/>
+                                        <b>المسمى الوظيفي:________________________________________</b>
+                                        <br/>
+                                        <b>التاريخ: ___/___/_____</b>
+                                        <br/>
+                                        <br/>
+                                    </p>
+                                    <p style="direction:rtl;">
+                                        <b>الطرف الثاني</b>
+                                        <br/>
+                                        <b>التوقيع: ________________________________________</b>
+                                        <br/>
+                                        <b>الإسم:________________________________________</b>
+                                        <br/>
+                                        <b>المسمى الوظيفي:________________________________________</b>
+                                        <br/>
+                                        <b>التاريخ: ___/___/_____</b>
+                                        <br/>
+                                    </p>
+
+                                </td>
+                                <td class="col-xs-6" dir="ltr" style="border:1px solid black;background-color:transparent;">
+                                    <center>
+                                        <h3>
+                                            <u>
+                                                <b>SERVICE AGREEMENT</b>
+                                            </u>
+                                        </h3>
+                                    </center>
+                                    <br/>
+                                    <p>
+                                        <u>
+                                            <b>AGREEMENT #</b>
+                                            <b t-field="o.name"/>
+                                        </u>
+
+                                    </p>
+                                    <p>
+                                        This Consultancy Agreement (the “agreement”) is made and entered into
+                                        effect this (the “Effective Date”) by
+                                        <u>
+                                            <b t-field="o.con_date"/>
+                                        </u>
+                                        and between:
+                                    </p>
+                                    <ol style="margin-left:15px;">
+                                        <li>
+                                            <span t-field="res_company.name"/>. with its
+                                            principal place of business located at  <span t-field="res_company.city"/>(hereinafter referred to
+                                            as the “First Party”).
+                                        </li>
+                                        <li>
+                                            <b>
+                                                <u t-field="o.customer_id.name"/>
+                                            </b>
+                                            with its principal place of business located at
+                                            <b>
+                                                <!--<span t-field="o.customer_id.street"/>- -->
+                                                <!--<span t-field="o.customer_id.street2"/>- -->
+                                                <u t-field="o.customer_id.city"/>
+                                                <!--<span t-field="o.customer_id.country_id.name"/>-->
+                                            </b>
+                                            <br/>
+                                            herein referred to as the “Second Party”)
+                                        </li>
+                                    </ol>
+                                    <p>
+                                        <u>
+                                            <h3>Preamble:</h3>
+                                        </u>
+                                        <b>WHERE AS</b>the “Second Party” desires to engage the “First Party” to provide
+                                        certain services including but not limited to the scope of work and the services
+                                        contained in “Schedule 1” and,
+                                        <b>ACCORDING TO</b>
+                                        the fees mentioned in front of each service,
+                                        <b>NOW THEREFORE</b>
+                                        , the Parties hereby do agree as follows:
+                                    </p>
+                                    <center>
+                                        <h4>
+                                            <b>Schedule <span t-field="o.name"/>: Scope of work, Services and Prices</b>
+                                        </h4>
+                                    </center>
+                                    <p>
+                                        <u>
+                                            <b>Article (1):</b>
+                                        </u>
+                                        <br/>
+                                        The Preamble shall be considered as an integral part of the agreement.
+                                    </p>
+                                    <p>
+                                        <u>
+                                            <b>Article (2): Obligations:</b>
+                                        </u>
+                                        <br/>
+                                        <u>Obligations of the “First Party”:</u>
+                                    </p>
+                                    <ol style="margin-left:15px;">
+                                        <li>The “First Party” agrees to provide services herein after referred to in the
+                                            schedule (1) according to the terms and provisions contained in this
+                                            agreement and in conformity with the laws applicable in the United Arab
+                                            Emirates.
+                                        </li>
+                                        <li>
+                                            The “First Party” undertakes to provide the “Second Party” with the
+                                            professional services requested according to the terms and conditions and in
+                                            conformity with the articles and annexes contained in this agreement.
+                                        </li>
+                                        <li>
+                                            The “First Party” shall not disclose to a “Third Party” any confidential
+                                            information or documents related to the Second Party. The “First Party”
+                                            undertakes to use such information for the purpose of executing the services
+                                            requested in the contract which maintain the “Second Party” rights. The
+                                            “First Party” shall not disclose or share such information to any competitor
+                                            to the “Second Party”, however the “First Party” has the right to use such
+                                            information and documents before the concerned governmental institutions and
+                                            to submit them whenever necessary and in accordance with the duties of the
+                                            “First Party”.
+                                        </li>
+                                        <li>
+                                            The “First Party” may not assume his duties and commitments due to force
+                                            majeure which prevented him from implementing such commitments.
+                                        </li>
+                                    </ol>
+
+                                    <p>
+                                        <u>Obligations of the “Second Party”</u>
+                                    </p>
+                                    <ol style="margin-left:15px;">
+                                        <li>The “Second Party” undertakes to provide the “First Party” with all the
+                                            information requested to execute the services he is entitled to provide.
+                                        </li>
+                                        <li>The “Second Party” undertakes to provide the “First Party” with opening
+                                            balances for all ledgers.
+                                        </li>
+                                        <li>The “Second Party” herein declares that all the information submitted to the
+                                            “First party is true and accurate. In case of giving any false information,
+                                            the “Second Party” shall bear –solely- the legal consequences that may
+                                            arise.
+                                        </li>
+                                        <li>In case the “Second Party” desires to terminate this contract, the “Second
+                                            Party” shall give the 3 months written notice to the “First Party”, failure
+                                            of this, the “First Party” is entitled to claim the total contract fees as
+                                            agreed and the “Second Party” shall do the payment in full.
+                                        </li>
+                                        <li>In case the payment is delayed by the “Second Party” according to the
+                                            payments scheduled dates contained in “Schedule 1” and for the maximum
+                                            period of 5 working days from the due date, the “First party” is entitled to
+                                            suspend the work and the “Second Party” shall bear all the legal
+                                            consequences that may arise and shall pay all the amounts due.
+                                        </li>
+                                        <li>Payments shall be done in advance by cheques according to its due dates
+                                            herein contained in “Schedule 1”.
+                                        </li>
+                                    </ol>
+                                    <p>
+                                        <b>Article (3) Term of the Contract</b>
+                                        <br/>
+                                        This contract shall be valid from
+                                        <b t-field="o.con_date"/>
+                                        and shall be renewable for similar periods
+                                        unless a party desires not to renew the contract by submitting a written
+                                        notification 30 days prior to the end of the contract.
+                                    </p>
+                                    <p>
+                                        <u>
+                                            <b>Article (4): Notifications:</b>
+                                        </u>
+                                        <br/>
+                                        All written notifications, documents and letters related to the execution of the
+                                        work contained in this contract shall be exchanged by e-mail (as mentioned in
+                                        this contract), express or registered mail to the address of each party.
+                                    </p>
+
+                                    <p>
+                                        <u>
+                                            <b>Article (5) General Provisions:</b>
+                                        </u>
+                                    </p>
+                                    <ol style="margin-left:15px;">
+                                        <li>The First Party has the right to enter into subcontracting with a third
+                                            party to fulfil its commitments contained in this contract. The First Party
+                                            is obliged to pay the financial dues against the works done by the third
+                                            party. The Second party has no liability towards any subcontracting executed
+                                            by the First Party and the First Party is obliged to submit the services as
+                                            per the provisions contained in this contract.
+                                        </li>
+                                        <li>The Second Party shall have no right to recruit any of the First Party’s
+                                            employees for work for two years from contract’s expiry date and the First
+                                            Party has the right to claim re-compensation from the Second Party in case
+                                            this item is violated by the Second Party.
+                                        </li>
+                                        <li>As per the terms and provisions contained in this contract, the First Party
+                                            has the right to provide new clients the same services previously offered
+                                            for other clients.
+                                        </li>
+                                        <li>The “Second Party” shall authorize the “First Party” to act on his behalf in
+                                            front of the Federal Tax Authority with regards to registration, tax filing,
+                                            budgets, balance sheets as well as all other transactions.
+                                        </li>
+                                        <li>Any change or amendments which might occur to this contract shall be
+                                            approved in written and signed by both parties.
+                                        </li>
+                                        <li>The “Second Party” shall have no right to transfer any part or item
+                                            contained in this contract to any other party.
+                                        </li>
+                                        <li>The “First Party” shall have no liability in case the “Second Party” used
+                                            –by any means- the data/information resulted from the services provided by
+                                            the “First Party”.
+                                        </li>
+                                    </ol>
+                                    <p>
+                                        <b>Article (6) Disputes:</b>
+                                        <br/>
+                                        The UAE Courts are only entitled to arbitrate disputes that may arise between
+                                        both parties as per the laws applicable in the UAE.
+                                    </p>
+                                    <P>In case of conflict between Arabic text and the English text in this contract,
+                                        the Arabic text will be considered.
+                                    </P>
+                                    <p>
+                                        <b>First Party</b>
+                                        <br/>
+                                        <b>Signature: __________________________________________</b>
+                                        <br/>
+                                        <b>Name :__________________________________________</b>
+                                        <br/>
+                                        <b>Designation: __________________________________________</b>
+                                        <br/>
+                                        <b>Date: _____/___/____</b>
+                                        <br/>
+                                        <br/>
+                                    </p>
+                                    <p>
+                                        <b>Second Party</b>
+                                        <br/>
+                                        <b>Signature: __________________________________________</b>
+                                        <br/>
+                                        <b>Name :__________________________________________</b>
+                                        <br/>
+                                        <b>Designation: __________________________________________</b>
+                                        <br/>
+                                        <b>Date: _____/___/____</b>
+                                        <br/>
+                                        <br/>
+                                    </p>
+
+                                </td>
+
+                            </tr>
+                        </table>
+
+                    </div>
+                </t>
+            </t>
+        </t>
+    </template>
+</odoo>

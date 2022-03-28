@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <data>
+        <record model="ir.ui.view" id="revenue_analysis_tree">
+            <field name="name">od.revenue.sheet.view</field>
+            <field name="model">od.revenue.sheet.view</field>
+            <field name="arch" type="xml">
+                    <tree>
+                        <field name="name"/>
+                        <field name="date"/>
+                        <field name="property_id"/>
+                         <field name="cont_id"/>
+                        <field name="partner_id" />
+                        <field name="unit_id" />
+                        <field name="desc" />
+                        <field name="revenue"/>
+                        <field name="move_id"/>
+                    </tree>
+            </field>
+        </record>
+
+        <record model="ir.ui.view" id="revenue_analysis_pivot">
+            <field name="name">od.revenue.sheet.view</field>
+            <field name="model">od.revenue.sheet.view</field>
+            <field name="arch" type="xml">
+                <pivot string="Revenue Analysis" >
+                    
+                   
+                    <field name="revenue" type="measure"/>
+                    <field name="date" type="row"/>
+                    <field name="main_property_id" type="row"/>
+                    <field name="property_id" type="row"/>
+                    <field name="unit_id" type="row"/>
+                    
+                </pivot>
+            </field>
+        </record>
+
+        <record model="ir.ui.view" id="revenue_analysis_graph">
+            <field name="name">od.revenue.sheet.view.graph</field>
+            <field name="model">od.revenue.sheet.view</field>
+            <field name="arch" type="xml">
+                <graph string="Revenue Analysis" type="pie">
+                   <field name="property_id"/>
+                </graph>
+            </field>
+        </record>
+
+        <!--<record id="revenue_analysis_search" model="ir.ui.view">
+            <field name="name">od.revenue.sheet.view.search</field>
+            <field name="model">od.revenue.sheet.view</field>
+            <field name="arch" type="xml">
+                <search string="Search Unit">
+                        <field name="property_id"/>
+                         <field name="cont_id"/>
+                        <field name="partner_id"/>
+                         <field name="unit_id" />
+                         <field name="date"/>                       
+    <filter string="Current Month" domain="[('date','&gt;=', time.strftime('%Y-%m-1')), ('date','&lt;', ((context_today() + relativedelta(months=1)).strftime('%Y-%m-1')) )]"/>
+                    <filter string="This Year" name="thisyear" domain="['|', ('date', '=', False), '&amp;',('date','&lt;=', time.strftime('%Y-12-31')),('date','&gt;=',time.strftime('%Y-01-01'))]" help="Cheques with date in current year"/>
+                    <group expand="0" string="Group By">
+                        <filter name="group_by_property_id" string="Property" context="{'group_by':'property_id'}"/>
+                        <filter name="cont_id" string="Contract" context="{'group_by':'cont_id'}"/>
+                        <filter name="partner_id" string="Partner" context="{'group_by':'partner_id'}"/>
+                          <filter name="unit_id" string="Unit" context="{'group_by':'unit_id'}"/>
+                         <filter string="Month" context="{'group_by':'date:month'}"/>
+                    </group>
+               </search>
+            </field>
+        </record>-->
+
+        <!-- Dashboard menu action-->
+        <record id="revenue_analysis_action" model="ir.actions.act_window">
+            <field name="name">Revenue Analysis</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">od.revenue.sheet.view</field>
+<!--            <field name="view_type">form</field>-->
+            <field name="view_mode">pivot,graph,tree</field>
+<!--            <field name="search_view_id" ref="revenue_analysis_search"/>-->
+            <field name="help" type="html">
+                <p class="oe_view_nocontent_create">
+                    
+                </p>
+            </field>
+        </record>
+        <menuitem id="revenue_analysis_action_menu" name="Revenue Analysis" parent="property_report_menu" sequence="0" action="revenue_analysis_action"/>
+    </data>
+</odoo>

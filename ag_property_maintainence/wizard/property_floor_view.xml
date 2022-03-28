@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+
+        <record id="wizard_property_floor" model="ir.ui.view">
+            <field name="name">property.floor.wiz.form</field>
+            <field name="model">property.floor.wiz</field>
+            <field name="arch" type="xml">
+                <form string="Generate Floors">
+                   <group>
+                        <group>
+                            <field name="name"/>
+                            <field name="property_id"/>
+                            <field name="floor_count"/>
+                        </group>
+                        <group>
+                            <field name="gross_area" />
+                            <field name="com_area"/>
+                            <field name="unit_count"/>
+                        </group>
+                   </group>
+                    <footer>
+                        <button string="Generate" name="gen_floor" type="object" class="btn-primary"/>
+                        <button string="Cancel" class="btn-default" special="cancel"/>
+                    </footer>
+               </form>
+            </field>
+        </record>
+
+        <record id="action_wizard_property_floor" model="ir.actions.act_window">
+            <field name="name">Generate Floors</field>
+            <field name="res_model">property.floor.wiz</field>
+<!--            <field name="view_type">form</field>-->
+            <field name="view_mode">form</field>
+            <field name="view_id" ref="wizard_property_floor"/>
+            <field name="target">new</field>
+        </record>
+
+        <menuitem id="property_floor_wiz_menu" name="Generate Floors" parent="property_top_menu" sequence="10" action="action_wizard_property_floor"/>
+       
+    </data>
+</odoo>

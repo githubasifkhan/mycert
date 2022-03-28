@@ -1,0 +1,11 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+maintain_requisition_user,maintain_requisition_name,ag_maintainence.model_maintainence_service,,1,1,1,1
+task_master_user,task_master_name,ag_maintainence.model_task_master,,1,1,1,1
+maintainence_type_user,maintainence.type,ag_maintainence.model_maintainence_type,,1,1,1,1
+job_order_stage_user,job.order.stage,ag_maintainence.model_job_order_stage,,1,1,1,1
+maintenance_tag_user,maintenance.tag,ag_maintainence.model_maintenance_tag,,1,1,1,1
+maintain_requisition_line_user,maintain_requisition_line_name,ag_maintainence.model_maintainence_service_line,,1,1,1,1
+material_estimate_user,material.estimate,ag_maintainence.model_material_estimate,,1,1,1,1
+materal_cost_line_user,materal.cost.line,ag_maintainence.model_materal_cost_line,,1,1,1,1
+labour_estimate_user,labour.estimate,ag_maintainence.model_labour_estimate,,1,1,1,1
+actual_labour_estimate_user,actual.labour.estimate,ag_maintainence.model_actual_labour_estimate,,1,1,1,1

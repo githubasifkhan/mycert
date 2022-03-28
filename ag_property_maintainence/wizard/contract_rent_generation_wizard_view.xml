@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+
+        <record id="contract_rent_generation_wiz_form" model="ir.ui.view">
+            <field name="name">contract.rent.generation.wiz.form</field>
+            <field name="model">contract.rent.generation.wiz</field>
+            <field name="arch" type="xml">
+                <form string="Contract Rent Generation">
+                   <group invisible="1">
+                        <group>
+                            <field name="name"/>
+                            <field name="contract_id"/>
+                            
+                        </group>
+                   </group>
+					<field name="wiz_line" invisible="0">
+						<tree editable="bottom">
+							 <field name="start_date"/>
+							 <field name="end_date"/>
+						     <field name="unit_id"/>
+
+							 <field name="wiz_id"/>
+							 <field name="type"/>
+							 <field name="rent_amount" sum="Total"/>
+						     <field name="org_start_date"/>
+							 <field name="org_end_date"/>		
+							<field name="line_to_date"/>		
+							<field name="free_days"/>	 
+						</tree>
+				</field>
+                    <footer>
+                        <button string="Generate" name="generate_contract_rent" type="object" class="btn-primary"/>
+                    <!-- <button string="Revenue" name="generate_contract_revenue" type="object" class="btn-primary"/> -->
+                        <button string="Create" name="create_rent_line" type="object" class="btn-primary" invisible="0"/>
+                    </footer>
+               </form>
+            </field>
+        </record>
+
+        <record id="action_contract_rent_generation_wiz" model="ir.actions.act_window">
+            <field name="name">Contract Rent Generation</field>
+            <field name="res_model">contract.rent.generation.wiz</field>
+<!--            <field name="view_type">form</field>-->
+            <field name="view_mode">tree,form</field>
+            <field name="view_id" ref="contract_rent_generation_wiz_form"/>
+            <field name="target">new</field>
+        </record>
+
+       
+    </data>
+</odoo>
+

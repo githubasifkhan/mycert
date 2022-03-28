@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <data>
+        <record model="ir.ui.view" id="property_expiry_analysis_report_tree">
+            <field name="name">property.expiry.analysis.tree</field>
+            <field name="model">property.expiry.analysis</field>
+            <field name="arch" type="xml">
+                    <tree>
+                      <field name="unit_id"/>
+                      <field name= "partner_id" string="Customer"/>
+                        <field name="property_id"/>
+                        <field name="contract_id"/>
+                        <field name="total_value" string="Contract Value"/>  
+                       <field name="c_end_date"/>  
+                    </tree>
+            </field>
+        </record>
+        
+        
+
+        <record model="ir.ui.view" id="property_expiry_analysis_report_pivot">
+            <field name="name">property.expiry.analysis.pivot</field>
+            <field name="model">property.expiry.analysis</field>
+            <field name="arch" type="xml">
+                <pivot string="Unit Analysis" >
+                  <field name="main_property_id" type="row"/>
+                  <field name="property_id" type="row"/>
+                  <field name="unit_id" />
+                  <field name="total_value" type="measure"/>
+                        
+                        
+                        <field name="contract_id"/>
+                        <field name="state"/>  
+                       <field name="c_end_date"/>                                               
+                                                
+                                                
+                </pivot>
+            </field>
+        </record>
+
+       <!-- <record id="property_expiry_analysis_report_search" model="ir.ui.view">
+            <field name="name">property.expiry.analysis.search</field>
+            <field name="model">property.expiry.analysis</field>
+            <field name="arch" type="xml">
+                <search string="Search Unit">
+                  <filter string="Ex.Within 1Month"  name="within_onemonth" separator="1"
+                         domain="[('c_end_date','&gt;=', ((context_today()).strftime('%Y-%m-%d'))), ('c_end_date','&lt;=', ((context_today()+datetime.timedelta(days=30)).strftime('%Y-%m-%d')))]"
+                           help="This Week"/>
+                           
+                           <filter string="Ex.Within 2Month"  name="within_twomonth" separator="1"
+                         domain="[('c_end_date','&gt;=', ((context_today()).strftime('%Y-%m-%d'))), ('c_end_date','&lt;=', ((context_today()+datetime.timedelta(days=60)).strftime('%Y-%m-%d')))]"
+                           help="This Week"/>
+
+                           <filter string="Ex.Within 3Month"  name="within_threemonth" separator="1"
+                         domain="[('c_end_date','&gt;=', ((context_today()).strftime('%Y-%m-%d'))), ('c_end_date','&lt;=', ((context_today()+datetime.timedelta(days=90)).strftime('%Y-%m-%d')))]"
+                           help="This Week"/>
+                           
+                           <filter string="Ex.Within 6Month"  name="within_sixmonth" separator="1"
+                         domain="[('c_end_date','&gt;=', ((context_today()).strftime('%Y-%m-%d'))), ('c_end_date','&lt;=', ((context_today()+datetime.timedelta(days=133)).strftime('%Y-%m-%d')))]"
+                           help="This Week"/>
+                </search>
+            </field>
+        </record>           
+        -->
+        <!-- Dashboard menu action-->
+        <record id="property_expiry_analysis_report_action" model="ir.actions.act_window">
+            <field name="name">Expiry Analysis</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">property.expiry.analysis</field>
+<!--            <field name="view_type">form</field>-->
+            <field name="view_mode">pivot,tree</field>
+<!--            <field name="search_view_id" ref="property_expiry_analysis_report_search"/>-->
+            <field name="help" type="html">
+                <p class="oe_view_nocontent_create">
+                    No Unit to Show
+                </p>
+            </field>
+        </record>
+
+
+        
+
+        <menuitem id="property_expiry_analysis_report_menu" name="Expiry Analysis" parent="property_report_menu" sequence="5" action="property_expiry_analysis_report_action"/>
+    </data>
+</odoo>

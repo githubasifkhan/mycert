@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+
+        <report
+            id="action_report_property_contract_sales"
+            model="property.contract.sales"
+            string="Contract"
+            report_type="qweb-pdf"
+            name="ag_property_maintainence.report_property_contract_sales"
+            file="ag_property_maintainence.report_property_contract_sales"
+            />
+
+        <report
+            id="action_report_property_contract"
+            model="property.contract"
+            string="Contract"
+            report_type="qweb-pdf"
+            name="ag_property_maintainence.report_property_contract"
+            file="ag_property_maintainence.report_property_contract"
+            />
+
+        <report
+            id="action_report_property_booking"
+            model="property.booking"
+            string="Booking"
+            report_type="qweb-pdf"
+            name="ag_property_maintainence.report_property_booking"
+            file="ag_property_maintainence.report_property_booking"
+            />
+        <report
+            id="action_report_property_booking_sales"
+            model="property.booking.sales"
+            string="Booking"
+            report_type="qweb-pdf"
+            name="ag_property_maintainence.report_property_booking_sales"
+            file="ag_property_maintainence.report_property_booking_sales"
+            />
+
+    </data>
+</odoo>

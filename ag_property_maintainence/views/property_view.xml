@@ -1,0 +1,274 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <data>
+        <record model="ir.ui.view" id="property_master_form">
+            <field name="name">property.master.form</field>
+            <field name="model">property.master</field>
+            <field name="arch" type="xml">
+                <form string="Building" >
+                	<header>
+                        
+                    </header>
+                    <sheet>
+                        <div class="oe_button_box" name="button_box">
+                            <button name="floor_view" class="oe_stat_button" icon="fa-building" type="object">
+                                <div class="o_form_field o_stat_info">
+                                    <field name="floors_count" widget="statinfo" string="Floors" />
+                                    <strong class="o_stat_text">Floors</strong>
+                                </div>
+                            </button>
+                            <button name="unit_view" class="oe_stat_button" icon="fa-building" type="object">
+                                <div class="o_form_field o_stat_info">
+                                    <field name="units_count" widget="statinfo" string="Units" />
+                                    <strong class="o_stat_text">Units</strong>
+                                </div>
+                            </button>
+                        </div>
+                        <group col="4">
+                            <group >
+<!--                                 <field name="image" widget="image" class="oe_avatar"/>-->
+
+                                <field name="image" widget="image" class="oe_left" nolabel="1" img_width="280" img_height="220" width="280" height="220"/>
+                            </group>
+                            <group col="2">
+                                <field name="name"/>
+                                <field name="code"/>
+                                <field name="main_property_id"/>
+                                <field name="owner_id"/>
+                                <field name="prop_type_id" required="1"/>
+                                <field name="plot_no"/>
+                                <field name="tot_sqft" />
+                                <field name="com_area" />
+                                <field name="net_area" readonly="1"/>
+                                <field name="floors_count"/>
+                                <field name="units_count"/>
+                                <field name="maintain_cc_id" invisible="1" readonly="1"/>
+                                
+                               <!--  <field name="orchid_cc_id" readonly="1"/> -->
+                                                             
+                                
+                                <!-- <button name="geo_localize" type="object" class="oe_highlight" string="Geocode" invisible="1"/> -->
+
+                            </group>
+                            <group >
+<!--                                 <field name="image" widget="image" class="oe_avatar"/>-->
+
+                                 <script src="https://unpkg.com/location-picker/dist/location-picker.min.js"/> 
+                                <script type="text/javascript" src="/ag_property_maintainence/static/src/js/map.js"/>
+                                <style type="text/css">
+                                #map {
+                                    width: 280px;
+                                    height: 220px;
+                                    margin-left:50px;
+                                }
+                                </style> 
+                                <div>
+                                <div id="map"/><br/>
+                                    <button style="margin-left:50px" class="btn-primary"  id="confirmPosition">Confirm Position</button>
+                                </div>
+                            </group>
+                           
+                        </group>
+                        <notebook>
+                            <page string="Additional Info">
+                                <group>
+                                    <group string="Address Info">
+                                        <field name="street" placeholder="Location..." class="o_address_street" />
+                                        <field name="state_id" class="o_address_state" placeholder="State" />
+                                        <field name="city" placeholder="City" class="o_address_city" />
+
+                                        <field name="pb_zip" placeholder="ZIP" class="o_address_zip" />
+                                        <field name="country_id" placeholder="Country" class="o_address_country" options='{"no_open": True, "no_create": True}' />
+                                    </group>
+                                    <group string="Contact Info">
+                                        <field name="contact_person" />
+                                        <field name="phone" widget="phone"/>
+                                        <field name="mobile" widget="phone"/>
+                                        <field name="fax"/>
+                                        <field name="email" widget="email" />
+                                    </group>
+                                </group>
+                                      
+                            </page>
+                            <page string="Units" invisible="1">
+                                <field name="unit_line">
+                                    <tree  create="false">
+ 
+                                        <field name="name"/>
+                                        <field name="floor_id" />
+                                        <field name="ew_contract_no"/>
+                                        <field name="net_area"/>
+                                        <field name="available_date" />
+                                      
+                                        
+                                    </tree>
+                                </field>
+                            </page>
+                            <page string="Facility">
+                                <!-- <field name="facility_line">
+                                    <tree editable='top'>
+                                        <field name="facility_id"/>
+                                        <field name="name"/>
+                                        <field name="remarks"/>
+                                    </tree>
+                                </field> -->
+                                <group>
+                                    <group>
+                                        <field name="facility_line" widget="many2many_tags" />
+                                    </group>
+                                </group>
+                            </page>
+                            <page string="Attachments">
+                                <field name="attachment_line">
+                                    <tree editable='top'>
+                                        <field name="attachment_type_id"/>
+                                        <field name="attachment"/>
+                                        <field name="name"/>
+                                        <field name="remarks"/>
+                                    </tree>
+                                </field>
+                            </page>
+                            <page string="Images">
+                                <!-- <field name="multi_images" widget="image_multi">
+                                    <tree editable="bottom">
+                                        <field name="image"/>
+                                        <field name="description"/>
+                                        <field name="title"/>
+                                    </tree>
+                                </field> -->
+                                <!-- <group> -->
+                                <field name="image_1" widget="image" class="oe_left" nolabel="1" img_width="250" img_height="250" width="250" height="250"/>
+                                <span style="margin-left:30px;"></span>
+                                <field name="image_2" widget="image"  nolabel="1" img_width="250" img_height="250" width="250" height="250"/>
+                                <span style="margin-left:30px;"></span>
+                                <field name="image_3" widget="image"  nolabel="1" img_width="250" img_height="250" width="250" height="250"/>
+                                <span style="margin-left:30px;"></span>
+                                <field name="image_4" widget="image"  nolabel="1" img_width="250" img_height="250" width="250" height="250"/>
+                                <!-- </group> -->
+                            </page>
+                            <page string="Maps" >
+                                <p invisible="1">On Realtime position: <span id="onIdlePositionView"/></p>
+                                <p invisible="1">On click position: <span id="onClickPositionView"/></p>
+                                <group>
+                                    <group>
+                                        <field name="geo_lat" class="points" id="ppoints"/>
+                                    </group>
+                                    <group>
+                                        <field name="geo_lon" class="pointss" id="ppointss"/>
+                                    </group>
+                                </group>                                
+                                </page>
+                        </notebook>
+                    </sheet>
+                    <div class="oe_chatter">
+                        <field name="message_follower_ids" widget="mail_followers"/>
+                        <field name="message_ids" widget="mail_thread"/>
+                    </div>
+                </form>
+            </field>
+        </record>
+
+        <record model="ir.ui.view" id="property_master_tree">
+            <field name="name">property.master.tree</field>
+            <field name="model">property.master</field>
+            <field name="arch" type="xml">
+                    <tree>
+                        <field name="name"/>
+                         <field name="city"/>
+                        <field name="state_id"/>
+                    </tree>
+            </field>
+        </record>
+
+        <record id="property_master_kanban" model="ir.ui.view">
+            <field name="name">property.master.kanban</field>
+            <field name="model">property.master</field>
+            <field name="arch" type="xml">
+                <kanban class="oe_background_grey o_kanban_dashboard o_stock_kanban" >
+                    <field name="id"/>
+                    <field name="color"/>
+                    <templates>
+                        <t t-name="kanban-box">
+                            <div name="property_master" t-attf-class="#{!selection_mode ? kanban_color(record.color.raw_value) : ''} oe_kanban_global_click">
+                                <div class="o_dropdown_kanban dropdown">
+    
+                                    <a class="dropdown-toggle o-no-caret btn" role="button" data-toggle="dropdown" data-display="static" href="#" aria-label="Dropdown menu" title="Dropdown menu">
+                                        <span class="fa fa-ellipsis-v"/>
+                                    </a>
+                                    <div class="dropdown-menu" role="menu">
+                                        <t t-if="widget.editable"><a role="menuitem" type="edit" class="dropdown-item">Edit</a></t>
+                                        <t t-if="widget.deletable"><a role="menuitem" type="delete" class="dropdown-item">Delete</a></t>
+                                        <ul class="oe_kanban_colorpicker" data-field="color"/>
+                                    </div>
+                                </div>
+                                <div>
+                                    <div class="o_kanban_card_header">
+                                        <div class="o_kanban_card_header_title">
+                                            <div style="float:left;">
+                                                <img t-att-src="kanban_image('property.master', 'image', record.id.raw_value)" alt="property" style="width:100px;height:100px;"/>
+                                            </div>
+                                            <div >
+                                                <!-- <a type="object" > -->
+                                                    <span style="margin-left:10px;">Name : </span><field name="name"/><br/>
+                                                    <span style="margin-left:10px;">Code : </span><field name="code"/><br/>
+                                                    <span style="margin-left:10px;">Owner : </span><field class="o_secondary"  name="owner_id"/>
+                                                    <br/><span style="margin-left:10px;">City : </span><field class="o_secondary"  name="city"/>
+                                                    <br/><span style="margin-left:10px;">Number of Floors: </span><field class="o_secondary"  name="floors_count"/>
+                                                    <br/><span style="margin-left:10px;">Number of Units: </span><field class="o_secondary"  name="units_count"/>
+                                                <!-- </a> -->
+                                            </div>
+                                            
+                                        </div>
+                                        <!-- <div class="o_kanban_manage_button_section">
+                                            <a class="o_kanban_manage_toggle_button" href="#">More <i class="fa fa-caret-down"/></a>
+                                        </div> -->
+                                    </div>
+                                    
+                                </div>
+                            </div>
+                        </t>
+                    
+                    </templates>
+                </kanban>
+            </field>
+        </record>
+
+        <!--Facility Building menu action-->
+        <record id="property_master_action" model="ir.actions.act_window">
+            <field name="name">Building Master</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">property.master</field>
+<!--            <field name="view_type">form</field>-->
+            <field name="view_mode">kanban,tree,form</field>
+            <field name="help" type="html">
+                <p class="oe_view_nocontent_create">
+                    Click to add new Building.
+                </p>
+            </field>
+        </record>
+
+        <!-- Dashboard -->
+        <record id="property_master_action_dashboard" model="ir.actions.act_window">
+            <field name="name">Building Master</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">property.master</field>
+<!--            <field name="view_type">form</field>-->
+            <field name="view_mode">kanban,form</field>
+            <field name="help" type="html">
+                <p class="oe_view_nocontent_create">
+                    Click to add new Building.
+                </p>
+            </field>
+        </record>
+
+
+        <menuitem id="property_master_menu" name="Buildings" parent="property_top_menu" sequence="2" action="property_master_action"/>
+        
+               <!--  <menuitem id="property_tenants" name="Tenants" parent="property_top_menu" sequence="1" action="base.action_partner_customer_form"/> -->
+                <menuitem id="property_tenants" name="Tenants" parent="property_management_menu" sequence="0" action="base.action_partner_customer_form"/>
+
+
+                
+        
+    </data>
+</odoo>

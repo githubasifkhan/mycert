@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <template id="assets_backend" name="web widget multi view assets" inherit_id="web.assets_backend">
+        <xpath expr="." position="inside">
+            <link rel="stylesheet" href="/ag_property_maintainence/static/library/lightbox/css/lightbox.css"/>
+            <link rel="stylesheet" href="/ag_property_maintainence/static/src/css/hoverbox.css"/>
+            <script type="text/javascript"
+                    src="/ag_property_maintainence/static/library/lightbox/js/jquery.lightbox.js"/>
+            <script type="text/javascript" src="/ag_property_maintainence/static/src/js/multi_image.js"/>
+            <!-- <script type="text/javascript" src="/ag_property_maintainence/static/src/js/angularLocationpicker.jquery.js"/>
+            <script type="text/javascript" src="/ag_property_maintainence/static/src/js/locationpicker.jquery.js"/> -->
+                    
+
+            <!-- <script type="text/javascript" src="/ag_property_maintainence/static/src/js/map.js"/> -->
+            <script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBbiUIwapXRbAfwXgzbSyLI1J-29-OsY3k"></script>
+            <script type="text/javascript" src="https://unpkg.com/location-picker/dist/location-picker.min.js"></script>
+            <script type="text/javascript" src="//ajax.googleapis.com/ajax/libs/angularjs/1.2.19/angular.min.js"></script>
+        </xpath>
+    </template>
+
+    <template id="assets_frontend" name="account assets" inherit_id="web.assets_frontend">
+        <xpath expr="." position="inside">
+            <script type="text/javascript" src="/account/static/src/js/contract_portal_sidebar.js"></script>
+            <script type="text/javascript" src="/account/static/src/js/booking_portal_sidebar.js"></script>
+            <script type="text/javascript" src="/account/static/src/js/salesbooking_portal_sidebar.js"></script>
+            <script type="text/javascript" src="/account/static/src/js/sales_contract_portal_sidebar.js"></script>
+        </xpath>
+    </template>
+</odoo>

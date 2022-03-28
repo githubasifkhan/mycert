@@ -1,0 +1,5 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+property_requirement_user,property.requirement,AG_Property_CRM.model_property_requirement,,1,1,1,1
+property_booking_user,property.booking,AG_Property_CRM.model_property_booking,,1,1,1,1
+create_booking_user,create.booking,AG_Property_CRM.model_create_booking,,1,1,1,1
+property_booking_sales_user,property.booking.sales,AG_Property_CRM.model_property_booking_sales,,1,1,1,1

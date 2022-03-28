@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+
+        <record id="wizard_property_cont_payment" model="ir.ui.view">
+            <field name="name">property.cont.payment.wiz.form</field>
+            <field name="model">property.cont.payment.wiz</field>
+            <field name="arch" type="xml">
+                <form string="Payment Release">
+                   <group>
+                        <group>
+                            <field name="date_from"/>
+                            <field name="date_to"/>
+                        </group>
+                        <group>
+                            <field name="deposit"/>
+                        </group>
+                   </group>
+                    <footer>
+                        <button string="Release" name="payment_release" type="object" class="btn-primary"/>
+                        <button string="Cancel" class="btn-default" special="cancel"/>
+                    </footer>
+               </form>
+            </field>
+        </record>
+
+        <record id="action_wizard_property_cont_payment" model="ir.actions.act_window">
+            <field name="name">Payment Release</field>
+            <field name="res_model">property.cont.payment.wiz</field>
+<!--            <field name="view_type">form</field>-->
+            <field name="view_mode">tree,form</field>
+            <field name="view_id" ref="wizard_property_cont_payment"/>
+            <field name="target">new</field>
+        </record>
+
+        <menuitem id="property_payment_wiz_menu" name="Cheque Release" parent="property_transaction_menu" sequence="5" action="action_wizard_property_cont_payment"/>
+       
+    </data>
+</odoo>

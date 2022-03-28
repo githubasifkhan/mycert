@@ -1,0 +1,172 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<openerp>
+    <data>
+        <record model="ir.ui.view" id="maintain_accont_cost_center_tree_view">
+            <field name="name">maintain.account.cost.center.tree</field>
+            <field name="model">maintain.account.cost.center</field>
+            <field name="type">tree</field>
+            <field name="arch" type="xml">
+			    <tree string="tree_string">
+					<field name="name" />
+					<field name="code" />
+					<field name="seq" />
+					<!--<field name="branch_id" />
+					<field name="div_id" />
+					<field name="div_mgr_id" />-->
+					<!-- <field name="target" /> -->
+                </tree>
+            </field>
+        </record>
+
+        <record model="ir.ui.view" id="maintain_accont_cost_center_form_view">
+            <field name="name">maintain.account.cost.center.form</field>
+            <field name="model">maintain.account.cost.center</field>
+            <field name="type">form</field>
+            <field name="arch" type="xml">
+                <form string="form_string">
+					<sheet><group>
+						<group>
+							<field name="code" placeholder="Code" />
+                            <field name="name" placeholder="Name" />
+                            <field name="seq" />
+                          </group> 
+                       <group> 
+					<!--<field name="branch_id" />
+					<field name="div_id" />
+					<field name="div_mgr_id" />-->
+					<field name="target" />
+					
+						</group>
+						</group>
+					</sheet>
+                </form>
+            </field>
+        </record>
+
+        <record model="ir.actions.act_window" id="action_maintain_accont_cost_center_tree_view">
+            <field name="name">Account Cost Center</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">maintain.account.cost.center</field>
+<!--            <field name="view_type">form</field>-->
+            <field name="view_mode">tree,form</field>
+            <field name="view_id" ref="maintain_accont_cost_center_tree_view"/>
+        </record>
+
+		<menuitem id="maintain_accont_cost_center_menu" name="Property Cost Center" parent="property_config_menu" action="action_maintain_accont_cost_center_tree_view" sequence="12"/>
+
+        <!-- ##################################################################################################### -->
+        <!-- floor cost center part -->
+
+        <record model="ir.ui.view" id="floor_accont_cost_center_tree_view">
+            <field name="name">floor.account.cost.center.tree</field>
+            <field name="model">floor.account.cost.center</field>
+            <field name="type">tree</field>
+            <field name="arch" type="xml">
+			    <tree string="tree_string">
+					<field name="name" />
+					<field name="code" />
+					<field name="seq" />
+					<!--<field name="branch_id" />
+					<field name="div_id" />
+					<field name="div_mgr_id" />-->
+					<!-- <field name="target" /> -->
+                </tree>
+            </field>
+        </record>
+
+        <record model="ir.ui.view" id="floor_accont_cost_center_form_view">
+            <field name="name">floor.account.cost.center.form</field>
+            <field name="model">floor.account.cost.center</field>
+            <field name="type">form</field>
+            <field name="arch" type="xml">
+                <form string="form_string">
+					<sheet><group>
+						<group>
+							<field name="code" placeholder="Code" />
+                            <field name="name" placeholder="Name" />
+                            <field name="seq" />
+                          </group> 
+                       <group> 
+					<!--<field name="branch_id" />
+					<field name="div_id" />
+					<field name="div_mgr_id" />-->
+					<field name="target" />
+					
+						</group>
+						</group>
+					</sheet>
+                </form>
+            </field>
+        </record>
+
+        <record model="ir.actions.act_window" id="action_floor_accont_cost_center_tree_view">
+            <field name="name">Floor Account Cost Center</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">floor.account.cost.center</field>
+<!--            <field name="view_type">form</field>-->
+            <field name="view_mode">tree,form</field>
+            <field name="view_id" ref="floor_accont_cost_center_tree_view"/>
+        </record>
+
+		<menuitem id="floor_accont_cost_center_menu" name="Floor Cost Center" parent="property_config_menu" action="action_floor_accont_cost_center_tree_view" sequence="13"/>
+
+
+        <!-- ##################################################################################################### -->
+        <!-- Unit cost center part -->
+
+        <record model="ir.ui.view" id="unit_accont_cost_center_tree_view">
+            <field name="name">unit.account.cost.center.tree</field>
+            <field name="model">unit.account.cost.center</field>
+            <field name="type">tree</field>
+            <field name="arch" type="xml">
+			    <tree string="tree_string">
+					<field name="name" />
+					<field name="code" />
+					<field name="seq" />
+					<!--<field name="branch_id" />
+					<field name="div_id" />
+					<field name="div_mgr_id" />-->
+					<!-- <field name="target" /> -->
+                </tree>
+            </field>
+        </record>
+
+        <record model="ir.ui.view" id="unit_accont_cost_center_form_view">
+            <field name="name">unit.account.cost.center.form</field>
+            <field name="model">unit.account.cost.center</field>
+            <field name="type">form</field>
+            <field name="arch" type="xml">
+                <form string="form_string">
+					<sheet><group>
+						<group>
+							<field name="code" placeholder="Code" />
+                            <field name="name" placeholder="Name" />
+                            <field name="seq" />
+                          </group> 
+                       <group> 
+					<!--<field name="branch_id" />
+					<field name="div_id" />
+					<field name="div_mgr_id" />-->
+					<field name="target" />
+					
+						</group>
+						</group>
+					</sheet>
+                </form>
+            </field>
+        </record>
+
+        <record model="ir.actions.act_window" id="action_unit_accont_cost_center_tree_view">
+            <field name="name">Account Cost Center</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">unit.account.cost.center</field>
+<!--            <field name="view_type">form</field>-->
+            <field name="view_mode">tree,form</field>
+            <field name="view_id" ref="unit_accont_cost_center_tree_view"/>
+        </record>
+
+		<menuitem id="unit_accont_cost_center_menu" name="Unit Cost Center" parent="property_config_menu" action="action_unit_accont_cost_center_tree_view" sequence="14"/>
+
+
+    </data>
+</openerp>

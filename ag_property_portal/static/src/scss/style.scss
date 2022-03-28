@@ -1,0 +1,84 @@
+/* Hack for custom themes */
+.o_portal_docs.list-group.ag_property_portal {
+    width: 100%;
+    display: inline-block;
+}
+
+
+.ag_property_portal {
+	width: 100%;
+	display: inline-block;
+	
+	.badge-pill {
+		font-size: 32px;
+	}
+	
+    .badge-secondary {
+        background-color: transparent;
+    }
+	
+	.list-group-item {
+	        float: left;
+		    margin: 10px;
+		    padding: 14px 18px;
+		    min-height: 130px;
+            width: 30%;
+            border-radius: 0px;
+		    font-size: 20px;
+		    
+            @media (max-width: 767px) {
+                width: 100%;
+            }
+	}
+	
+	[href="/my/quotes"] {
+		background-color: #5B899E;
+		color: #fff !important;
+	}
+
+	[href="/my/orders"]{
+		background-color: #5C5B80;
+		color: #fff !important;
+	}
+	
+    	[href="/my/purchase"]{
+		background-color: #5B899E;
+		color: #fff !important;
+	}
+
+	[href="/my/invoices"] {
+		background-color: #5B899E;
+		color: #fff !important;
+	}
+
+	[href="/my/projects"] {
+		background-color: #5C5B80;
+		color: #fff !important;
+	}
+
+	[href="/my/tasks"] {
+		background-color: #5B899E;
+        color: #fff !important;
+	}
+    
+	[href="/my/timesheets"]{
+		background-color: #5C5B80;
+		color: #fff !important;
+	}
+	[href="/my/contracts"]{
+		background-color: #5C5B80;
+		color: #fff !important;
+	}
+	[href="/my/salescontracts"] {
+		background-color: #5B899E;
+       	color: #fff !important;
+	}
+	[href="/my/booking"] {
+		background-color: #5C5B80;
+       	color: #fff !important;
+	}
+	[href="/my/salesbooking"] {
+		background-color: #5B899E;
+       	color: #fff !important;
+	}
+}

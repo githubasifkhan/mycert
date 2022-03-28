@@ -1,0 +1,216 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <record id="view_property_config" model="ir.ui.view">
+            <field name="name">property settings</field>
+            <field name="model">property.config.settings</field>
+            <field name="arch" type="xml">
+                <form string="Configuration" class="oe_form_configuration">
+                    <header>
+                        <button string="Apply" type="object" name="execute" class="oe_highlight"/>
+                        <button string="Cancel" type="object" name="cancel" class="oe_link"/>
+                    </header>
+                    <separator string="Contract Journal Settings"/>
+                    <field name="id" invisible="1" />
+                    <group name="Journal">
+                        <label for="id" string="Contract Journal"/>
+                         <div >  
+	                        <field name="defualt_journal_id" class="oe_inline"/> 
+	                   </div>
+                       <label for="id" string="Reciept Journal"/>
+                         <div >  
+                            <field name="receipt_journal_id" class="oe_inline"/>
+                       </div>
+                       <label for="id" string="Payment Journal"/>
+                         <div >  
+                            <field name="payment_journal_id" class="oe_inline"/>
+                       </div>
+                       <label for="id" string="Revenu Journal"/>
+                         <div >  
+                            <field name="revenue_journal_id" class="oe_inline"/>
+                       </div>
+                        <label for="id" string="Bounce Journal"/>
+                         <div >  
+                            <field name="bounce_journal_id" class="oe_inline"/>
+                       </div>
+                       <label for="id" string="Vat Journal"/>
+                         <div >  
+                            <field name="vat_journal_id" class="oe_inline"/>
+                       </div>
+                       
+                   </group>
+                        <separator string="Contract Account Settings"/>
+                    <group name="Tenant Account">
+                       <label for="id" string="Deffered Account"/>
+                         <div >  
+                            <field name="deffered_account_id" class="oe_inline"/>
+                       </div>
+                        <label for="id" string="Revenue Account"/>
+                        <div >
+                            <field name="revenue_account_id" class="oe_inline"/>
+                        </div>
+                        <label for="id" string="Deposit Recived Account"/>
+                        <div >
+                            <field name="deposit_account_id" class="oe_inline"/>
+                        </div>
+                        <label for="id" string="Cheque Received Account"/>
+                        <div >
+                            <field name="cheque_account_id" class="oe_inline"/>
+                        </div>
+                        <label for="id" string="Commission Received A/c"/>
+                        <div >
+                            <field name="comm_recvd_id" class="oe_inline"/>
+                        </div>
+                        <label for="id" string="Commission Paid A/c"/>
+                        <div >
+                            <field name="comm_paid_id" class="oe_inline"/>
+                        </div>
+                        <label for="id" string="Advance Account"/>
+                        <div >
+                            <field name="advance_account_id" class="oe_inline"/>
+                        </div>
+                        <label for="id" string="Bounce Account"/>
+                        <div >
+                            <field name="bounce_account_id" class="oe_inline"/>
+                        </div>
+                        <label for="id" string="Settlement Account"/>
+                        <div >
+                            <field name="cancel_account_id" class="oe_inline"/>
+                        </div>
+                        <label for="id" string="Ejari Account"/>
+                        <div >
+                            <field name="ejari_account_id" class="oe_inline"/>
+                        </div>
+                    </group>
+                    
+                     <separator string="Agreement Journal Settings"/>  
+                     
+                       <group name="Landlord Journal">
+                        <label for="id" string="Agreement Journal"/>
+                        <div >
+                            <field name="agreement_journal_id" class="oe_inline"/>
+                        </div>
+                        <label for="id" string="Payment Journal"/>
+                        <div >
+                            <field name="agreement_pay_journal_id" class="oe_inline"/>
+                        </div>
+                        <label for="id" string="Receipt Journal"/>
+                        <div >
+                            <field name="agreement_receipt_journal_id" class="oe_inline"/>
+                        </div>
+                        <label for="id" string="Costing Journal"/>
+                        <div >
+                            <field name="agreement_costing_journal_id" class="oe_inline"/>
+                        </div>
+                    </group>
+                    
+                    
+                    
+                    
+                    
+                        <separator string="Agreement Account Settings"/>
+                    <group name="Landlord Account">
+                        <label for="id" string="Prepaid Rent Account"/>
+                        <div >
+                            <field name="prepaid_account_id" class="oe_inline"/>
+                        </div>
+                        <label for="id" string="Deposit Paid Account"/>
+                        <div >
+                            <field name="deposit_pay_account_id" class="oe_inline"/>
+                        </div>
+                        <label for="id" string="Cheque Paid Account"/>
+                        <div >
+                            <field name="payment_account_id" class="oe_inline"/>
+                        </div>
+                        <label for="id" string="Cost Account"/>
+                        <div >
+                            <field name="cost_account_id" class="oe_inline"/>
+                        </div>
+                          <label for="id" string="Advance Account"/>
+                        <div >
+                            <field name="agreement_advance_account_id" class="oe_inline"/>
+                        </div>                      
+                        
+                        
+                    </group>
+                        <separator string="User Settings"/>
+                    <group name="User">
+                        <label for="id" string="Payment Followup"/>
+                        <div >
+                            <field name="payment_user_id" class="oe_inline"/>
+                        </div>
+                        <label for="id" string="Admin Followup"/>
+                        <div >
+                            <field name="task_user_id" class="oe_inline"/>
+                        </div>
+                        <label for="id" string="Account Followup"/>
+                        <div >
+                            <field name="issue_user_id" class="oe_inline"/>
+                        </div>
+                    </group>
+                    
+                       <separator string="Admin Charges"/>
+                    <group name="Admin">
+                        <label for="id" string="Admin Charge"/>
+                        <div >
+                            <field name="admincharges_product_id" class="oe_inline"/>
+                        </div>
+                    </group>
+                    
+
+                    
+                    <separator string="Cheque Replacemnt Setting"/>
+                    <group >
+                        <label for="id" string="Cheque Replacement"/>
+                        <div >
+                            <field name="cheque_replacement" class="oe_inline"/>
+                        </div>
+                    </group>
+
+                    <separator string="Revenue Setting"/>
+                    <group >
+                        <label for="id" string="Day Wise Revenue"/>
+                        <div >
+                            <field name="day_wise_revenue" class="oe_inline"/>
+                        </div>
+                    </group>
+                    
+                    
+                    <separator string="Settlement"/>
+                    <group >
+                        <label for="id" string="Settlement Journal"/>
+                        <div >
+                            <field name="settlement_journal_id" class="oe_inline"/>
+                        </div>
+                    </group>  
+                    
+                    <separator string="Lease Contract"/>
+                    <group >
+                        <label for="id" string="Lease Contract Product"/>
+                        <div >
+                            <field name="lease_contract_pro" class="oe_inline"/>
+                        </div>
+                    </group>  
+                    
+                    
+                    
+                    
+                    
+                </form>
+            </field>
+        </record>
+
+		<record id="action_property_config" model="ir.actions.act_window">
+            <field name="name">Configure Property</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">property.config.settings</field>
+            <field name="view_id" ref="view_property_config"/>
+            <field name="view_mode">form</field>
+            <field name="target">inline</field>
+        </record>
+  
+
+       <menuitem id="property_config_settings" name="Settings" parent="property_config_menu" sequence="100" action="action_property_config" />
+
+    </data>
+</odoo>

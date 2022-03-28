@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <data>
+ 
+
+        <record model="ir.ui.view" id="od_cashflow_report_graph">
+            <field name="name">cashflow.analysis.master.pivot</field>
+            <field name="model">cashflow.analysis.master</field>
+            <field name="arch" type="xml">
+                <pivot string="CashFlow Analysis" >
+                    <field name="main_property_id" type="row"/>
+                    <field name="property_id" type="row"/>
+                    <field name="amount" type="measure" />
+                </pivot>
+            </field>
+        </record>
+
+
+        <!--<record id="od_cashflow_report_search" model="ir.ui.view">
+            <field name="name">cashflow.analysis.master.search</field>
+            <field name="model">cashflow.analysis.master</field>
+            <field name="arch" type="xml">
+                <search string="Search Unit">
+                    <field name="property_id" string="Property"/>
+                     <field name="cont_id" string="Contract"/>
+                      <field name="agree_id" string="Agreement"/>
+                    <group expand="0" string="Group By">
+                        <filter name="group_by_property_id" string="Property" context="{'group_by':'property_id'}"/>
+                        
+                         <filter name="group_by_contract" string="Contract" context="{'group_by':'cont_id'}"/>
+                         <filter name="group_by_agree" string="Agreement" context="{'group_by':'agree_id'}"/>
+                    </group>
+               </search>
+            </field>
+        </record>
+-->
+        <!-- Dashboard menu action-->
+        <record id="action_od_cashflow_report" model="ir.actions.act_window">
+            <field name="name">Cash Flow Analysis</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">cashflow.analysis.master</field>
+<!--            <field name="view_type">form</field>-->
+            <field name="view_mode">pivot</field>
+<!--            <field name="search_view_id" ref="od_cashflow_report_search"/>-->
+            <field name="help" type="html">
+                <p class="oe_view_nocontent_create">
+                </p>
+            </field>
+        </record>
+<!--        <menuitem id="action_od_cashflow_report_menu" name="Cash Flow Analysis" parent="property_report_menu" sequence="0" action="action_od_cashflow_report"/>-->
+    </data>
+</odoo>

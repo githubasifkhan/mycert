@@ -1,0 +1,119 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <data>
+        <record model="ir.ui.view" id="property_booking_form">
+            <field name="name">property.booking.form</field>
+            <field name="model">property.booking</field>
+            <field name="arch" type="xml">
+                <form string="Property Booking" >
+                	<header>
+                        <button type="object" name="done" string="Post"  class="oe_highlight" groups="ag_property_maintainence.group_property_manager" attrs="{'invisible': ['|',('generate_entries', '=', False),('state', '!=', 'draft')]}"/>
+                        <button type="object" states="done" name="cancel" string="Cancel"  class="oe_highlight" groups="ag_property_maintainence.group_property_manager"/>
+                        <button type="object" name="action_booking_send" string="Send by email"  class="oe_highlight" />
+                        <field name="state" widget="statusbar"  statusbar_visible="draft,done,cancel" />
+                    </header>
+                    <sheet>
+                        <group>
+                            <group>
+                                <field name="date" attrs="{'readonly': [('state', 'in', ('done','cancel'))]}" />
+                                <field name="customer_id" attrs="{'readonly': [('state', 'in', ('done','cancel'))]}" />
+                            </group>
+                            <group>
+                                <field name="book_from" attrs="{'readonly': [('state', 'in', ('done','cancel'))]}" />
+                                <field name="book_to" attrs="{'readonly': [('state', 'in', ('done','cancel'))]}" />
+                                <field name="amount" attrs="{'readonly': [('state', 'in', ('done','cancel'))]}" />
+                                <field name="move_id" readonly="1" />
+                                <field name="currency_id" readonly="1" />
+                            </group>
+                            <group>
+                                <field name="name" placeholder="New"/>
+                                <field name="user_id" attrs="{'readonly': [('state', 'in', ('done','cancel'))]}" />
+                            </group>
+                            <group>
+                                <field name="build_id" attrs="{'readonly': [('state', 'in', ('done','cancel'))]}" />
+                                <field name="con_type" attrs="{'readonly': [('state', 'in', ('done','cancel'))]}" invisible="1"/>
+                                <field name="unit_ids" widget="many2many_tags" domain="[('property_id','=',build_id),('appear_status','=','Available'),('unit_type','=','Lease')]" attrs="{'readonly': [('state', 'in', ('done','cancel'))]}" />
+                                <field name="generate_entries"/>
+                            </group>
+                        </group>
+                        <label for="note" /><br/>
+                        <field name="note" />
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+        <record model="ir.ui.view" id="property_booking_tree">
+            <field name="name">property.booking.tree</field>
+            <field name="model">property.booking</field>
+            <field name="arch" type="xml">
+                    <tree>
+                        <field name="date"/>
+                        <field name="name"/>
+                        <field name="customer_id"/>
+                        <field name="user_id"/>
+                        <field name="book_from"/>
+                        <field name="book_to"/>
+                        <field name="state"/>
+                    </tree>
+            </field>
+        </record>
+
+        <record id="view_property_booking_search2" model="ir.ui.view">
+            <field name="name">view.property.booking.search2</field>
+            <field name="model">property.booking</field>
+            <field name="arch" type="xml">
+                <search string="Property Booking">
+                    <field string="Customer" name="customer_id"/>
+                    <field string="Property" name="build_id"/>
+                    <field string="Type" name="con_type"/>
+                    <field string="State" name="state"/>                       
+                    <filter string="My Booking"
+                            name="assigned_to_me"
+                            domain="[('user_id', '=', uid)]"
+                            help="Bookings that are assigned to me"/>
+                    <group expand="1" string="Group By">
+                        <filter name="customer_id" string="Customer" context="{'group_by':'customer_id'}"/>
+                        <filter name="build_id" string="Property" context="{'group_by':'build_id'}"/>
+                        <filter name="state" string="Status" context="{'group_by':'state'}"/>
+                        <separator/>
+                        <filter string="Type" name="con_type" context="{'group_by':'con_type'}"/>
+                        <filter string="Salesman" name="user_id" context="{'group_by':'user_id'}"/>
+                    </group>
+                </search>
+            </field>
+        </record>
+
+        <!--Property Booking menu action-->
+        <record id="property_booking_action" model="ir.actions.act_window">
+            <field name="name">Lease Booking</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">property.booking</field>
+<!--            <field name="view_type">form</field>-->
+            <field name="view_mode">tree,form</field>
+            <field name="context">{'search_default_assigned_to_me': 1}</field>
+           <field name="search_view_id" ref="view_property_booking_search2"/>
+            <field name="help" type="html">
+                <p class="oe_view_nocontent_create">
+                    Click to add new Booking.
+                </p>
+            </field>
+        </record>
+
+        <record id="action_property_booking_tree_view" model="ir.actions.act_window.view">
+            <field name="sequence" eval="1"/>
+            <field name="view_mode">tree</field>
+            <field name="view_id" ref="property_booking_tree"/>
+            <field name="act_window_id" ref="property_booking_action"/>
+        </record>
+
+        <record id="action_property_booking_form_view" model="ir.actions.act_window.view">
+            <field name="sequence" eval="2"/>
+            <field name="view_mode">form</field>
+            <field name="view_id" ref="property_booking_form"/>
+            <field name="act_window_id" ref="property_booking_action"/>
+        </record>
+
+        <menuitem id="property_booking_menu" name="Lease Booking" parent="property_management_menu" sequence="1" action="property_booking_action"/>
+    </data>
+</odoo>

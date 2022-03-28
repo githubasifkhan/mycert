@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+
+        <record id="wizard_property_unit" model="ir.ui.view">
+            <field name="name">property.unit.wiz.form</field>
+            <field name="model">property.unit.wiz</field>
+            <field name="arch" type="xml">
+                <form string="Generate Units">
+                   <group>
+                        <group>
+                            <field name="name"/>
+                            <field name="property_id"/>
+                            <field name="floor_ids" widget="many2many_tags"/>
+                            <field name="unit_count"/>
+                            <field name="gross_area"/>
+                            <field name="common_area"/>
+                        </group>
+                        <group>
+                            <field name="unit_cat_id"/>
+                            <field name="unit_type_id"/>
+                            <field name="unit_sub_type_id"/>
+                            <field name="unit_view_id"/>
+                            <field name="unit_usage_id"/>
+                            <field name="start_date"/>
+                        </group>
+                   </group>
+                    <footer>
+                        <button string="Generate" name="gen_unit" type="object" class="btn-primary"/>
+                        <button string="Cancel" class="btn-default" special="cancel"/>
+                    </footer>
+               </form>
+            </field>
+        </record>
+
+        <record id="action_wizard_property_unit" model="ir.actions.act_window">
+            <field name="name">Generate Units</field>
+            <field name="res_model">property.unit.wiz</field>
+<!--            <field name="view_type">form</field>-->
+            <field name="view_mode">form</field>
+            <field name="view_id" ref="wizard_property_unit"/>
+            <field name="target">new</field>
+        </record>
+
+        <menuitem id="property_unit_wiz_menu" name="Generate Units" parent="property_top_menu" sequence="11" action="action_wizard_property_unit"/>
+       
+    </data>
+</odoo>

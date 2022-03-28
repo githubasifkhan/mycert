@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <data>
+        <record model="ir.ui.view" id="property_type_form">
+            <field name="name">property.type.form</field>
+            <field name="model">property.type</field>
+            <field name="arch" type="xml">
+                <form string="Property Type" >
+                    <sheet>
+                        <group>
+                            <group>
+                                <!-- <field name="code"/> -->
+                                <field name="name"/>
+                            </group>
+                        </group>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+        <record model="ir.ui.view" id="property_type_tree">
+            <field name="name">property.type.tree</field>
+            <field name="model">property.type</field>
+            <field name="arch" type="xml">
+                    <tree>
+                        <!-- <field name="code"/> -->
+                        <field name="name"/>
+                    </tree>
+            </field>
+        </record>
+
+        <!--Facility Building menu action-->
+        <record id="property_type_action" model="ir.actions.act_window">
+            <field name="name">Property Type</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">property.type</field>
+<!--            <field name="view_type">form</field>-->
+            <field name="view_mode">tree,form</field>
+            <field name="help" type="html">
+                <p class="oe_view_nocontent_create">
+                    Click to add new Property Type.
+                </p>
+            </field>
+        </record>
+        <menuitem id="property_type_menu" name="Property Type" parent="property_config_menu" sequence="0" action="property_type_action"/>
+    </data>
+</odoo>

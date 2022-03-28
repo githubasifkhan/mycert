@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+
+        <record id="wizard_unit_avail_checking" model="ir.ui.view">
+            <field name="name">unit.availability.wizard.form</field>
+            <field name="model">unit.availability.wizard</field>
+            <field name="arch" type="xml">
+                <form string="Unit Status">
+                   <group>
+                        <group>
+                            <field name="date" required="1"/>
+                        </group>
+                        
+                        <group>
+                         <field name="state" required="1"/>
+                        </group>
+                   </group>
+                    <footer>
+                        <button string="Generate" name="generate" type="object" class="btn-primary"/>
+                    </footer>
+               </form>
+            </field>
+        </record>
+
+        <record id="action_wizard_unit_avail_checking" model="ir.actions.act_window">
+            <field name="name">Unit Status</field>
+            <field name="res_model">unit.availability.wizard</field>
+<!--            <field name="view_type">form</field>-->
+            <field name="view_mode">tree,form</field>
+            <field name="view_id" ref="wizard_unit_avail_checking"/>
+            <field name="target">new</field>
+        </record>
+
+        <menuitem id="menu_action_wizard_unit_avail" name="Unit Status Report" parent="property_report_menu" sequence="6" action="action_wizard_unit_avail_checking"/>
+       
+    </data>
+</odoo>
+

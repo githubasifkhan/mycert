@@ -1,0 +1,307 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <data>
+        <record model="ir.ui.view" id="property_unit_form">
+            <field name="name">property.unit.form</field>
+            <field name="model">property.unit</field>
+            <field name="arch" type="xml">
+                <form string="Property Unit" >
+                    <header>
+                        <field name="state" widget="statusbar"  statusbar_visible="Available,Lease Booked,Leased,Sale Booked,Sold" />
+                        <field name="appear_status" invisible="1" />
+                    </header>
+                    <sheet>
+                    
+                    
+                    <div class="oe_button_box" name="button_box">
+                        <button name="action_show_contract" type="object" class="oe_stat_button" icon="fa-archive" string="Contracts" attrs="{'invisible':[('expiry_remarks','=','Not Used In Contracts')]}">
+                        </button>
+                    </div>
+                    <h2><field name="name" readonly="1" /></h2>
+                        <group >
+                             <group>
+                                <field name="image" widget="image" class="oe_left" nolabel="1" img_width="280" img_height="220" width="280" height="220"/>
+                            </group>
+                            <group>
+                                <field name="unit_name" required="1"/>
+                                <field name="code" required="1"/>
+                                
+                                <field name="unit_cat_id" required="1"/>
+                                <field name="property_id" placeholder="Building" required="1"/>
+                                <field name="main_property_id" placeholder="Property" invisible="1"/>
+                                <field name="floor_id" required="1" context="{'default_property_id': property_id}" domain="[('property_id', '=', property_id)]"/>
+                                <field name="gross_area"/>
+                                <field name="common_area"/>
+                                <field name="net_area"/>
+                                
+                                
+                                
+                                <field name="start_date" invisible="1" />
+                                <field name="stop_date" invisible="1"/>
+                                <field name="unit_type" widget="radio" required="1" options = "{'horizontal': true}"/>
+                                <field name="available_date_bool" invisible="1"/>
+                                <field name="is_active" />
+                                <field name="expiry_remarks" />
+                            </group>
+                           
+                        </group>
+                        <notebook>
+                            <page string="Additional Info">
+                                <group  string="Unit Info">
+                                    <group>
+                                        <field name="unit_manager_id" />
+                                        <field name="product_id" attrs="{'invisible':[('product_id','=',False)]}" readonly="1"/>
+                                        <field name="unit_type_id" placeholder="Unit Type" required="1"/> 
+                                        <field name="unit_sub_type_id" placeholder="Unit Sub Type" required="1"/> 
+                                        <field name="unit_view_id" placeholder="Unit View" required="1"/>
+                                        
+                                    </group>
+                                    <group >
+                                        <field name="available_date"/>
+                                        <field name="end_date" />
+                                        <field name="unit_usage_id" placeholder="Unit Usage" required="1"/>
+                                        <field name="annual_rent" />
+                                        <field name="municipality_num"/>
+                                        <field name="ew_contract_no"/>
+                                        <field name="unit_maintain_cc_id" invisible="1" readonly="1"/>
+                                    </group>
+                                </group>
+                                      
+                            </page>
+                            <page string="Rent">
+                                <field name="rent_line" readonly="1" create="false">
+                                    <tree editable='top'>
+                                         <field name="cont_id"/> 
+                                         <field name="customer_id"/> 
+                                        <field name="date_from" />
+                                        <field name="date_to" />
+                                        <field name="total_amount" />
+                                    </tree>
+                                </field>
+                            </page>
+                            <page string="Facility">
+                                <!-- <field name="facility_line">
+                                    <tree editable='top'>
+                                        <field name="facility_id"/>
+                                        <field name="name"/>
+                                        <field name="remarks"/>
+                                    </tree>
+                                </field> -->
+                                <group>
+                                    <group>
+                                        <field name="facility_line" widget="many2many_tags" />
+                                    </group>
+                                </group>
+                            </page> 
+                            <page string="Attachments">
+                                <field name="attachment_line">
+                                    <tree editable='top'>
+                                        <field name="attachment_type_id"/>
+                                        <field name="attachment"/>
+                                        <field name="name"/>
+                                        <field name="remarks"/>
+                                    </tree>
+                                </field>
+                            </page>
+                            <page string="Images">
+                                <!-- <field name="multi_images" widget="image_multi">
+                                    <tree editable="bottom">
+                                        <field name="image"/>
+                                        <field name="description"/>
+                                        <field name="title"/>
+                                    </tree>
+                                </field> -->
+                                <div width="100%" height="270">
+                                    <field name="image_1" widget="image" class="oe_left" nolabel="1" img_width="250" img_height="250" width="250" height="250"/>
+                                    <span style="margin-left:30px;"></span>
+                                    <field name="image_2" widget="image"  nolabel="1" img_width="250" img_height="250" width="250" height="250"/>
+                                    <span style="margin-left:30px;"></span>
+                                    <field name="image_3" widget="image"  nolabel="1" img_width="250" img_height="250" width="250" height="250"/>
+                                    <span style="margin-left:30px;"></span>
+                                    <field name="image_4" widget="image"  nolabel="1" img_width="250" img_height="250" width="250" height="250"/>
+                                </div>
+                                <div width="100%" height="270">
+                                    <field name="image_5" widget="image"  nolabel="1" img_width="250" img_height="250" width="250" height="250"/>
+                                    <span style="margin-left:30px;"></span>
+                                    <field name="image_6" widget="image"  nolabel="1" img_width="250" img_height="250" width="250" height="250"/>
+                                    <span style="margin-left:30px;"></span>
+                                    <field name="image_7" widget="image"  nolabel="1" img_width="250" img_height="250" width="250" height="250"/>
+                                    <span style="margin-left:30px;"></span>
+                                    <field name="image_8" widget="image"  nolabel="1" img_width="250" img_height="250" width="250" height="250"/>
+                                </div>
+                                <div width="100%" height="270" style="padding-left:280px;padding-right:280px;">
+                                    <field name="image_9" widget="image"  nolabel="1" img_width="250" img_height="250" width="250" height="250"/>
+                                    <span style="margin-left:30px;"></span>
+                                    <field name="image_10" widget="image"  nolabel="1" img_width="250" img_height="250" width="250" height="250"/>
+                                </div>
+                            </page>
+                        </notebook>
+                    </sheet>
+                    <div class="oe_chatter">
+                        <field name="message_follower_ids" widget="mail_followers"/>
+                        <field name="message_ids" widget="mail_thread"/>
+                    </div>
+                </form>
+            </field>
+        </record>
+        <record id="property_unit_kanban" model="ir.ui.view">
+            <field name="name">property.unit.kanban</field>
+            <field name="model">property.unit</field>
+            <field name="arch" type="xml">
+                <kanban class="oe_background_grey o_kanban_dashboard o_stock_kanban" >
+                    <field name="id"/>
+                    <field name="color"/>
+                    <templates>
+                        <t t-name="kanban-box">
+                            <div name="property_master" t-attf-class="#{!selection_mode ? kanban_color(record.color.raw_value) : ''} oe_kanban_global_click">
+                                <div class="o_dropdown_kanban dropdown">
+    
+                                    <a class="dropdown-toggle o-no-caret btn" role="button" data-toggle="dropdown" data-display="static" href="#" aria-label="Dropdown menu" title="Dropdown menu">
+                                        <span class="fa fa-ellipsis-v"/>
+                                    </a>
+                                    <div class="dropdown-menu" role="menu">
+                                        <t t-if="widget.editable"><a role="menuitem" type="edit" class="dropdown-item">Edit</a></t>
+                                        <t t-if="widget.deletable"><a role="menuitem" type="delete" class="dropdown-item">Delete</a></t>
+                                        <ul class="oe_kanban_colorpicker" data-field="color"/>
+                                    </div>
+                                </div>
+                                <div>
+                                    <div class="o_kanban_card_header">
+                                        <div class="o_kanban_card_header_title">
+                                            <div style="float:left;">
+                                                <img t-att-src="kanban_image('property.unit', 'image', record.id.raw_value)" alt="property" style="width:100px;height:100px;"/>
+                                            </div>
+                                            <div >
+                                                <!-- <a type="object" > -->
+                                                    <span style="margin-left:10px;">Name : </span><field name="name"/><br/>
+                                                    <span style="margin-left:10px;">Code : </span><field name="code"/><br/>
+                                                    <span style="margin-left:10px;">Building : </span><field class="o_secondary"  name="property_id"/>
+                                                    <br/><span style="margin-left:10px;">Manager : </span><field class="o_secondary"  name="unit_manager_id"/>
+                                                    <br/><span style="margin-left:10px;">Usage : </span><field class="o_secondary"  name="unit_usage_id"/>
+                                                    
+                                            </div>
+                                            
+                                        </div>
+                                        <!-- <div class="o_kanban_manage_button_section">
+                                            <a class="o_kanban_manage_toggle_button" href="#">More <i class="fa fa-caret-down"/></a>
+                                        </div> -->
+                                    </div>
+                                    
+                                </div>
+                            </div>
+                        </t>
+                    
+                    </templates>
+                </kanban>
+            </field>
+        </record>
+
+        <record model="ir.ui.view" id="property_unit_tree">
+            <field name="name">property.unit.tree</field>
+            <field name="model">property.unit</field>
+            <field name="arch" type="xml">
+                <tree >
+                    <field name="name"/>
+                    <field name="property_id"/>
+                    <field name="unit_type" string="Leasable/Saleable"/>  
+                    <field name="gross_area"/>
+                    <field name="unit_type_id" />                 
+                    <field name="unit_view_id"/> 
+                    <field name="unit_usage_id" />
+                    <field name="available_date"/>
+                    <field name="unit_sub_type_id" />                
+                    <field name="unit_manager_id" />
+                          <!-- <button name="action_show_contract" type="object" string="Contracts">
+                        </button> -->
+                    <field name="expiry_remarks" />
+                    <field name="state" />
+                </tree>
+            </field>
+        </record>
+
+        <record id="property_unit_graph" model="ir.ui.view">
+            <field name="name">property.unit.graph</field>
+            <field name="model">property.unit</field>
+            <field name="arch" type="xml">
+                <graph string="Property Unit">
+                    <field name="appear_status" type="row"/>
+                </graph>
+            </field>
+        </record>
+
+        <record id="property_unit_pivot" model="ir.ui.view">
+            <field name="name">property.unit.pivot</field>
+            <field name="model">property.unit</field>
+            <field name="arch" type="xml">
+                <pivot string="Property Unit">
+                    <field name="appear_status" type="row"/>
+                </pivot>
+            </field>
+        </record>
+
+<!--Unit Search View-->
+       <record id="property_unit_search" model="ir.ui.view">
+            <field name="name">property.unit.search</field>
+            <field name="model">property.unit</field>
+            <field name="arch" type="xml">
+                <search string="Search Unit">
+                    <field name="name" string="Unit" filter_domain="[('name','ilike',self)]"/>
+                    <field name="property_id"/>
+                    <field name="appear_status"/>
+                    <field name="end_date"/>
+                    <field name="floor_id"/>
+                    <field name="municipality_num"/>
+                    <field name="ew_contract_no"/>
+                    <field name="unit_type_id"/>
+                    <field name="unit_sub_type_id"/>
+                    <field name="unit_view_id"/>
+                    <field name="unit_usage_id"/>
+                    <field name="unit_manager_id"/>
+                    <field name="expiry_remarks" />
+                    <field name="unit_type" />
+
+                    <!-- <filter string="Occupied" name="Occupied" domain="[('available_date','&gt;',time.strftime('%Y-%m-%d'))]"/>
+
+                    <filter icon="terp-personal" name="vacant" string="Vacant" domain="[('available_date','&lt;=',time.strftime('%Y-%m-%d'))]"/>
+                    
+                    <filter icon="terp-gtk-jump-to-ltr" string="Not Used" domain="[('expiry_remarks','=','Not Used In Contracts')]"/>  
+                    <filter icon="terp-gtk-jump-to-ltr" string="Not In Progress" domain="[('expiry_remarks','=','No Contract InProgress')]"/>  
+     <filter icon="terp-gtk-jump-to-ltr" string="Progress/completed/closure" domain="[('expiry_remarks','not in',('No Contract InProgress','Not Used In Contracts'))]"/>               -->
+                                   
+                    <group expand="1" string="Group By">
+                        <filter string="Status"   name="appear_status" context="{'group_by':'appear_status'}"/>
+                        <filter string="End Date"  name="end_date" context="{'group_by':'end_date'}"/>
+                        <separator />
+                        <filter string="Leasable/Saleable"  name="unit_type" context="{'group_by':'unit_type'}"/>
+                        <separator />
+                        <filter string="Property" name="property_id" context="{'group_by':'property_id'}"/>
+                        <!-- <filter string="Unit" icon="terp-personal" domain="[]" context="{'group_by':'name'}"/> -->
+                        <filter string="Floor" name="floor_id" context="{'group_by':'floor_id'}"/>
+                    <!-- <filter string="Account Mgr" icon="terp-personal" domain="[]" context="{'group_by':'unit_manager_id'}"/> -->
+                    <!-- <filter string="Sub Type" icon="terp-personal" domain="[]" context="{'group_by':'unit_sub_type_id'}"/>  -->
+                    <!-- <separator />
+                        <filter string="Type" icon="terp-personal" domain="[]" context="{'group_by':'unit_type_id'}"/>
+                        <filter string="View" icon="terp-personal" domain="[]" context="{'group_by':'unit_view_id'}"/>
+                        <filter string="Usage" icon="terp-personal" domain="[]" context="{'group_by':'unit_usage_id'}"/> -->
+                    </group>
+                </search>
+            </field>
+        </record>
+
+        <!--Facility Building menu action-->
+        <record id="property_unit_action" model="ir.actions.act_window">
+            <field name="name">Property Unit</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">property.unit</field>
+<!--            <field name="view_type">form</field>-->
+            <field name="view_mode">kanban,tree,form,pivot,graph</field>
+           <field name="search_view_id" ref="property_unit_search"/>
+            <field name="help" type="html">
+                <p class="oe_view_nocontent_create">
+                    Click to add new Unit.
+                </p>
+            </field>
+        </record>
+        <menuitem id="property_unit_menu" name="Unit" parent="property_top_menu" sequence="4" action="property_unit_action"/>
+    </data>
+</odoo>

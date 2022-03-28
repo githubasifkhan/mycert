@@ -1,0 +1,235 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <!-- Analytic account view edit part -->
+        <record id="view_crm_lead_form_inherit" model="ir.ui.view">
+            <field name="name">view.crm.lead.form.inherit</field>
+            <field name="model">crm.lead</field>
+            <field name="inherit_id" ref="crm.crm_lead_view_form"/>
+            <field name="arch" type="xml">
+
+                <xpath expr="//div[@name='button_box']" position="inside">
+
+                    <button class="oe_stat_button" type="object" name="booking_view" icon="fa-book" attrs="{'invisible':[('booking_count','=',0)]}" >
+                        <field string="Booking" name="booking_count" widget="statinfo"/>
+                    </button>
+                    <button class="oe_stat_button" type="object" name="contract_view" icon="fa-pencil-square-o" attrs="{'invisible':[('contract_count','=',0)]}" >
+                        <field string="Contracts" name="contract_count" widget="statinfo"/>
+                    </button>
+
+                </xpath>    
+                <xpath expr="//field[@name='tag_ids']" position="after">
+                    <field name="opp_type" widget="radio" required="1" options = "{'horizontal': true}"/>
+
+                </xpath>
+                <xpath expr="//page[1]" position="before">
+                    <page string="Property Requirements">
+                        <field name="property_requirments" widget="one2many_list" >
+                            <tree string="Property Requirements" editable="bottom">
+                                <button name="search_units" string="Search" icon="fa-search" style="color:black;" type="object" class="btn-primary" />
+                                <field name="lead_id" invisible="1"/>
+                                <field name="city" />
+                                <field name="area" />
+                                <field name="category" />
+                                <field name="unit_type" />
+                                <field name="opp_type" invisible="1"/>
+                                <field name="unit_subtype" />
+                                <field name="unit_view" />
+                                <field name="unit_usage" />
+                                <field name="available_date" />
+                                <field name="net_area_from" />
+                                <field name="net_area_to" />
+                                <field name="annual_rent_from" widget="monetary"/>
+                                <field name="annual_rent_to" widget="monetary"/>
+                            </tree>
+                        </field>
+                    </page>
+                    
+                </xpath>
+            </field>
+        </record>
+
+        <record id="view_property_booking_form_inherit" model="ir.ui.view">
+            <field name="name">view.property.booking.form.inherit</field>
+            <field name="model">property.booking</field>
+            <field name="inherit_id" ref="ag_property_maintainence.property_booking_form"/>
+            <field name="arch" type="xml">
+                <xpath expr="//field[@name='state']" position="replace">
+                    <field name="state" widget="statusbar"  statusbar_visible="draft,submit,approve,done,cancel" />
+                </xpath>
+                <button name="cancel" position="replace" >
+                    <button type="object" states="done,approve" name="cancel" string="Cancel"  class="oe_highlight" groups="ag_property_maintainence.group_property_manager"/>
+                    <button type="object" name="action_submit" states="draft" string="Submit"  class="oe_highlight" />
+                    <button type="object" states="submit" name="action_approve" string="Approve"  class="oe_highlight" groups="ag_property_maintainence.group_property_manager"/>
+                    <button type="object" states="approve" name="create_contract" string="Create Contract"  class="oe_highlight" />
+                </button>
+                <xpath expr="//field[@name='con_type']" position="replace">
+                    <field name="con_type" attrs="{'required': [('state', '=', 'approve')],'readonly': [('state', 'in', ('done','cancel'))]}" invisible="0"/>
+                </xpath>
+                <xpath expr="//group[1]" position="before">
+                    <div class="oe_button_box" name="button_box">
+                        <button class="oe_stat_button" type="object" name="contract_view" icon="fa-pencil-square-o" attrs="{'invisible':[('contract_count','=',0)]}" >
+                            <field string="Contract" name="contract_count" widget="statinfo"/>
+                        </button>
+                    </div>
+                </xpath>
+                <xpath expr="//sheet" position="after">
+                    <div class="oe_chatter">
+                        <field name="message_follower_ids" widget="mail_followers"/>
+                        <field name="message_ids" widget="mail_thread"/>
+                    </div>
+                </xpath>
+
+                <xpath expr="//field[@name='move_id']" position="attributes">
+                    <attribute name="invisible">1</attribute>
+                    
+                </xpath>
+                <xpath expr="//field[@name='generate_entries']" position="attributes">
+                    <attribute name="invisible">1</attribute>
+                    
+                </xpath>
+                
+                <xpath expr="//field[@name='date']" position="before">
+                    <field name="lead_id" invisible="1"/>
+                    
+                </xpath>
+            </field>
+        </record>
+        <record id="view_property_booking_form_sales_inherit" model="ir.ui.view">
+            <field name="name">view.property.booking.sales.form.inherit</field>
+            <field name="model">property.booking.sales</field>
+            <field name="inherit_id" ref="ag_property_maintainence.property_booking_sales_form"/>
+            <field name="arch" type="xml">
+                <xpath expr="//field[@name='state']" position="replace">
+                    <field name="state" widget="statusbar"  statusbar_visible="draft,submit,approve,done,cancel" />
+                </xpath>
+                <button name="cancel" position="replace" >
+                    <button type="object" states="done,approve" name="cancel" string="Cancel"  class="oe_highlight" groups="ag_property_maintainence.group_property_manager"/>
+                    <button type="object" name="action_submit" states="draft" string="Submit"  class="oe_highlight" />
+                    <button type="object" states="submit" name="action_approve" string="Approve"  class="oe_highlight" groups="ag_property_maintainence.group_property_manager"/>
+                    <button type="object" states="approve" name="create_contract" string="Create Contract"  class="oe_highlight" />
+                </button>
+                <xpath expr="//field[@name='con_type']" position="replace">
+                    <field name="con_type" attrs="{'required': [('state', '=', 'approve')],'readonly': [('state', 'in', ('done','cancel'))]}" invisible="0"/>
+                </xpath>
+                <xpath expr="//group[1]" position="before">
+                    <div class="oe_button_box" name="button_box">
+                        <button class="oe_stat_button" type="object" name="contract_view" icon="fa-pencil-square-o" attrs="{'invisible':[('contract_count','=',0)]}" >
+                            <field string="Contract" name="contract_count" widget="statinfo"/>
+                        </button>
+                    </div>
+                </xpath>
+                <xpath expr="//sheet" position="after">
+                    <div class="oe_chatter">
+                        <field name="message_follower_ids" widget="mail_followers"/>
+                        <field name="message_ids" widget="mail_thread"/>
+                    </div>
+                </xpath>
+
+                <xpath expr="//field[@name='move_id']" position="attributes">
+                    <attribute name="invisible">1</attribute>
+                    
+                </xpath>
+                <xpath expr="//field[@name='generate_entries']" position="attributes">
+                    <attribute name="invisible">1</attribute>
+                    
+                </xpath>
+                
+                <xpath expr="//field[@name='date']" position="before">
+                    <field name="lead_id" invisible="1"/>
+                    
+                </xpath>
+            </field>
+        </record>
+
+        <record id="view_res_config_settings_view_form" model="ir.ui.view">
+            <field name="name">view.res.config.settings.view.form</field>
+            <field name="model">res.config.settings</field>
+            <field name="inherit_id" ref="crm.res_config_settings_view_form"/>
+            <field name="arch" type="xml">
+                <xpath expr="//field[@name='group_use_lead']" position="before">
+                    <br />
+                    <br />
+                </xpath>
+                <label for="group_use_lead" position="before">
+                    <label for="date_to_availability"/><br/>
+                    <field name="date_to_availability" /><br/>
+                </label>    
+                    
+                <!--  -->
+            </field>
+        </record>
+
+        <record id="view_property_unit_form_inherit" model="ir.ui.view">
+            <field name="name">view.property.unitform.inherit</field>
+            <field name="model">property.unit</field>
+            <field name="inherit_id" ref="ag_property_maintainence.property_unit_form"/>
+            <field name="arch" type="xml">
+                <xpath expr="//field[@name='net_area']" position="before">
+                    <field name="leads_id" invisible="1"/>
+                    
+                </xpath>
+            </field>
+        </record>
+
+        <record id="view_property_contract_form_inherit" model="ir.ui.view">
+            <field name="name">view.property.contract.form.inherit</field>
+            <field name="model">property.contract</field>
+            <field name="inherit_id" ref="ag_property_maintainence.property_contract_form"/>
+            <field name="arch" type="xml">
+                <xpath expr="//field[@name='con_date']" position="before">
+                    <field name="lead_id" invisible="1"/>
+                    
+                </xpath>
+                <xpath expr="//field[@name='unit_line']/tree/field[@name='unit_rent']" position="replace">
+                    <field name="unit_rent" sum="unit_rent" required="0"/>
+                    
+                </xpath>
+                <xpath expr="//field[@name='unit_line']/tree/field[@name='year_rent']" position="replace">
+                    <field name="year_rent" required="0"/>
+                    
+                </xpath>
+            </field>
+        </record>
+        <record id="view_property_contract_sales_form_inherit" model="ir.ui.view">
+            <field name="name">view.property.contract.sales.form.inherit</field>
+            <field name="model">property.contract.sales</field>
+            <field name="inherit_id" ref="ag_property_maintainence.property_contract_sales_form"/>
+            <field name="arch" type="xml">
+                <xpath expr="//field[@name='con_date']" position="before">
+                    <field name="lead_id" invisible="1"/>
+                    
+                </xpath>
+            </field>
+        </record>
+
+        <record id="property_unit_tree_search_reasults" model="ir.ui.view">
+            <field name="name">property.unit.tree.search.reasults</field>
+            <field name="model">property.unit</field>
+            <field name="arch" type="xml">
+                <tree>
+                    <button name="booking_units" invisible="1" string="Book the unit" type="object" class="btn-primary" />
+                    <field name="name"/>
+                    <field name="property_id"/>
+                    <field name="gross_area"/>
+                    <field name="unit_type_id"/>                 
+                    <field name="unit_view_id"/> 
+                    <field name="unit_usage_id"/>
+                    <field name="available_date"/>
+                    <field name="unit_sub_type_id"/>                
+                    <field name="annual_rent"/>
+                </tree>
+            </field>
+        </record>
+        <record id="property_unit_action_search_reasults" model="ir.actions.act_window">
+            <field name="name">Search Results</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">property.unit</field>
+            <field name="view_mode">tree</field>
+           <field name="view_id" ref="property_unit_tree_search_reasults"/>
+        </record>
+
+
+
+    </data>
+</odoo>

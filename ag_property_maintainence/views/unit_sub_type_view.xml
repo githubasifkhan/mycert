@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <data>
+        <record model="ir.ui.view" id="property_unit_sub_type_form">
+            <field name="name">property.unit.sub.type.form</field>
+            <field name="model">property.unit.sub.type</field>
+            <field name="arch" type="xml">
+                <form string="Property.Unit.Sub.type" >
+                    <sheet>
+                        <group>
+                            <group>
+                                <!-- <field name="code"/> -->
+                                <field name="name"/>
+                                
+                            <field name="is_cost"/>
+                        <field name="is_revenue"/>
+                            </group>
+                        </group>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+        <record model="ir.ui.view" id="property_unit_sub_type_tree">
+            <field name="name">property.unit.sub.type.tree</field>
+            <field name="model">property.unit.sub.type</field>
+            <field name="arch" type="xml">
+                    <tree>
+                        <!-- <field name="code"/> -->
+                        <field name="name"/>
+                         <field name="is_cost"/>
+                        <field name="is_revenue"/>
+                    </tree>
+            </field>
+        </record>
+
+        <!--Facility Building menu action-->
+        <record id="property_unit_sub_type_action" model="ir.actions.act_window">
+            <field name="name">Property Unit Sub Type</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">property.unit.sub.type</field>
+<!--            <field name="view_type">form</field>-->
+            <field name="view_mode">tree,form</field>
+            <field name="help" type="html">
+                <p class="oe_view_nocontent_create">
+                    Click to add new Property.Unit.Sub.type.
+                </p>
+            </field>
+        </record>
+        <menuitem id="property_unit_sub_type_menu" name="Sub Type" parent="property_config_menu" sequence="3" action="property_unit_sub_type_action"/>
+    </data>
+</odoo>

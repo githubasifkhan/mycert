@@ -1,0 +1,415 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <data>
+        <record model="ir.ui.view" id="property_contract_form">
+            <field name="name">property.contract.form</field>
+            <field name="model">property.contract</field>
+            <field name="arch" type="xml">
+                <form string="Property Contract" >
+                	<header>
+
+
+                          <button type="object"  name="generate_rent_lines" string="Rent" attrs="{'invisible': [('rent_done', '=',1)]}"  class="oe_highlight"/>                      
+<!--                        <button type="object" states="draft" name="list_product" string="Rent"  class="oe_highlight"/>-->
+                        <button type="object"  name="acc_lines" string="Payment" attrs="{'invisible': ['|',('payment_done', '=',1),('rent_done', '=',0)]}" class="oe_highlight"/>
+                        <button type="object"  name="approve" string="Approve" attrs="{'invisible': ['|',('payment_done', '=',0),'|',('state', 'not in',('draft')),('rent_done', '=',0)]}" class="oe_highlight" groups="ag_property_maintainence.group_property_manager"/>
+                        <button type="object" states="post" name="post" string="Confirm"  class="oe_highlight" groups="ag_property_maintainence.group_property_admin"/>
+                        <button type="object" states="post" name="reset" string="Reset to Draft"  class="oe_highlight"/>
+                        <button type="object" name="action_contract_send" string="Send by email"  class="oe_highlight" />
+                        <field name="state" widget="statusbar"  statusbar_visible="draft,post,renew,progres,done,cancel" />
+                    </header>
+                    <sheet>
+                        <!-- <div class="oe_button_box" name="button_box">
+                        <button name="action_contract_view_invoice" string="Invoices"
+                            type="object"
+                            class="oe_stat_button"
+                            icon="fa-pencil-square-o"
+                            attrs="{'invisible': [('contract_invoice_count', '=', 0)]}">
+                            <field name="contract_invoice_count" widget="statinfo" string="Invoices" invisible="1"/>
+                        </button>
+                        </div> -->
+                        <div style="color: red; font-size:20px;">
+                            <field name="unit_avail" nolabel="1"/>
+                        </div>
+                        <group>
+                            <group>
+                                <field name="con_date" attrs="{'readonly': [('state', 'in', ('post','progres','done','cancel'))]}" />
+                                <field name="date_start" attrs="{'readonly': [('state', 'in', ('post','progres','done','cancel'))]}" string="Start Date"/>
+                                <field name="month_count"  invisible="1"/>
+                                <field name="date_stop" attrs="{'readonly': [('state', 'in', ('post','progres','done','cancel'))]}" />
+                                <field name="booking_id" attrs="{'readonly': [('state', 'in', ('post','progres','done','cancel'))]}" />
+                                <field name="customer_id" attrs="{'readonly': [('state', 'in', ('post','progres','done','cancel'))]}" />
+                                <field name="con_type" attrs="{'readonly': [('state', 'in', ('post','progres','done','cancel'))]}" />
+                                <field name="build_id" attrs="{'readonly': [('state', 'in', ('post','progres','done','cancel'))]}" />
+                                <field name="floor_id" attrs="{'readonly': [('state', 'in', ('post','progres','done','cancel'))]}" invisible="1"/>
+                                 <field name="parking_slot" attrs="{'readonly': [('state', 'in', ('post','progres','done','cancel'))]}" />
+                                <field name="is_contract"/>
+                                <field name="payment_done" invisible="1" />
+                                <field name="currency_id" invisible="1" />
+                                <field name="rent_done" invisible="1" />
+                                
+                            </group>
+                            <group>
+                                <field name="name" placeholder="New" readonly="1"/>
+                                <field name="renew_id" placeholder="Old Contract" attrs="{'readonly': [('state', 'in', ('progres','done','cancel'))]}" domain="[('state','!=','draft')]" context="{'form_view_ref': 'ag_property_maintainence.property_contract_form'}"/>
+                                <field name="free_month" attrs="{'readonly': [('state', 'in', ('post','progres','done','cancel'))]}" invisible="1"/>
+                                <field name="con_value" invisible="1"/>
+                                <field name="contract_value" attrs="{'readonly': [('state', 'in', ('post','progres','done','cancel'))]}" invisible="1"/>
+<!--                                <field name="journal_id" />-->
+                                <field name="user_id" attrs="{'readonly': [('state', 'in', ('post','progres','done','cancel'))]}" />
+                                 <field name="total_value" readonly="1"/>
+<!--                                <field name="contract_value" invisible="1"/> &lt;!&ndash;attrs="{'invisible': [('property_management','=',False)], 'readonly': [('state', 'in', ('post','progres','done','cancel'))]}"/>&ndash;&gt;-->
+                                 <field name="progress" widget="progressbar" readonly="1"/>
+                                 <field name="renewed" attrs="{'invisible': [('renewed', '=', False)]}"/>
+                                 
+                                 <field name="no_of_units"/>
+                                 
+                            </group>
+                        </group>
+                        <notebook>
+                            <page string="Units" >
+                                <field name="unit_line" attrs="{'readonly': [('state', 'in', ('post','progres','done','cancel'))]}" context="{'default_build_id':build_id,'default_floor_id':floor_id,'default_date_from':date_start,'default_date_to':date_stop,'default_mth_count':month_count}">
+                                    <tree editable='bottom'  decoration-danger="(is_avail == False)">
+                                    
+                                        <field name="name" readonly="1" string="Sl.No" invisible="1"/>
+                                        <field name="build_id" invisible="1"/>
+                                        <field name="cont_id" invisible="1"/>
+                                        <field name="unit_id" domain="['|',('property_id','=',build_id),('floor_id','=',floor_id),('unit_type','=','Lease'),('appear_status','=','Available'),('is_active', '=', True),('unit_manager_id','=',unit_manager_id)]"/>
+                                        <field name="floor_id" invisible="1"/>
+                                        <field name="net_area" invisible="1"/>
+                                        <field name="unit_sqft" invisible="1"/>
+                                        <field name="list_rent" />
+                                        <field name="duration" />
+                                        <field name="unit_manager_id" invisible="1"/>
+                                        <field name="unit_from" />
+                                        <field name="unit_to" />
+                                        <field name="mth_count" invisible="1"/>
+                                        <field name="percent" invisible="1" />
+                                        <field name="free_unit_mth" invisible="1" />
+                                        <field name="date_from" invisible="1"/>
+                                        <field name="date_to" invisible="1"/>
+                                        <field name="is_avail" invisible="1" />
+                                        <field name="year_rent" required="1"/>
+                                        <field name="line_disc" invisible="1" />
+                                        <field name="unit_rent" sum="unit_rent" />
+                                        <field name="auto_line" invisible="1"/>
+                                    </tree>
+                                </field>
+                                
+                                <field name="rent_line" 
+                                    attrs="{'readonly': [('state', 'in',('post','progres','done','cancel'))]}" context="{'default_con_value':con_value}">
+<!--                                    context="{'default_con_value':con_value'}" >-->
+                                    <tree editable='bottom' create="false">
+                                        <field name="date_from" readonly="1"/>
+                                        <field name="date_to" readonly="1"/>
+                                        <field name="month_count" readonly="1" invisible="1"/>
+                                        <field name="percent" invisible="1"/>
+                                        <field name="con_value" invisible="1"/>
+                                        <field name="rent" sum="rent" required="True"/>
+                                        <field name="instal" required="True"/>
+                                        <field name="month_rent" invisible="1"/>
+                                    </tree>
+                                </field>
+                            </page>
+
+                            <page string="Invoices">
+                                <field name="invoices_line">
+                                    <tree editable='bottom' create="0">
+                                        <field name="cont_id" invisible="1"/>
+                                        <field name="name" />
+                                        <field name="ref" />
+                                        <field name="partner_id" />
+                                        <field name="company_id" invisible="1"/>
+                                        <field name="invoice_date"/>
+                                        <field name="amount_total"/>
+                                        <field name="state"/>
+                                    </tree>
+                                </field>
+                            </page>
+                            
+                            
+                             <page string="Receipts">
+                                <field name="payment_line">
+                                    <tree editable='bottom' >
+                                        <field name="cont_state" invisible="1"/>
+                                        <field name="name" attrs="{'readonly': [('od_state', 'not in', ('draft'))]}"/>
+                                        <field name="date" attrs="{'readonly': [('od_state', 'not in', ('draft'))]}"/>
+                                        <field name="clearing_date" attrs="{'readonly': [('od_state', 'not in', ('draft'))]}"/>
+                                        <field name="cust_bank_id" attrs="{'readonly': [('od_state', 'not in', ('draft'))]}"/>
+                                        <field name="ref" attrs="{'readonly': [('od_state', 'not in', ('draft'))]}"/>
+                                        <field name="journal_id" attrs="{'readonly': [('od_state', 'not in', ('draft'))]}"/>
+                                        <field name="state" invisible="1" attrs="{'readonly': [('od_state', 'not in', ('draft'))]}"/>
+                                        <field name="deposit" sum="deposit" invisible="1" attrs="{'readonly': [('od_state', 'not in', ('draft'))]}"/>
+                                        <field name="amount" sum="amount" attrs="{'readonly': [('od_state', 'not in', ('draft'))]}"/>
+                                        <field name="type" attrs="{'readonly': [('od_state', 'not in', ('draft'))]}"/>
+                                                                               
+                                        <button type="object" name="payment_move" string="Post" class="oe_highlight" attrs="{'invisible': [('move_id', '!=', False)]}"/>
+                                        <field name="move_id" readonly="1" attrs="{'readonly': [('cont_state', 'in', ('progres','done','cancel'))]}"/>
+                                        
+                                         <field name="od_state" attrs="{'readonly': [('cont_state', 'in', ('progres','done','cancel'))]}"/>
+                                         <field name="od_vat_invoice_no" invisible="1" attrs="{'invisible': [('type', 'not in', ('vat'))],'readonly': [('cont_state', 'in', ('progres','done','cancel'))]}"/>
+                                         <button name="vat_print_invoice" string="Invoice" type="object" class="oe_highlight" attrs="{'invisible': [('type', 'not in', ('vat'))]}" />
+                                    </tree>
+                                </field>
+                            </page>
+                             <page string="Revenue">
+                                <field name="account_line" attrs="{'readonly': [('state', 'in', ('progres','done','cancel'))]}">
+                                    <tree editable='bottom' >
+                                    	
+                                    
+                                        <field name="name" invisible="0"/>
+                                        <field name="date"/>
+                                        
+                                        
+                                        
+                                           <field name="deffered_revenue" sum="Total"/>
+                                        <field name="revenue" sum="revenue"/>
+
+                                         <field name="move_id" readonly="1"/>
+                                         <field name="desc" invisible="1"/>
+                                           <field name="od_state" invisible="0"/>
+                                          <button type="object" name="revenue_move" string="Post" class="oe_highlight" attrs="{'invisible': [('move_id', '!=', False)]}"/>                                       
+                                    </tree>
+                                    
+                                    
+                            
+                                    
+                                    
+
+                                    
+                                    
+                                    
+                                    
+                                    
+                                    
+                                    
+                                    
+                                </field>
+                                
+                                <separtor string="Details" invisible="1"/>
+                                
+                              <field name="account_detail_line" attrs="{'readonly': [('state', 'in', ('progres','done','cancel'))]}" invisible="1">
+                                    <tree editable='bottom' >
+                                    	
+                                    	<field name="unit_id"/>
+                                        <field name="name" invisible="1"/>
+                                       <field name="date"/> 
+                                      <field name="revenue" sum="revenue"/>
+                                      <field name="deffered_revenue" sum="Total"/>
+                                        <field name="desc" invisible="1"/> 
+                                    </tree>
+                                </field>                            
+                            </page>
+                            
+                            <page string="Attachments" name="attachments">
+                                <field name="attachment_line">
+                                    <tree editable='top'>
+                                        <field name="attachment_type_id"/>
+                                        <field name="attachment"/>
+                                        <field name="name"/>
+                                        <field name="remarks"/>
+                                    </tree>
+                                </field>
+                            </page>
+                            
+<!--                            <page string="Agreement" >-->
+<!--                                <group>-->
+<!--                                    <field name="agree_print"/>-->
+<!--                                </group>-->
+<!--                                <group>-->
+<!--                                    <field name="agreement_l" nolabel="1" attrs="{'readonly': [('state', 'in', ('post','progres','done','cancel'))]}"/>-->
+<!--                                </group>-->
+<!--                                <group>-->
+<!--                                    <field name="agreement_r" nolabel="1" attrs="{'readonly': [('state', 'in', ('post','progres','done','cancel'))]}"/>-->
+<!--                                </group>-->
+<!--                            </page>-->
+                                <page string="Booking and Commissions" groups="ag_property_maintainence.group_property_manager,ag_property_maintainence.group_property_admin">
+                                <group>
+                                    <group>
+                                        <field name="comm_perc" attrs="{'readonly': [('state', 'in', ('post','progres','done','cancel'))]}"/>
+                                        <field name="comm_rcvd" attrs="{'readonly': [('state', 'in', ('post','progres','done','cancel'))]}"/>
+                                        <field name="agent_id" attrs="{'readonly': [('state', 'in', ('post','progres','done','cancel'))]}"/>
+                                        <field name="agent_perc" attrs="{'readonly': [('state', 'in', ('post','progres','done','cancel'))]}"/>
+                                        <field name="comm_paid" attrs="{'readonly': [('state', 'in', ('post','progres','done','cancel'))]}"/>
+                                        <field name="deposit_c_d" attrs="{'readonly': [('state', 'in', ('post','progres','done','cancel'))],'invisible':[('deposit_c_d','=',False)]}"/>
+                                    </group>
+                                    <group>
+                                         
+                                        <field name="booking_amt" attrs="{'readonly': [('state', 'in', ('post','progres','done','cancel'))]}" />
+                                        <field name="dep_value" attrs="{'readonly': [('state', 'in', ('post','progres','done','cancel'))]}" />
+                                        <field name="vat_value" attrs="{'readonly': [('state', 'in', ('post','progres','done','cancel'))]}" invisible="1"/>
+        	                            <field name="ejari_value" attrs="{'readonly': [('state', 'in', ('post','progres','done','cancel'))]}" invisible="1"/>
+                                
+                                    </group>
+                                </group>
+                            </page>
+                            <page string="Summary" groups="ag_property_maintainence.group_property_manager,
+                                ag_property_maintainence.group_property_admin">
+                                <group>
+                                    <group>
+                                         
+                                        <field name="analytic_id" attrs="{'invisible':[('analytic_id','=',False)]}" readonly="1" />
+                                        <field name="move_id" readonly="1"/>
+                                        <field name="management_move_id" invisible="1"/>
+                                        <field name="comm_rec_move_id" readonly="1"/>
+                                        <field name="comm_paid_move_id" readonly="1"/>                                        
+                                        <field name="is_terminate" readonly="1" attrs="{'invisible':[('is_terminate','=',False)]}"/>
+                                        <field name="date_terminate" readonly="1" attrs="{'invisible':[('is_terminate','=',False)]}"/>
+                                    </group>
+                                </group>
+                            </page>
+                        </notebook>
+                    </sheet>
+                                        <div class="oe_chatter">
+                        <field name="message_follower_ids" widget="mail_followers"/>
+                        <field name="message_ids" widget="mail_thread"/>
+                    </div>
+                </form>
+            </field>
+        </record>
+
+        <record model="ir.ui.view" id="property_contract_tree">
+            <field name="name">property.contract.tree</field>
+            <field name="model">property.contract</field>
+            <field name="arch" type="xml">
+                    <tree>
+                        <field name="con_date"/>
+                        <field name="name"/>
+                        <field name="customer_id"/>
+                        <field name="user_id"/>
+                        <field name="build_id"/>
+                        <field name="date_start"/>
+                        <field name="date_stop"/>
+                        <field name="total_value"/>
+                        <field name="state"/>
+                    </tree>
+            </field>
+        </record>
+
+        <!--property contract search-->
+       <record id="view_property_contract_search2" model="ir.ui.view">
+            <field name="name">view.property.contract.search2</field>
+            <field name="model">property.contract</field>
+            <field name="arch" type="xml">
+                <search string="Property Contract">
+                    <field string="Customer" name="customer_id"/>
+                    <field string="Property" name="build_id"/>
+                    <field string="Type" name="con_type"/>
+                    <field string="State" name="state"/>                       
+                    <filter string="My Contracts"
+                            name="assigned_to_me"
+                            domain="[('user_id', '=', uid)]"
+                            help="Contracts that are assigned to me"/>
+                    <group expand="1" string="Group By">
+                        <filter name="customer_id" string="Customer" context="{'group_by':'customer_id'}"/>
+                        <filter name="build_id" string="Property" context="{'group_by':'build_id'}"/>
+                        <filter name="state" string="Status" context="{'group_by':'state'}"/>
+                        <separator/>
+                        <filter string="Type" name="con_type" context="{'group_by':'con_type'}"/>
+                        <filter string="Salesman" name="user_id" context="{'group_by':'user_id'}"/>
+                    </group>
+                </search>
+            </field>
+        </record>
+
+        <!--Property Contract menu action-->
+        <record id="property_contract_action" model="ir.actions.act_window">
+            <field name="name">Lease Contract</field>
+            <!-- <field name="type">ir.actions.act_window</field> -->
+            <field name="res_model">property.contract</field>
+<!--            <field name="view_type">form</field>-->
+            <field name="view_mode">tree,form</field>
+            <field name="context">{'search_default_assigned_to_me': 1}</field>
+           <field name="search_view_id" ref="view_property_contract_search2"/>
+            <field name="help" type="html">
+                <p class="oe_view_nocontent_create">
+                    Click to add new Contract.
+                </p>
+            </field>
+        </record>
+
+        <record id="property_contract_action_property" model="ir.actions.act_window">
+            <field name="name">Lease Contract</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">property.contract</field>
+<!--            <field name="view_type">form</field>-->
+            <field name="view_mode">tree,form</field>
+            <!-- <field name="search_view_id" ref="ag_property_maintainence.view_orchid_property_contract_search2"/> -->
+            <!-- <field name="domain"></field>
+            <field name="context">{
+                    'search_default_build_id': [active_id],
+                    'default_build_id': active_id,
+            }
+            </field> -->
+<!--            <field name="search_view_id" ref="view_orchid_property_contract_search"/>-->
+            <field name="view_ids" eval="[(5, 0, 0),
+                (0, 0, {'view_mode': 'tree', 'view_id': ref('property_contract_tree')}),
+                (0, 0, {'view_mode': 'form', 'view_id': ref('property_contract_form')})]"/>
+
+            
+            <field name="help" type="html">
+                <p class="oe_view_nocontent_create">
+                    Click to add new Contract.
+                </p>
+            </field>
+        </record>
+
+        <record id="action_property_contract_tree_view" model="ir.actions.act_window.view">
+            <field name="sequence" eval="1"/>
+            <field name="view_mode">tree</field>
+            <field name="view_id" ref="property_contract_tree"/>
+            <!-- <field name="search_view_id" ref="ag_property_maintainence.view_orchid_property_contract_search2"/> -->
+            <field name="act_window_id" ref="property_contract_action"/>
+        </record>
+
+        <record id="action_property_contract_form_view" model="ir.actions.act_window.view">
+            <field name="sequence" eval="2"/>
+            <field name="view_mode">form</field>
+            <field name="view_id" ref="property_contract_form"/>
+            <!-- <field name="search_view_id" ref="ag_property_maintainence.view_orchid_property_contract_search2"/> -->
+            <field name="act_window_id" ref="property_contract_action"/>
+        </record>
+
+        <menuitem id="property_contract_menu" name="Lease Contract" parent="property_management_menu" sequence="1" action="property_contract_action"/>
+    
+        <record id="view_account_move_line_view_form" model="ir.ui.view">
+            <field name="name">view.account.move.line.view.form</field>
+            <field name="model">account.move.line</field>
+            <field name="inherit_id" ref="account.view_move_line_form"/>
+            <field name="arch" type="xml">
+                <xpath expr="//field[@name='date_maturity']" position="after">
+                    <field name="maintain_cc_id" />
+                    <field name="floor_maintain_cc_id" widget="many2many_tags" />
+                    <field name="unit_maintain_cc_id"  widget="many2many_tags" />
+                </xpath>
+                    
+                <!--  -->
+            </field>
+        </record>
+        <record id="view_account_move_line_view_search" model="ir.ui.view">
+            <field name="name">view.account.move.line.view.search</field>
+            <field name="model">account.move.line</field>
+            <field name="inherit_id" ref="account.view_account_move_line_filter"/>
+            <field name="arch" type="xml">
+                <xpath expr="//group" position="inside">
+                    <filter string="Property Cost Center" name="maintain_cc_id" domain="[]" context="{'group_by': 'maintain_cc_id'}"/>
+                    <filter string="Floor Cost Center" name="floor_maintain_cc_id" domain="[]" context="{'group_by': 'floor_maintain_cc_id'}"/>
+                    <filter string="Unit Cost Center" name="unit_maintain_cc_id" domain="[]" context="{'group_by': 'unit_maintain_cc_id'}"/>
+                </xpath>
+                    
+                <!--  -->
+            </field>
+        </record>
+
+        <record id="view_account_move_view_inher_form" model="ir.ui.view">
+            <field name="name">view.account.move.view.inher.form</field>
+            <field name="model">account.move</field>
+            <field name="inherit_id" ref="account.view_move_form"/>
+            <field name="arch" type="xml">
+                <xpath expr="//field[@name='ref']" position="after">
+                    <field name="cont_id" invisible="1" />
+                </xpath>
+            </field>
+        </record>
+    </data>
+</odoo>

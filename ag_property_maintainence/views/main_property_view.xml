@@ -1,0 +1,178 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <data>
+        <record model="ir.ui.view" id="main_property_form">
+            <field name="name">main.property.form</field>
+            <field name="model">main.property</field>
+            <field name="arch" type="xml">
+                <form string="Building" >
+                	<header>
+                        
+                    </header>
+                    <sheet>
+                        <div class="oe_button_box" name="button_box">
+                            <button name="building_view" class="oe_stat_button" icon="fa-building" type="object">
+                                <div class="o_form_field o_stat_info">
+                                    <field name="buildings_count" widget="statinfo" string="Buildings"/>
+                                    <!-- <strong class="o_stat_text">Buildings</strong> -->
+                                </div>
+                            </button>
+                        </div>
+                        <group>
+                            <group>
+                                <field name="name"/>
+                                <field name="code"/>
+                                <field name="portfolio"/>
+                                <field name="class_s" />
+                                <field name="condition" />
+                                
+                            </group>
+                            <group>
+                                
+                                
+                                <field name="country"/>
+                                <field name="zone" domain="[('country_id','=',country)]"/>
+                                <field name="is_active" />
+
+                            </group>
+                           
+                        </group>
+                        <label for="description"/><br />
+                        <field name="description"/>
+                        <notebook>
+                            <page name="Ownership" string="Ownership">
+                                <field name="ownership">
+                                    <tree editable='top'>
+                                        <field name="property_id" invisible="1"/>
+                                        <field name="name"/>
+                                        <field name="shared" />
+                                        <field name="remarks" />
+                                    </tree>
+                                </field>
+                            </page>
+                            <page string="Attachments">
+                                <field name="attachment_line">
+                                    <tree editable='top'>
+                                        <field name="attachment_type_id"/>
+                                        <field name="attachment"/>
+                                        <field name="name"/>
+                                        <field name="remarks"/>
+                                    </tree>
+                                </field>
+                            </page>
+                        </notebook>
+                        
+                    </sheet>
+                    <div class="oe_chatter">
+                        <field name="message_follower_ids" widget="mail_followers"/>
+                        <field name="message_ids" widget="mail_thread"/>
+                    </div>
+                </form>
+            </field>
+        </record>
+
+        <record model="ir.ui.view" id="main_property_tree">
+            <field name="name">main.property.tree</field>
+            <field name="model">main.property</field>
+            <field name="arch" type="xml">
+                    <tree>
+                        <field name="name"/>
+                        <field name="code"/>
+                        <field name="country"/>
+                        <field name="ownership"/>
+                         
+                    </tree>
+            </field>
+        </record>
+
+        <record id="main_property_kanban" model="ir.ui.view">
+            <field name="name">main.property.kanban</field>
+            <field name="model">main.property</field>
+            <field name="arch" type="xml">
+                <kanban class="oe_background_grey o_kanban_dashboard o_stock_kanban" >
+                    <field name="id"/>
+                    <field name="color"/>
+                    <templates>
+                        <t t-name="kanban-box">
+                            <div name="property_master" t-attf-class="#{!selection_mode ? kanban_color(record.color.raw_value) : ''} oe_kanban_global_click">
+                                <div class="o_dropdown_kanban dropdown">
+    
+                                    <a class="dropdown-toggle o-no-caret btn" role="button" data-toggle="dropdown" data-display="static" href="#" aria-label="Dropdown menu" title="Dropdown menu">
+                                        <span class="fa fa-ellipsis-v"/>
+                                    </a>
+                                    <div class="dropdown-menu" role="menu">
+                                        <t t-if="widget.editable"><a role="menuitem" type="edit" class="dropdown-item">Edit</a></t>
+                                        <t t-if="widget.deletable"><a role="menuitem" type="delete" class="dropdown-item">Delete</a></t>
+                                        <ul class="oe_kanban_colorpicker" data-field="color"/>
+                                    </div>
+                                </div>
+                                <div>
+                                    <div class="o_kanban_card_header">
+                                        <div class="o_kanban_card_header_title">
+                                            <!-- <div style="float:left;">
+                                                <img t-att-src="kanban_image('property.master', 'image', record.id.raw_value)" alt="property" style="width:100px;height:100px;"/>
+                                            </div> -->
+                                            <div >
+                                                <!-- <a type="object" > -->
+                                                    <span style="margin-left:10px;">Name : </span><field name="name"/><br/>
+                                                    <span style="margin-left:10px;">Code : </span><field name="code"/><br/>
+                                                    <span style="margin-left:10px;">Owner : </span><field class="o_secondary"  name="ownership"/>
+                                                    <br/><span style="margin-left:10px;">Country : </span><field class="o_secondary"  name="country"/>
+                                                    <br/><span style="margin-left:10px;">Number of Buildings: </span><field class="o_secondary"  name="buildings_count"/>
+                                                <!-- </a> -->
+                                            </div>
+                                            
+                                        </div>
+                                        <!-- <div class="o_kanban_manage_button_section">
+                                            <a class="o_kanban_manage_toggle_button" href="#">More <i class="fa fa-caret-down"/></a>
+                                        </div> -->
+                                    </div>
+                                    
+                                </div>
+                            </div>
+                        </t>
+                    
+                    </templates>
+                </kanban>
+            </field>
+        </record>
+
+        <!--Facility Building menu action-->
+        <record id="main_property_action" model="ir.actions.act_window">
+            <field name="name">Property</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">main.property</field>
+<!--            <field name="view_type">form</field>-->
+            <field name="view_mode">kanban,tree,form</field>
+            <field name="help" type="html">
+                <p class="oe_view_nocontent_create">
+                    Click to add new Property.
+                </p>
+            </field>
+        </record>
+
+        <!-- Dashboard -->
+        <record id="main_roperty_action_dashboard" model="ir.actions.act_window">
+            <field name="name">Property Master</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">main.property</field>
+<!--            <field name="view_type">form</field>-->
+            <field name="view_mode">kanban,form</field>
+            <field name="help" type="html">
+                <p class="oe_view_nocontent_create">
+                    Click to add new Property.
+                </p>
+            </field>
+        </record>
+
+
+        <menuitem id="main_property_action_menu" name="Property" parent="property_top_menu" sequence="1" action="main_property_action"/>
+        
+               <!--  <menuitem id="property_tenants" name="Tenants" parent="property_top_menu" sequence="1" action="base.action_partner_customer_form"/> -->
+                <!-- <menuitem id="property_tenants" name="Tenants" parent="property_management_menu" sequence="0" action="base.action_partner_customer_form"/> -->
+
+
+                
+        
+    </data>
+</odoo>

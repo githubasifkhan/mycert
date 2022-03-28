@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+	<data>
+		<record model="ir.ui.view" id="property_cont_payment_vat_forms">
+			<field name="name">property.contract.vat.form</field>
+			<field name="model">property.contract</field>
+			<field name="inherit_id" ref="ag_property_maintainence.property_contract_form"/>
+			<field name="arch" type="xml">
+			
+						<!-- <field name="amount" position="after">
+							<field name="vat" sum="vat"/>
+							<field name="vat_amount_total" sum="vat_amount_total"/>
+								
+						</field> -->
+						<field name="unit_rent" position="after">
+							<field name="vat" sum="vat"/>
+							<field name="vat_amount_total" sum="vat_amount_total"/>
+							 
+						</field>
+						
+						<!-- <field name="rent" position="after">
+                       		<field name="od_vat_rent"/>
+                       	</field> -->
+
+				
+			</field>
+		</record>
+		<!-- <record model="ir.ui.view" id="property_contract_vat_tree">
+            <field name="name">property.contract.tree</field>
+            <field name="model">property.contract</field>
+            <field name="inherit_id" ref="property_management.property_contract_tree"/>
+            <field name="arch" type="xml">
+                    <tree>
+                        <field name="rent" position="after">
+                        
+                       	 <field name="unit_Total"/>
+                       	
+                   
+                    </field>
+                    </tree>
+            </field>
+        </record> -->
+	</data>
+</odoo>
+

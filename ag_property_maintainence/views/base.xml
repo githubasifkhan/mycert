@@ -1,0 +1,306 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+
+    
+        <record model="ir.module.category" id="group_category_property">
+            <field name="name">Property</field>
+            <field name="description">Property Users Levels</field>
+            <field name="sequence">30</field>
+        </record>
+
+        <record id="group_property_users" model="res.groups">
+            <field name="name">User</field>
+            <field name="category_id" ref="group_category_property"/>
+        </record>
+
+        <record id="group_property_admin" model="res.groups">
+            <field name="name">Admin</field>
+            <field name="category_id" ref="group_category_property"/>
+            <field name="implied_ids" eval="[(4, ref('group_property_users'))]"/>
+        </record>
+
+
+        <record id="group_property_manager" model="res.groups">
+            <field name="name">Manager</field>
+            <field name="category_id" ref="group_category_property"/>
+            <field name="implied_ids" eval="[(4, ref('group_property_admin'))]"/>
+        </record>
+
+        <record id="contract_users_access_user" model="ir.rule">
+            <field name="name">Only My contracts</field>
+            <field name="model_id" ref="model_property_contract"/>
+            <field eval="True" name="global"/>
+            <field name="domain_force">[('user_id','=',user.id)]</field>
+            <field name="groups" eval="[(4, ref('ag_property_maintainence.group_property_users'))]"/>
+            <field name="perm_create" eval="1"/>
+            <field name="perm_write" eval="1"/>
+            <field name="perm_unlink" eval="0"/>
+            <field name="perm_read" eval="1"/>
+        </record>
+        <record id="booking_users_access_user" model="ir.rule">
+            <field name="name">Only My Bookings</field>
+            <field name="model_id" ref="model_property_booking"/>
+            <field eval="True" name="global"/>
+            <field name="domain_force">[('user_id','=',user.id)]</field>
+            <field name="groups" eval="[(4, ref('ag_property_maintainence.group_property_users'))]"/>
+            <field name="perm_create" eval="1"/>
+            <field name="perm_write" eval="1"/>
+            <field name="perm_unlink" eval="0"/>
+            <field name="perm_read" eval="1"/>
+        </record>
+        <record id="contract_users_access_admin" model="ir.rule">
+            <field name="name">Only My contracts</field>
+            <field name="model_id" ref="model_property_contract"/>
+            <field eval="True" name="global"/>
+            <field name="domain_force">[]</field>
+            <field name="groups" eval="[(4, ref('ag_property_maintainence.group_property_admin'))]"/>
+            <field name="perm_create" eval="1"/>
+            <field name="perm_write" eval="1"/>
+            <field name="perm_unlink" eval="1"/>
+            <field name="perm_read" eval="1"/>
+        </record>
+        <record id="booking_users_access_admin" model="ir.rule">
+            <field name="name">Only My Bookings</field>
+            <field name="model_id" ref="model_property_booking"/>
+            <field eval="True" name="global"/>
+            <field name="domain_force">[]</field>
+            <field name="groups" eval="[(4, ref('ag_property_maintainence.group_property_admin'))]"/>
+            <field name="perm_create" eval="1"/>
+            <field name="perm_write" eval="1"/>
+            <field name="perm_unlink" eval="1"/>
+            <field name="perm_read" eval="1"/>
+        </record>
+        <record id="contract_users_access_man" model="ir.rule">
+            <field name="name">Only My contracts</field>
+            <field name="model_id" ref="model_property_contract"/>
+            <field eval="True" name="global"/>
+            <field name="domain_force">[]</field>
+            <field name="groups" eval="[(4, ref('ag_property_maintainence.group_property_manager'))]"/>
+            <field name="perm_create" eval="1"/>
+            <field name="perm_write" eval="1"/>
+            <field name="perm_unlink" eval="1"/>
+            <field name="perm_read" eval="1"/>
+        </record>
+        <record id="booking_users_access_man" model="ir.rule">
+            <field name="name">Only My Bookings</field>
+            <field name="model_id" ref="model_property_booking"/>
+            <field eval="True" name="global"/>
+            <field name="domain_force">[]</field>
+            <field name="groups" eval="[(4, ref('ag_property_maintainence.group_property_manager'))]"/>
+            <field name="perm_create" eval="1"/>
+            <field name="perm_write" eval="1"/>
+            <field name="perm_unlink" eval="1"/>
+            <field name="perm_read" eval="1"/>
+        </record>
+
+        
+
+
+<!-- Sequences for Agreement -->
+        <record id="seq_agreemnent" model="ir.sequence">
+            <field name="name">Agreement</field>
+            <field name="code">property.agreement</field>
+            <field name="prefix">AGR/</field>
+            <field name="padding">5</field>
+        </record>
+
+<!-- Sequences for Booking -->
+        <record id="seq_booking" model="ir.sequence">
+            <field name="name">Booking</field>
+            <field name="code">property.booking</field>
+            <field name="prefix">BKL/</field>
+            <field name="padding">5</field>
+        </record>
+        <record id="seq_booking_sales" model="ir.sequence">
+            <field name="name">Booking</field>
+            <field name="code">property.booking.sales</field>
+            <field name="prefix">BKS/</field>
+            <field name="padding">5</field>
+        </record>
+
+<!-- Sequences for Contract -->
+        <record id="seq_contract" model="ir.sequence">
+            <field name="name">Contract</field>
+            <field name="code">property.contract</field>
+            <field name="prefix">Contract/%(y)s/</field>
+            <field name="padding">4</field>
+        </record>
+        <record id="seq_contract_sales" model="ir.sequence">
+            <field name="name">Contract</field>
+            <field name="code">property.contract.sales</field>
+            <field name="prefix">Contract/%(y)s/</field>
+            <field name="padding">4</field>
+        </record>
+          <menuitem id="property_menu" 
+            name="Property" 
+            web_icon="ag_property_maintainence,static/description/icon.png"
+            groups="ag_property_maintainence.group_property_users"/>
+
+        <menuitem id="property_top_menu" 
+            name="Property" 
+            parent="property_menu" 
+            sequence="1" 
+            groups="ag_property_maintainence.group_property_users"/>
+
+        <menuitem id="property_management_menu" 
+            name="Leasing" 
+            parent="property_menu" 
+            sequence="2" 
+            groups="ag_property_maintainence.group_property_users"/>
+        <menuitem id="property_management_sales_menu" 
+            name="Sales" 
+            parent="property_menu" 
+            sequence="3" 
+            groups="ag_property_maintainence.group_property_users"/>
+
+        <menuitem id="property_transaction_menu" 
+            name="Transactions" 
+            parent="property_menu" 
+            sequence="4" 
+            groups="ag_property_maintainence.group_property_admin"/>
+
+        <menuitem id="property_report_menu" 
+            name="Reports" 
+            parent="property_menu" 
+            sequence="5" 
+            groups="ag_property_maintainence.group_property_admin"/>
+
+        <menuitem id="property_config_menu" 
+            name="Configuration" 
+            parent="property_menu" 
+            sequence="10" 
+            groups="ag_property_maintainence.group_property_admin"/>
+
+
+            <record id="email_template_edi_booking_done" model="mail.template">
+                <field name="name">Lease Booking: Send Offer</field>
+                <field name="model_id" ref="ag_property_maintainence.model_property_booking"/>
+                <field name="subject">Offer (Ref ${object.name or 'n/a' })</field>
+                <field name="partner_to">${object.customer_id.id}</field>
+                <field name="body_html" type="html">
+    <div style="margin: 0px; padding: 0px;">
+        <p style="margin: 0px; padding: 0px; font-size: 13px;">
+            Dear ${object.customer_id.name}
+            % if object.customer_id.parent_id:
+                (${object.customer_id.parent_id.name})
+            % endif
+            <br/><br/>
+            Here is in attachment a Offer <strong>${object.name}</strong>
+            % if object.partner_ref:
+                with reference: ${object.name}
+            % endif
+            amounting in <strong>${format_amount(object.amount, object.currency_id)}</strong>
+            
+            <br/><br/>
+            If you have any questions, please do not hesitate to contact us.
+            <br/><br/>
+            Best regards,
+        </p>
+    </div></field>
+                <!-- <field name="report_template" ref="action_report_property_booking"/> -->
+                <field name="report_name">Offer_${(object.name or '').replace('/','_')}</field>
+                <field name="lang">${object.customer_id.lang}</field>
+                <!-- <field name="user_signature" eval="False"/> -->
+                <field name="auto_delete" eval="True"/>
+            </record>
+
+            <record id="email_template_edi_booking_sales_done" model="mail.template">
+                <field name="name">Sales Booking: Send Offer</field>
+                <field name="model_id" ref="ag_property_maintainence.model_property_booking_sales"/>
+                <field name="subject">Offer (Ref ${object.name or 'n/a' })</field>
+                <field name="partner_to">${object.customer_id.id}</field>
+                <field name="body_html" type="html">
+    <div style="margin: 0px; padding: 0px;">
+        <p style="margin: 0px; padding: 0px; font-size: 13px;">
+            Dear ${object.customer_id.name}
+            % if object.customer_id.parent_id:
+                (${object.customer_id.parent_id.name})
+            % endif
+            <br/><br/>
+            Here is in attachment a Offer <strong>${object.name}</strong>
+            % if object.partner_ref:
+                with reference: ${object.name}
+            % endif
+            amounting in <strong>${format_amount(object.amount, object.currency_id)}</strong>
+            
+            <br/><br/>
+            If you have any questions, please do not hesitate to contact us.
+            <br/><br/>
+            Best regards,
+        </p>
+    </div></field>
+                <!-- <field name="report_template" ref="action_report_property_booking_sales"/> -->
+                <field name="report_name">Offer_${(object.name or '').replace('/','_')}</field>
+                <field name="lang">${object.customer_id.lang}</field>
+                <!-- <field name="user_signature" eval="False"/> -->
+                <field name="auto_delete" eval="True"/>
+            </record>
+
+            <record id="email_template_edi_contract_done" model="mail.template">
+                <field name="name">Lease Contract: Send Contract</field>
+                <field name="model_id" ref="ag_property_maintainence.model_property_contract"/>
+                <field name="subject">Contract (Ref ${object.name or 'n/a' })</field>
+                <field name="partner_to">${object.customer_id.id}</field>
+                <field name="body_html" type="html">
+    <div style="margin: 0px; padding: 0px;">
+        <p style="margin: 0px; padding: 0px; font-size: 13px;">
+            Dear ${object.customer_id.name}
+            % if object.customer_id.parent_id:
+                (${object.customer_id.parent_id.name})
+            % endif
+            <br/><br/>
+            Here is in attachment a Offer <strong>${object.name}</strong>
+            % if object.partner_ref:
+                with reference: ${object.name}
+            % endif
+            amounting in <strong>${format_amount(object.total_value, object.currency_id)}</strong>
+            
+            <br/><br/>
+            If you have any questions, please do not hesitate to contact us.
+            <br/><br/>
+            Best regards,
+        </p>
+    </div></field>
+                <!-- <field name="report_template" ref="action_report_property_contract"/> -->
+                <field name="report_name">${(object.name or '').replace('/','_')}</field>
+                <field name="lang">${object.customer_id.lang}</field>
+                <!-- <field name="user_signature" eval="False"/> -->
+                <field name="auto_delete" eval="True"/>
+            </record>
+
+            <record id="email_template_edi_contract_sales_done" model="mail.template">
+                <field name="name">Sales Contract: Send Contract</field>
+                <field name="model_id" ref="ag_property_maintainence.model_property_contract_sales"/>
+                <field name="subject">Contract (Ref ${object.name or 'n/a' })</field>
+                <field name="partner_to">${object.customer_id.id}</field>
+                <field name="body_html" type="html">
+    <div style="margin: 0px; padding: 0px;">
+        <p style="margin: 0px; padding: 0px; font-size: 13px;">
+            Dear ${object.customer_id.name}
+            % if object.customer_id.parent_id:
+                (${object.customer_id.parent_id.name})
+            % endif
+            <br/><br/>
+            Here is in attachment a Offer <strong>${object.name}</strong>
+            % if object.partner_ref:
+                with reference: ${object.name}
+            % endif
+            amounting in <strong>${format_amount(object.total_value, object.currency_id)}</strong>
+            
+            <br/><br/>
+            If you have any questions, please do not hesitate to contact us.
+            <br/><br/>
+            Best regards,
+        </p>
+    </div></field>
+                <!-- <field name="report_template" ref="action_report_property_contract_sales"/> -->
+                <field name="report_name">${(object.name or '').replace('/','_')}</field>
+                <field name="lang">${object.customer_id.lang}</field>
+                <!-- <field name="user_signature" eval="False"/> -->
+                <field name="auto_delete" eval="True"/>
+            </record>
+
+
+    </data>
+</odoo>
